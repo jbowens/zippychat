@@ -1,6 +1,6 @@
 {
     "meta": {
-        "description": "A default configuration file for esprit, illustrating common options and their values.",
+        "description": "A configuration file for ZippyChat.com",
         "esprit_version": "1.0a"
     },
 
@@ -10,9 +10,18 @@
     "db_default_user": "esprit",
     "db_default_pass": "t0st1tos",
 
+    "memcached": {
+        "key_prefix": "zc_"
+    },
+    
     "default_timezone": "America/New_York",
 
-    "FallbackCommand": "\\esprit\\core\\commands\\Command_DefaultFallback",
+    "css": {
+        "sources": ["/var/www/css"],
+        "compressed_dir": "/var/www/static/css"
+    },
+
+    "FallbackCommand": "\\zc\\commands\\Command_DefaultFallback",
 
     "twig": {
         "twig_autoloader": "/var/www/vendor/autoload.php",

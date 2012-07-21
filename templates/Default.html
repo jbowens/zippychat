@@ -3,8 +3,19 @@
     <head>
         <title>Zippy Chat - Create a free, permanent chat room instantly!</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
     </head>
     <body>
-        <h1>Zippy Chat</h1>
+        <div id="mainContainer">
+            <div id="masthead">
+                <a href="/"><img src="/static/images/logo.png" alt="Zippy Chat" border="0" /></a>
+            </div>
+            <div id="mainContent" class="content">
+                {% include DefaultView_innerTemplate %}
+            </div>
+            <div id="footer">
+                <a href="/about">About</a> &ndash; <a href="/terms-of-use">Terms of Use</a> &ndash; <a href="/privacy">Privacy Policy</a>
+            </div>
+        </div>
     </body>
 </html>

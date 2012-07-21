@@ -1,0 +1,8 @@
+body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #31505F; font-family: verdana, sans-serif; color: #FFF; }
+a { color: #B0BBC4; text-decoration: underline; }
+#mainContainer { width: 950px; margin: 0 auto; }
+#masthead { margin: 1.5em 0; }
+#mainContent { min-height: 20em; }
+.content { background-color: #FFF; color: #222; padding: 1.3em; margin: .25em 0; }
+h1 { color: #2D3E4A; margin: 0 0 1em 0; font-size: 1.6em; }
+#footer { font-size: .7em; text-align: center; color: #BABABA; }
