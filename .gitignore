@@ -1,0 +1,5 @@
+logs
+twigcache
+composer.json
+composer.lock
+vendor

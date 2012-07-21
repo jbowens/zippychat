@@ -1,0 +1,26 @@
+{
+    "meta": {
+        "description": "A default configuration file for esprit, illustrating common options and their values.",
+        "esprit_version": "1.0a"
+    },
+
+    "debug": true,
+
+    "db_default_dsn": "mysql:host=localhost;dbname=esprit;charset=utf8",
+    "db_default_user": "esprit",
+    "db_default_pass": "t0st1tos",
+
+    "default_timezone": "America/New_York",
+
+    "FallbackCommand": "\\esprit\\core\\commands\\Command_DefaultFallback",
+
+    "twig": {
+        "twig_autoloader": "/var/www/vendor/autoload.php",
+        "templates_dir": "/var/www/templates",
+        "options": {
+            "cache": "/var/www/twigcache",
+            "debug": true
+        }
+    }
+
+}
