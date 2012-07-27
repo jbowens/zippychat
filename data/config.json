@@ -6,8 +6,8 @@
 
     "debug": true,
 
-    "db_default_dsn": "mysql:host=localhost;dbname=esprit;charset=utf8",
-    "db_default_user": "esprit",
+    "db_default_dsn": "mysql:host=localhost;dbname=zippychat;charset=utf8",
+    "db_default_user": "zip",
     "db_default_pass": "t0st1tos",
 
     "memcached_servers": [
@@ -24,8 +24,8 @@
     "default_timezone": "America/New_York",
 
     "css": {
-        "sources": ["/var/www/css"],
-        "compressed_dir": "/var/www/static/css"
+        "sources": ["/opt/local/apache2/htdocs/css"],
+        "compressed_dir": "/opt/local/apache2/htdocs/static/css"
     },
 
     "FallbackCommand": "\\zc\\commands\\Command_DefaultFallback",
@@ -33,14 +33,14 @@
     "base_command_sources": [
         {
             "namespace": "\\zc\\commands",
-            "directory": "/home/mysite/commands"
+            "directory": "/opt/local/apache2/htdocs/commands"
         }
     ],
 
     "default_view_sources": [
         {
             "namespace": "\\zc\\views",
-            "directory": "/home/mysite/views"
+            "directory": "/opt/local/apache2/htdocs/views"
         }
     ],
 
@@ -51,10 +51,10 @@
     },
 
     "twig": {
-        "twig_autoloader": "/var/www/vendor/autoload.php",
-        "templates_dir": "/var/www/templates",
+        "twig_autoloader": "/opt/local/apache2/htdocs/vendor/autoload.php",
+        "templates_dir": "/opt/local/apache2/htdocs/templates",
         "options": {
-            "cache": "/var/www/twigcache",
+            "cache": "/opt/local/apache2/htdocs/twigcache",
             "debug": true
         }
     }
