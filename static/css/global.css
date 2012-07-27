@@ -2,7 +2,8 @@ body { background-image: url('/static/images/background.png'); background-positi
 a { color: #B0BBC4; text-decoration: underline; }
 #mainContainer { width: 950px; margin: 0 auto; }
 #masthead { margin: 1.5em 0; }
-#mainContent { min-height: 20em; }
+#mainContent { min-height: 20em; border: 2px #537EA5 solid; }
 .content { background-color: #FFF; color: #222; padding: 1.3em; margin: .25em 0; }
-h1 { color: #2D3E4A; margin: 0 0 1em 0; font-size: 1.6em; }
+h1 { color: #2D3E4A; margin: 0 0 1em 0; font-size: 1.5em; }
+h2 { color: #222; margin: .25em 0; font-size: 1.2em; font-family: "Gill Sans", "Gill Sans MT", sans-serif; }
 #footer { font-size: .7em; text-align: center; color: #BABABA; }

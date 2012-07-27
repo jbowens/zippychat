@@ -3,8 +3,8 @@
     <site>
         <siteid>1</siteid>
         <name>United States</name>
-        <domain>example.com</domain>
-        <localization>en-us</localization>
+        <domain>zippychat.com</domain>
+        <localization>en-US</localization>
         <regions>
             <region type="country">United States</region>
         </regions>
