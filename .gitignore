@@ -3,3 +3,4 @@ twigcache
 composer.json
 composer.lock
 vendor
+phpinfo.php

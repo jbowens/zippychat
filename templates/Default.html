@@ -11,7 +11,9 @@
                 <a href="/"><img src="/static/images/logo.png" alt="{{ t('zippy_chat') }}" border="0" /></a>
             </div>
             <div id="mainContent" class="content">
+                {% block mainContent %}
                 {% include DefaultView_innerTemplate %}
+                {% endblock %}
             </div>
             <div id="footer">
                 <a href="/about">{{ t('about') }}</a> &ndash; <a href="/terms-of-use">{{ t('terms_of_use') }}</a> &ndash; <a href="/privacy">{{ t('privacy_policy') }}</a>
