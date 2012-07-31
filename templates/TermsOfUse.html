@@ -1,5 +1,33 @@
 {% extends "Default.html" %}
 {% block mainContent %}
-<h1>{{ t('Terms_of_Use') }}</h1>
+<div id="terms-of-use">
+    <h1>{{ t('Terms_of_Use') }}</h1>
+    <p>{{ t('By_using_this_website_Zippy_Chat_yo') }}</p>
 
+    <h2>{{ t('Restrictions') }}</h2>
+    <p>{{ t('Zippy_Chat_provides_a_chat_service_') }}</p>
+    <ol class="restrictions">
+        <li>{{ t('is_illegal') }}</li>
+        <li>{{ t('advances_or_facilitates_any_illegal') }}</li>
+        <li>{{ t('is_commercial_or_intended_to_advert') }}</li>
+        <li>{{ t('is_obscene_pornographic_excessively') }}</li>
+        <li>{{ t('is_hateful_discriminatory_offensive') }}</li>
+        <li>{{ t('is_defamatory_or_libelous') }}</li>
+        <li>{{ t('infringes_any_intellectual_property') }}</li>
+        <li>{{ t('youre_legally_prohibited_from_makin') }}</li>
+        <li>{{ t('contains_any_computer_viruses_or_an') }}</li>
+    </ol>
+
+    <p>{{ t('All_messages_and_information_sent_a') }}</p>
+    <p>{{ t('Zippy_Chat_reserves_the_right_toalt_*2') }}</p>
+    <p>{{ t('Since_Zippy_Chat_is_not_obligated_t') }}</p>
+
+    <h2>{{ t('Privacy') }}</h2>
+    <p>{{ t('Zippy_Chat_understands_and_respects') }} <a href="/privacy">{{ t('View_Zippy_Chats_privacy_policy') }}</a>
+
+    <h2>{{ t('Disclaimer') }}</h2>
+    <p>{{ t('All_information_and_services_offere') }}</p>
+    <p>{{ t('We_may_modify_or_terminate_our_serv') }}</p>
+
+</div>
 {% endblock %}

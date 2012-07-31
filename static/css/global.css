@@ -1,9 +1,29 @@
 body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #31505F; font-family: verdana, sans-serif; color: #FFF; }
 a { color: #B0BBC4; text-decoration: underline; }
+.clear { clear: both; }
+.uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
+.hidden { display: none; }
+.zcLnk { text-decoration: underline; color: #253d5b; cursor: pointer; }
 #mainContainer { width: 950px; margin: 0 auto; }
 #masthead { margin: 1.5em 0; }
-#mainContent { min-height: 20em; border: 2px #537EA5 solid; }
+#mainContent { min-height: 20em; border: 2px #537EA5 solid; font-size: 0.938em; }
 .content { background-color: #FFF; color: #222; padding: 1.3em; margin: .25em 0; }
+.content a { color: #333; }
 h1 { color: #2D3E4A; margin: 0 0 1em 0; font-size: 1.5em; }
-h2 { color: #222; margin: .25em 0; font-size: 1.2em; font-family: "Gill Sans", "Gill Sans MT", sans-serif; }
-#footer { font-size: .7em; text-align: center; color: #BABABA; }
+h2 { color: #222; margin: .25em 0; font-size: 1.25em; font-family: "Gill Sans", "Gill Sans MT", sans-serif; }
+#footer { font-size: .7em; text-align: center; color: #BABABA; margin-bottom: 3em; }
+#privacy-policy p, #terms-of-use p { line-height: 2; font-size: 0.933em; }
+#terms-of-use ol.restrictions li { font-size: 0.933em; }
+#zippyChatDescription { width: 19em; float: right; padding: 1em; font-size: 0.933em; background-color: #EBEAD4; border: 2px #D3D2BC solid; }
+#zippyChatDescription p { line-height: 1.5; text-indent: 2em; color: #000; }
+#create-a-chat-room { font-size: 1.067em; float: left; }
+#create-a-chat-room label { font-size: 1.063em; float: left; width: 15em; }
+#create-a-chat-room .formRow { width: 33em; margin: 1em 0; }
+#create-a-chat-room input.text, #create-a-chat-room input.password, #create-a-chat-room textarea { float: right; font-size: 1.091em; border: 1px #222 solid; width: 13em; }
+#create-a-chat-room input.submit { margin-top: 1em; }
+#create-a-chat-room .expand-opts-cont {  }
+#create-a-chat-room .expand-additional-options { font-size: .8em; }
+label .desc { font-size: 0.6em; color: #555; display: block; }
+label .optional { font-size: 0.7em; color: #555; vertical-align: middle; }
+input.pop { height: 35px; color: #222; background: url('/static/images/sprite.png'); font-size: 1em; font-weight: bold; padding: 0 1em; border: 1px #D9800B solid; border-bottom-color: #976522; border-right-color: #976522; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #DBC9A0; margin-left: -0.25em; }
+input.pop:hover { background-position: 0 40px; }

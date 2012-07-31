@@ -1,9 +1,47 @@
 {% extends "Default.html" %}
 {% block mainContent %}
-<h1>{{ t('create_a_chat_room') }}</h1>
+<div id="HOME">
 
-<div id="zippyChatDescription">
-    <h3>{{ t('Never_used_Zippy_Chat') }}</h3>
-    <p>{{ t('Instantly_create_free_permanent_cha') }}</p>
+    <div id="create-a-chat-room">
+        <h1>{{ t('create_a_chat_room') }}</h1>
+        <form method="post" action="/">
+            <div class="formRow">
+                <label for="chat_room_title">{{ t('Title_subject') }}</label>
+                <input type="text" class="text" id="chat_room_title" name="chat_room_title" value="{{ t('Untitled') }}" />
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label for="chat_room_desc">
+                    {{ t('description') }} <span class="optional">({{ t('optional') }})</span>
+                    <span class="desc">
+                        {{ t('A_description_that_appears_at_the_t') }}
+                    </span>
+                </label>
+                <textarea id="chat_room_desc" name="chat_room_desc"></textarea>
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label for="chat_room_pass">
+                    {{ t('password') }} <span class="optional">({{ t('optional') }})</span>
+                    <span class="desc">
+                        {{ t('If_provided_guests_will_need_to_kno') }}
+                    </span>
+                </label>
+                <input type="password" class="password" id="chat_room_pass" name="chat_room_pass" />
+                <div class="clear"></div>
+            </div>
+            <div class="additional-options hidden">
+            lawl no other options yet
+            </div>
+            <!--<div class="expand-opts-cont"><span class="zcLnk expand-additional-options">Show additional options</span></div>-->
+            <input type="submit" class="submit pop" name="submit" value="{{ t('Create_chat_room') }}" />
+        </form>
+    </div>
+
+    <div id="zippyChatDescription">
+        <h2>{{ t('Never_used_Zippy_Chat') }}</h2>
+        <p>{{ t('Instantly_create_free_permanent_cha') }}</p>
+    </div>
+
 </div>
 {% endblock %}
