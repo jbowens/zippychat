@@ -9,6 +9,7 @@ CREATE TABLE rooms (
     creatorIp       INT(11) UNSIGNED NOT NULL,
     password        CHAR(32),
     lastGuestNumber MEDIUMINT(9),
+    lastAccessed    INT(11),
     PRIMARY KEY (roomid)
 ) ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8
