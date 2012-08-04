@@ -51,8 +51,12 @@ class Room {
         $this->creatorIpAddress = $rb->getCreatorIpAddress();
         $this->passwordHash = $rb->getPasswordHash();
         $this->lastGuestNumber = $rb->getLastGuestNumber();
-        $this->lastAccessed = $db->getLastAccessed();
+        $this->lastAccessed = $rb->getLastAccessed();
     }
+
+    /**
+     * Property getters
+     */
 
     public function getRoomId() {
         return $this->roomid;
@@ -86,4 +90,28 @@ class Room {
         return $this->lastAccessed;
     }
 
+    /**
+     * Logic methods
+     */
+    
+    public function getUrlIdentifier() {
+
+        // Maintain backwards compatability with rooms created when we used the roomid
+        // as the url identifier.
+        if( $this->getRoomId() < 32880 )
+            return $this->getRoomId();
+
+        $num = $this->roomid * 13 + 17;
+        
+        $base26 = base_convert($num, 10, 26);
+        
+        $mapping = array('0' => 'z', '1' => 'y', '2' => 'x', '3' => 'w', '4' => 'v', '5' => 'u', '6' => 't', '7' => 's', '8' => 'r', '9' => 'q');
+        $key = $base26;
+        
+        foreach( $mapping as $k => $v ) {
+            $key = str_ireplace($k, $v, $key);
+        }
+        
+        return $key;
+    }
 }

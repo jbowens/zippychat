@@ -12,14 +12,14 @@ namespace zc\lib;
  */
 class RoomBuilder {
 
-    protected $roomid;
-    protected $title;
-    protected $description;
-    protected $dateCreated;
-    protected $creatorIpAddress;
-    protected $passwordHash;
-    protected $lastGuestNumber;
-    protected $lastAccessed;
+    protected $roomid = null;
+    protected $title = null;
+    protected $description = null;
+    protected $dateCreated = null;
+    protected $creatorIpAddress = null;
+    protected $passwordHash = null;
+    protected $lastGuestNumber = 0;
+    protected $lastAccessed = null;
 
     /* Setters */
 
@@ -30,6 +30,11 @@ class RoomBuilder {
 
     public function title( $title ) {
         $this->title = $title;
+        return $this;
+    }
+
+    public function description( $description ) {
+        $this->description = $description;
         return $this;
     }
 
@@ -90,7 +95,7 @@ class RoomBuilder {
     }
 
     public function getPasswordHash() {
-        return $this->passowrdHash;
+        return $this->passwordHash;
     }
 
     public function getLastGuestNumber() {

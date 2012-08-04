@@ -1,4 +1,4 @@
-body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #31505F; font-family: verdana, sans-serif; color: #FFF; }
+body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #374247; font-family: verdana, sans-serif; color: #FFF; }
 a { color: #B0BBC4; text-decoration: underline; }
 .clear { clear: both; }
 .uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
