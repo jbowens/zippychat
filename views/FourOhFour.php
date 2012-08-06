@@ -18,6 +18,7 @@ class FourOhFour extends AbstractView
     public function generateOutput( Response $response )
     {
 
+        $this->setStatus( new \esprit\core\HttpStatusCodes\FileNotFound() ); 
         $this->templateParser->loadResponse( $response );
         $this->templateParser->displayTemplate( self::TEMPLATE );
 
