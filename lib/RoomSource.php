@@ -2,6 +2,8 @@
 
 namespace zc\lib;
 
+use \PDO;
+
 use \esprit\core\db\DatabaseManager;
 use \esprit\core\Cache;
 use \esprit\core\Time;
@@ -57,6 +59,10 @@ class RoomSource {
             $getRoomStmt = $db->prepare( self::SQL_GET_ROOM_BY_ROOMID );
             $getRoomStmt->execute(array( $roomid ));
             $roomAssocArray = $getRoomStmt->fetch(PDO::FETCH_ASSOC);
+            
+            if( $roomAssocArray == null )
+                return null;
+
             $room = Room::createFromArray( $roomAssocArray );
 
             // Store the object in the cache for future reference

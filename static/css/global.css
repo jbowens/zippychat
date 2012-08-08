@@ -1,5 +1,6 @@
 body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #374247; font-family: verdana, sans-serif; color: #FFF; }
 a { color: #B0BBC4; text-decoration: underline; }
+p { margin: 1em 0; }
 .clear { clear: both; }
 .uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
 .hidden { display: none; }
@@ -27,3 +28,6 @@ label .desc { font-size: 0.6em; color: #555; display: block; }
 label .optional { font-size: 0.7em; color: #555; vertical-align: middle; }
 input.pop { height: 35px; color: #222; background: url('/static/images/sprite.png'); font-size: 1em; font-weight: bold; padding: 0 1em; border: 1px #D9800B solid; border-bottom-color: #976522; border-right-color: #976522; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #DBC9A0; margin-left: -0.25em; }
 input.pop:hover { background-position: 0 40px; }
+#room h1 { margin-bottom: 0.25em; }
+#room #room-meta-data p { font-size: 0.9em; margin: 0.25em 0; }
+#chat-container { background: #EEE; min-height: 500px; }
