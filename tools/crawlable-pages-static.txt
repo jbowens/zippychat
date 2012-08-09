@@ -1,0 +1,4 @@
+
+/about
+/terms-of-use
+/privacy
