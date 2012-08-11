@@ -2,10 +2,10 @@
 
 namespace zc\commands;
 
-use \esprit\core\BaseCommand as BaseCommand;
 use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 
+use \zc\lib\BaseCommand;
 use \zc\lib\RoomSource;
 use \zc\lib\Room;
 

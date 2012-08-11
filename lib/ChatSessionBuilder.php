@@ -3,20 +3,20 @@
 namespace zc\lib;
 
 /**
- * A builder class for User objects.
+ * A builder class for ChatSession objects.
  *
  * @author jbowens
  */
 class UserBuilder {
 
-    protected $userid;
+    protected $chatSessionid;
     protected $username;
     protected $roomid;
     protected $lastPing;
     protected $loginTime;
 
-    public function getUserid() {
-        return $this->userid;
+    public function getChatSessionid() {
+        return $this->chatSessionId;
     }
 
     public function getUsername() {
@@ -35,8 +35,8 @@ class UserBuilder {
         return $this->loginTime;
     }
 
-    public function userid( $userid ) {
-        $this->userid = $userid;
+    public function chatSessionid( $chatSessionid ) {
+        $this->chatSessionid = $chatSessionid;
         return $this;
     }
 

@@ -7,26 +7,26 @@ namespace zc\lib;
  *
  * @author jbowens
  */
-class User
+class ChatSession
 {
 
-    protected $userid;
+    protected $chatSessionid;
     protected $username;
     protected $roomid;
     protected $lastPing;
     protected $loginTime;
 
-    public function __construct( UserBuilder $uB )
+    public function __construct( ChatSessionBuilder $csB )
     {
-        $this->userid = $uB->getUserid();
-        $this->username = $uB->getUsername();
-        $this->roomid = $uB->getRoomid();
-        $this->lastPing = $uB->getLastPing();
-        $this->loginTime = $uB->getLoginTime();
+        $this->chatSessionid = $csB->getChatSessionid();
+        $this->username = $csB->getUsername();
+        $this->roomid = $csB->getRoomid();
+        $this->lastPing = $csB->getLastPing();
+        $this->loginTime = $csB->getLoginTime();
     }
 
-    public function getUserid() {
-        return $this->userid;
+    public function getChatSessionid() {
+        return $this->chatSessionid;
     }
 
     public function getUsername() {
@@ -43,6 +43,10 @@ class User
 
     public function getLoginTimeUTC() {
         return $this->loginTime;
+    }
+
+    public function setLastPingUTC( $newLastPingUTC ) {
+        $this->lastPing = $newLastPingUTC;
     }
 
 }
