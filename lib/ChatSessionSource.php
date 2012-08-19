@@ -7,12 +7,12 @@ use \esprit\core\Cache;
 use \esprit\core\util\Logger;
 
 /**
- * @author jbowens
- *
  * Use this class for retrieving ChatSession objects.
  *
  * This class caches objects in the universal Cache object. If a chat session
  * is not cached, it will query the database.
+ *
+ * @author jbowens
  */
 class ChatSessionSource {
 
@@ -21,6 +21,9 @@ class ChatSessionSource {
     const BAD_ID_EXPIRE_TIME_DELTA = 30;
     const CHAT_SESSION_EXPIRE_TIME_DELTA = 20;
     const SQL_CHAT_SESSION_BY_ID = "SELECT * FROM `chat_sessions` WHERE `chatSessionid` = ?";
+    const SQL_CREATE_CHAT_SESSION = "INSERT INTO `chat_sessions` (`roomid`, `username`, `lastPing`, `loginTime`, `assignedGuestId`) VALUES(?, ?, ?, ?, ?)";
+    const SQL_SELECT_LAST_GUEST_NUMBER = "SELECT `lastGuestNumber` FROM `rooms` WHERE `roomid` = ?";
+    const SQL_UPDATE_LAST_GUEST_NUMBER = "UPDATE `rooms` SET `lastGuestNumber` = ? WHERE `roomid` = ?";
 
     protected $dbm;
     protected $logger;
@@ -58,8 +61,7 @@ class ChatSessionSource {
             {
                 // This session doesn't exist!
                 $this->logger->warning( "Chat session id ".$chatSessionid." was queried, but it doesn't exist", self::LOG_SOURCE );
-                // Still cache it, to mitigate the effect of DDOS attacks
-                // TODO: Verify that I'm providing the expire time correctly as a unix timestamp
+                // Still cache it, to mitigate the effect of DDOS attacks using bad session ids
                 $this->sessionidCache->set( $chatSessionId, null, time() + self::BAD_ID_EXPIRE_TIME_DELTA );
                 return null;
             }
@@ -71,6 +73,64 @@ class ChatSessionSource {
                 return $chatSession;
             }
         }
+    }
+
+    /**
+     * Creates a chat session in the given room.
+     *
+     * @param $room the Room to create the session in
+     * @return ChatSession the newly created chat session
+     */
+    public function createSession( Room $room )
+    {
+        $db = $this->dbm->getDb();
+
+        $guestUserId = $this->assignGuestId( $room );
+        $username = 'Guest' . $guestUserId;
+
+        $pstmt = $db->prepare( self::SQL_CREATE_CHAT_SESSION );
+        $pstmt->execute(array( $room->getRoomId(),
+                               $username,
+                               time(),
+                               time(),
+                               $guestUserId ));
+    }
+
+    /**
+     * Returns a guest user id unique to this room. This function
+     * will return a unique guest id every time it's called with the
+     * same room.
+     *
+     * @param $room the Room to get a guest id for
+     * @return a room unique guest id
+     */
+    public function assignGuestId( Room $room )
+    {
+        $db = $this->dbm->getDb();
+        $transactionBegan = $db->beginTransaction();
+        if( ! $transactionBegan )
+        {
+            $this->logger->error( "Unable to begin transaction when assigning guest id", self::LOG_SOURCE );
+            return 1;
+        }
+
+        $selectStmt = $db->prepare( self::SQL_SELECT_LAST_GUEST_NUMBER );
+        $selectStmt->execute(array( $room->getRoomId() ));
+        $lastGuestId = $selectStmt->fetchColumn();
+        $newGuestId = $lastGuestId + 1;
+        
+        // Update room
+        $updateStmt = $db->prepare( self::SQL_UPDATE_LAST_GUEST_NUMBER );
+        $updateStmt->execute(array( $newGuestid, $room->getRoomId() ));
+
+        $commitSuccess = $db->commit();
+        if( ! $commitSuccess )
+        {
+            $this->logger->error( "Unable to commit transaction when assigning guest id", self::LOG_SOURCE );
+            $db->rollBack();
+        }
+
+        return $newGuestId;
     }
 
     /**

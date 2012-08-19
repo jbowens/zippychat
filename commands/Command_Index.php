@@ -27,7 +27,7 @@ class Command_Index extends BaseCommand {
         // Handle create chat room request
         if( $request->getPost('chat_room_title') )
         {
-            $roomSource = new RoomSource( $this->getDatabaseManager(), $this->getCache() );
+            $roomSource = $this->getRoomSource();
             
             $roomBuilder = Room::getBuilder();
             $roomBuilder->title( $request->getPost('chat_room_title') )
