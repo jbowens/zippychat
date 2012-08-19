@@ -5,6 +5,7 @@ namespace zc\lib;
 use \PDO;
 
 use \esprit\core\db\DatabaseManager;
+use \esprit\core\util\Logger;
 use \esprit\core\Cache;
 use \esprit\core\Time;
 use \esprit\core\security\SaltedHashingStrategy;
@@ -30,6 +31,7 @@ class RoomSource {
     protected static $CACHE_EXPIRATION = TIME::A_WEEK;
 
     protected $dbm;
+    protected $logger;
     protected $cache;
 
     /**
@@ -38,9 +40,10 @@ class RoomSource {
      * @param $dbm  a DatabaseManager object
      * @param $cache  a Cache
      */
-    public function __construct( DatabaseManager $dbm, Cache $cache )
+    public function __construct( DatabaseManager $dbm, Logger $logger, Cache $cache )
     {
         $this->dbm = $dbm;
+        $this->logger = $logger;
         $this->cache = $cache->accessNamespace( self::ROOM_CACHE_NAMESPACE );
     }
 

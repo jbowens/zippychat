@@ -35,6 +35,8 @@ class Command_Room extends BaseCommand {
         $chatSession = $this->getChatSession( $request, $room );
         $response->set('chatSession', $chatSession);
 
+        $messages = $this->getMessages( $room, $chatSession );
+
         return $response;
     }
 
@@ -81,7 +83,24 @@ class Command_Room extends BaseCommand {
         }
         
         return $chatSession;
-    } 
+    }
+
+    /**
+     * Gets the initial messages that should be displayed on the page.
+     *
+     * @param $room  the room to get the messages from
+     * @param $chatSession  the chat session of the user in the room
+     * @return a MessageList object
+     */
+    public function getMessages(Room $room, ChatSession $chatSession)
+    {
+        if( $room->getRoomId() != $chatSession->getRoomId() )
+        {
+            $this->logger->error("getMessages() called with conflicting room ids", self::LOG_SOURCE);
+            throw new \InvalidArgumentException("roomids do not match");
+        }
+
+    }
 
 }
 

@@ -12,6 +12,7 @@ abstract class BaseCommand extends \esprit\core\BaseCommand {
 
     protected $chatSessionSource = null;
     protected $roomSource = null;
+    protected $messageSource = null;
 
     /**
      * Gets a ChatSessionSource object that can be used to retrieve chat
@@ -43,9 +44,28 @@ abstract class BaseCommand extends \esprit\core\BaseCommand {
         if( $this->roomSource == null )
         {
             $this->roomSource = new RoomSource( $this->getDatabaseManager(),
+                                                $this->getLogger(),
                                                 $this->getCache() );
         }
         return $this->roomSource;
+    }
+
+    /**
+     * Returns a MessageSource object that can be used to retrieve 
+     * Message objects. This is the preferred method of getting or creating
+     * a MessageSource.
+     *
+     * @return a MessageSource object
+     */
+    public function getMessageSource()
+    {
+        if( $this->messageSource == null )
+        {
+            $this->messageSource = new MessageSource($this->getDatabaseManager(),
+                                                     $this->getLogger(),
+                                                     $this->getCache() );
+        }
+        return $this->messageSource;
     }
 
 }
