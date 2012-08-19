@@ -5,7 +5,7 @@ namespace zc\commands;
 use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 
-use zc\lib\BaseCommand
+use zc\lib\BaseCommand;
 
 class Command_TermsOfUse extends BaseCommand {
 

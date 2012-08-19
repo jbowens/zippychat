@@ -6,7 +6,7 @@ use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 use \esprit\core\exceptions\PageNotFoundException;
 
-use \zc\lib\BaseCommand
+use \zc\lib\BaseCommand;
 use \zc\lib\RoomSource;
 use \zc\lib\Room;
 
@@ -27,7 +27,7 @@ class Command_Room extends BaseCommand {
     public function run(Request $request, Response $response) {
 
         // Determine which chat room is being requested
-        $room = $this->getRoomFromRequest();
+        $room = $this->getRoomFromRequest($request);
         if( $room == null )
             throw new PageNotFoundException();
         $response->set("room", $room);
@@ -43,7 +43,7 @@ class Command_Room extends BaseCommand {
      *
      * @return the Room object indicated through the url
      */
-    public function getRoomFromRequest()
+    public function getRoomFromRequest(Request $request)
     {
         $url = $request->getUrl();
         if( $url->getPathLength() < 2 || ! $url->getPathPiece(1) )

@@ -121,7 +121,7 @@ class ChatSessionSource {
         
         // Update room
         $updateStmt = $db->prepare( self::SQL_UPDATE_LAST_GUEST_NUMBER );
-        $updateStmt->execute(array( $newGuestid, $room->getRoomId() ));
+        $updateStmt->execute(array( $newGuestId, $room->getRoomId() ));
 
         $commitSuccess = $db->commit();
         if( ! $commitSuccess )
@@ -139,8 +139,11 @@ class ChatSessionSource {
      * @param $chatSession  the chat session to update
      * @param $pingTime  (optional) the time to update the last ping to
      */
-    public function updateLastPing( ChatSession $chatSession, $pingTime = time() )
+    public function updateLastPing( ChatSession $chatSession, $pingTime = null )
     {
+        if( $pingTime == null )
+            $pingTime = time();
+
         $chatSession->setLastPingUTC( $pingTime );
         
         // Re-cache the modified object
