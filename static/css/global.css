@@ -39,7 +39,7 @@ input.pop:hover { background-position: 0 40px; }
 #post-area { border: 1px #DDD solid; border-top: none; }
 #message-post-cont { padding: 0.5em; }
 #postMessage_text { width: 60%; height: 3em; border: 1px #888 solid; font-size: 0.8em; }
-#chat-sidebar { width: 10em; float: right; border-left: 1px #DDD solid; height: 100%; color: #444; overflow: scroll; }
+#chat-sidebar { width: 10em; float: right; border-left: 1px #DDD solid; height: 100%; color: #444; overflow: auto; }
 #chat-sidebar .usersCont { padding: 0.5em; }
 #active-users { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }
 #messages { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }

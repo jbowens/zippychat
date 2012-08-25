@@ -26,11 +26,11 @@ abstract class BaseView extends AbstractView
     protected function addScript( $script )
     {
         $templateParser = $this->templateParser;
-        $currentScripts = $templateParser->get('jsScripts');
+        $currentScripts = $templateParser->getVariable('jsScripts');
         if( $currentScripts == null )
             $currentScripts = array();
         array_push($currentScripts, $script);
-        $templateParser->set('jsScripts', $currentScripts);
+        $templateParser->setVariable('jsScripts', $currentScripts);
     }
 
     public function generateOutput(Response $response)
