@@ -50,19 +50,19 @@ class RoomSource {
     /**
      * Finds a room by its roomid.
      *
-     * @param $roomid  the id of the room
+     * @param $roomId  the id of the room
      * @return the corresponding Room object, or null if no room has the given room id.
      */
-    public function getRoomById( $roomid )
+    public function getRoomById( $roomId )
     {
-        if( ! $this->cache->isCached( $roomid ) )
+        if( ! $this->cache->isCached( $roomId ) )
         {
             // Cache miss
             $db = $this->dbm->getDb();
             $getRoomStmt = $db->prepare( self::SQL_GET_ROOM_BY_ROOMID );
-            $getRoomStmt->execute(array( $roomid ));
+            $getRoomStmt->execute(array( $roomId ));
             $roomAssocArray = $getRoomStmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if( $roomAssocArray == null )
                 return null;
 
@@ -77,7 +77,7 @@ class RoomSource {
         else
         {
             // Cache hit
-            $room = $this->cache->get( $roomid );
+            $room = $this->cache->get( $roomId );
             return $room;
         }
     }
@@ -92,7 +92,7 @@ class RoomSource {
     public function getRoomByIdentifier( $identifier )
     {
         if( is_numeric($identifier) && $identifier < 32880 )
-            $roomid = (int) $identifier;
+            $roomId = (int) $identifier;
         else
         {
             $mapping = array('z' => '0', 'y' => '1', 'x' => '2', 'w' => '3', 'v' => '4', 'u' => '5', 't' => '6', 's' => '7', 'r' => '8', 'q' => '9');
@@ -102,10 +102,10 @@ class RoomSource {
                 $key = str_ireplace($k, $v, $key);
             }
 
-            $roomid = base_convert($key, 26, 10);
+            $roomId = base_convert($key, 26, 10);
         }
 
-        return $this->getRoomById( $roomid );
+        return $this->getRoomById( $roomId );
     }
 
     /**
@@ -133,7 +133,7 @@ class RoomSource {
                 $rB->getLastAccessed()
             ));
 
-        $room = $rB->roomid( $db->lastInsertId() )->build();
+        $room = $rB->roomId( $db->lastInsertId() )->build();
         $this->cache( $room );
 
         return $room;

@@ -8,6 +8,7 @@ CREATE TABLE chat_sessions (
     lastPing               INT(11) UNSIGNED NOT NULL,
     loginTime              INT(11) UNSIGNED NOT NULL,
     assignedGuestId        INT(11) UNSIGNED NOT NULL,
+    active                 TINYINT(1) NOT NULL DEFAULT 1,
     PRIMARY KEY (chatSessionId)
 ) ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8

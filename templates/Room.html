@@ -3,10 +3,25 @@
 <div id="room">
     <div id="room-meta-data">
         <h1>{{ room.getTitle()|e }}</h1>
-        {% if room.getDescription() %}<p class="room-desc">{{ room.getDescription() }}</p>{% endif %}
+        {% if room.getDescription() %}<p class="room-desc">{{ room.getDescription()|e }}</p>{% endif %}
+        <div class="sharable-url">
+            Sharable url: 
+            <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getRoomId() }}</span>
+        </div>
     </div>
     <div id="chatroom">
         <div id="chat-container">
+            <div id="chat-sidebar">
+                <ul id="active-users">
+                </ul>
+            </div>
+            <div id="message-area">
+                <ul id="messages">
+                </ul>
+            </div>
+        </div>
+        <div id="post-area">
+            <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
         </div>
     </div>
 </div>

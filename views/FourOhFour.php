@@ -2,7 +2,8 @@
 
 namespace zc\views;
 
-use \esprit\core\AbstractView;
+use \zc\lib\BaseView;
+
 use \esprit\core\Response;
 
 /**
@@ -10,12 +11,12 @@ use \esprit\core\Response;
  *
  * @author jbowens
  */
-class FourOhFour extends AbstractView
+class FourOhFour extends BaseView
 {
 
     const TEMPLATE = "FourOhFour";
 
-    public function generateOutput( Response $response )
+    public function output( Response $response )
     {
 
         $this->setStatus( new \esprit\core\HttpStatusCodes\FileNotFound() ); 

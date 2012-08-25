@@ -7,6 +7,8 @@ use \esprit\core\Response as Response;
 use \esprit\core\exceptions\PageNotFoundException;
 
 use \zc\lib\BaseCommand;
+use \zc\lib\ChatSessionSource;
+use \zc\lib\ChatSession;
 use \zc\lib\RoomSource;
 use \zc\lib\Room;
 
@@ -14,17 +16,18 @@ use \zc\lib\Room;
  * The command for requests to chat rooms. 
  *
  * @author jbowens
+ * @since 2012-08-19
  */
 class Command_Room extends BaseCommand {
 
     const COMMAND_NAME = "Room";
-    const CHAT_SESSION_VARIABLE_PREFIX = "chatsession_";
+    const NUM_OLD_MESSAGES_TO_DISPLAY = 20;
 
     public function getName() {
         return self::COMMAND_NAME;
     }
 
-    public function run(Request $request, Response $response) {
+    public function generateResponse(Request $request, Response $response) {
 
         // Determine which chat room is being requested
         $room = $this->getRoomFromRequest($request);
@@ -36,8 +39,13 @@ class Command_Room extends BaseCommand {
         $response->set('chatSession', $chatSession);
 
         $messages = $this->getMessages( $room, $chatSession );
+        $response->set('messages', $messages);
+
+        $activeChatSessions = $this->getActiveChatSessions( $room );
+        $response->set('chatSessions', $activeChatSessions);
 
         return $response;
+
     }
 
     /**
@@ -70,16 +78,22 @@ class Command_Room extends BaseCommand {
         $session = $request->getSession();
         $chatSessionSource = $this->getChatSessionSource();
 
+        $chatSession = null;
+
         // Are they already in this chat room?
-        if( $session->keyExists( self::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId() ) )
+        if( $session->keyExists( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId() ) )
         {
-            $chatSessionId = $session->get( self::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId() );
+            $chatSessionId = $session->get( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId() );
             $chatSession = $chatSessionSource->getChatSessionById( $chatSessionId );
         }
-        else
+
+        // If we still don't have a chat session...
+        if( $chatSession == null )
         {
             // Create a new chat session
             $chatSession = $chatSessionSource->createSession( $room );
+            $session->set( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId(), $chatSession->getChatSessionId() );
+            $this->logger->info( "Created new chat session with id " . $chatSession->getChatSessionId(), $this->getName() );
         }
         
         return $chatSession;
@@ -96,10 +110,22 @@ class Command_Room extends BaseCommand {
     {
         if( $room->getRoomId() != $chatSession->getRoomId() )
         {
-            $this->logger->error("getMessages() called with conflicting room ids", self::LOG_SOURCE);
-            throw new \InvalidArgumentException("roomids do not match");
+            $this->logger->error("getMessages() called with conflicting room ids (".$room->getRoomId()." and ".$chatSession->getRoomId().")", $this->getName());
+            return array();
         }
+        return $this->getMessageSource()->getMostRecentMessages($room, self::NUM_OLD_MESSAGES_TO_DISPLAY);
+    }
 
+    /**
+     * Returns an array of all the active chat sessions for the given
+     * room.
+     *
+     * @param $room  the room to query
+     * @return an array of ChatSession objects
+     */
+    public function getActiveChatSessions(Room $room)
+    {
+        return $this->getChatSessionSource()->getActiveChatSessions($room); 
     }
 
 }

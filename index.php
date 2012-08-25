@@ -17,6 +17,13 @@ if( $config->get("debug") ) {
     $controller->getLogger()->addLogRecorder( $fineRecorder );
 }
 
+// Setup our custom catchall
+$viewResolverFactory = $controller->createViewResolverFactory();
+$catchall = $viewResolverFactory->createCatchallViewResolver( new \zc\views\DefaultView( $config,
+                                                                                         $controller->getLogger(),
+                                                                                         $controller->getTemplateParser() ) );
+$controller->appendViewResolver( $catchall );
+
 // Respond to the user's request
 $controller->run();
 

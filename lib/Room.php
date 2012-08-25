@@ -9,7 +9,7 @@ namespace zc\lib;
  */
 class Room {
 
-    protected $roomid;
+    protected $roomId;
     protected $title;
     protected $description;
     protected $dateCreated;
@@ -30,8 +30,9 @@ class Room {
      */
     public static function createFromArray( array $a )
     {
-        return self::getBuilder()->roomid( $a['roomid'] )
+        return self::getBuilder()->roomId( $a['roomid'] )
                                  ->title( $a['title'] )
+                                 ->description( $a['description'] )
                                  ->dateCreated( $a['dateCreated'] )
                                  ->creatorIpAddress( $a['creatorIp'] )
                                  ->passwordHash( $a['password'] )
@@ -44,7 +45,7 @@ class Room {
      * @see RoomBuilder.build()
      */
     public function __construct( RoomBuilder $rb ) {
-        $this->roomid = $rb->getRoomid();
+        $this->roomId = $rb->getRoomId();
         $this->title = $rb->getTitle();
         $this->description = $rb->getDescription();
         $this->dateCreated = $rb->getDateCreated();
@@ -59,7 +60,7 @@ class Room {
      */
 
     public function getRoomId() {
-        return $this->roomid;
+        return $this->roomId;
     }
 
     public function getTitle() {
@@ -101,7 +102,7 @@ class Room {
         if( $this->getRoomId() < 32880 )
             return $this->getRoomId();
 
-        $num = $this->roomid * 13 + 17;
+        $num = $this->roomId * 13 + 17;
         
         $base26 = base_convert($num, 10, 26);
         

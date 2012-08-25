@@ -12,7 +12,7 @@ namespace zc\lib;
  */
 class RoomBuilder {
 
-    protected $roomid = null;
+    protected $roomId = null;
     protected $title = null;
     protected $description = null;
     protected $dateCreated = null;
@@ -23,8 +23,8 @@ class RoomBuilder {
 
     /* Setters */
 
-    public function roomId( $roomid ) {
-        $this->roomid = $roomid;
+    public function roomId( $roomId ) {
+        $this->roomId = $roomId;
         return $this;
     }
 
@@ -75,7 +75,7 @@ class RoomBuilder {
     /* Getters */
 
     public function getRoomId() {
-        return $this->roomid;
+        return $this->roomId;
     }
 
     public function getTitle() {

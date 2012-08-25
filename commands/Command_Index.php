@@ -22,7 +22,7 @@ class Command_Index extends BaseCommand {
         return self::COMMAND_NAME;
     }
 
-    public function run(Request $request, Response $response) {
+    public function generateResponse(Request $request, Response $response) {
 
         // Handle create chat room request
         if( $request->getPost('chat_room_title') )

@@ -29,5 +29,7 @@ label .optional { font-size: 0.7em; color: #555; vertical-align: middle; }
 input.pop { height: 35px; color: #222; background: url('/static/images/sprite.png'); font-size: 1em; font-weight: bold; padding: 0 1em; border: 1px #D9800B solid; border-bottom-color: #976522; border-right-color: #976522; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #DBC9A0; margin-left: -0.25em; }
 input.pop:hover { background-position: 0 40px; }
 #room h1 { margin-bottom: 0.25em; }
-#room #room-meta-data p { font-size: 0.9em; margin: 0.25em 0; }
-#chat-container { background: #EEE; min-height: 500px; }
+#room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
+#room #room-meta-data .room-desc { font-size: .9em; }
+#room #room-meta-data .sharable-url { font-size: .8em; }
+#chat-container { min-height: 500px; }

@@ -2,6 +2,9 @@
 
 namespace zc\lib;
 
+use \esprit\core\Request;
+use \esprit\core\Response;
+
 /**
  * A base command that adds some additional access to ZippyChat
  * related resources.
@@ -67,5 +70,24 @@ abstract class BaseCommand extends \esprit\core\BaseCommand {
         }
         return $this->messageSource;
     }
+
+    /**
+     * Executes the command.
+     */
+    public function run(Request $request, Response $response)
+    {
+        $response->set('site', $request->getSite());
+
+        return $this->generateResponse( $request, $response );
+    }
+
+    /**
+     * Subclasses should implement this to do their command work.
+     *
+     * @param $request  the esprit request
+     * @param $response  the esprit response
+     * @return an \esprit\core\Response object
+     */
+    abstract function generateResponse( Request $request, Response $response );
 
 }

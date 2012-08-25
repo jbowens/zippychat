@@ -15,7 +15,7 @@ class Command_TermsOfUse extends BaseCommand {
         return self::COMMAND_NAME;
     }
 
-    public function run(Request $request, Response $response) {
+    public function generateResponse(Request $request, Response $response) {
         return $response;
     } 
 

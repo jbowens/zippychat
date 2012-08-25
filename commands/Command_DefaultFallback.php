@@ -21,7 +21,7 @@ class Command_DefaultFallback extends BaseCommand {
     /**
      * See BaseCommand.run(Request $request, Response $response) 
      */
-    public function run(Request $request, Response $response) {
+    public function generateResponse(Request $request, Response $response) {
         
         $this->getLogger()->info("404 on request to " . $request->getUrl()->getPath(), self::LOG_SOURCE);
 
