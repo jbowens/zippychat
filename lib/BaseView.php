@@ -18,6 +18,21 @@ use \esprit\core\TemplateParser;
 abstract class BaseView extends AbstractView
 {
 
+    /**
+     * Adds a javascript file to be included into the page.
+     *
+     * @param  $script the js file to be included
+     */
+    protected function addScript( $script )
+    {
+        $templateParser = $this->templateParser;
+        $currentScripts = $templateParser->get('jsScripts');
+        if( $currentScripts == null )
+            $currentScripts = array();
+        array_push($currentScripts, $script);
+        $templateParser->set('jsScripts', $currentScripts);
+    }
+
     public function generateOutput(Response $response)
     {
        // Store some zc-specific but global values

@@ -11,6 +11,7 @@ class Room extends DefaultView
     {
         $response->set('smallLogo', true);
         $response->set('widePage', true);
+        $this->addScript('room-init.js');
         return parent::output($response);        
     }
 
