@@ -1,5 +1,6 @@
 var zc = {};
 zc.pages = {};
+
 /* Called on DOM ready */
 zc.init = function() {
     if( $("#HOME") ) {

@@ -44,6 +44,11 @@ class MessageBuilder {
         return $this;
     }
 
+    public function username($username) {
+        $this->username = $username;
+        return $this;
+    }
+
     public function dateSent($dateSent) {
         $this->dateSent = $dateSent;
         return $this;
@@ -65,7 +70,7 @@ class MessageBuilder {
         return $this->messageId;
     }
 
-    public functon getRoomId() {
+    public function getRoomId() {
         return $this->roomId;
     }
 

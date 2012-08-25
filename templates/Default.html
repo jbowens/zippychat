@@ -9,9 +9,11 @@
         <script type="text/javascript" src="/static/scripts/global.js"></script>
     </head>
     <body>
-        <div id="mainContainer">
-            <div id="masthead">
-                <a href="/"><img src="/static/images/logo.png" alt="{{ t('zippy_chat') }}" border="0" /></a>
+        <div id="mainContainer"{% if widePage %} class="wide"{% endif %}>
+            <div id="masthead"{% if smallLogo %} class="smallLogo"{% endif %}>
+                <a href="/">
+                    <img src="{% if smallLogo %}/static/images/smallLogo.png{% else %}/static/images/logo.png{% endif %}" alt="{{ t('zippy_chat') }}" border="0" />
+                </a>
             </div>
             <div id="mainContent" class="content">
                 {% block mainContent %}
@@ -22,7 +24,7 @@
                 <div>
                     <a href="/about">{{ t('about') }}</a> &ndash; <a href="/terms-of-use">{{ t('terms_of_use') }}</a> &ndash; <a href="/privacy">{{ t('privacy_policy') }}</a>
                 </div>
-                <div>&copy; Zippy Chat 2010&ndash;2012</div>
+                <div>&copy; Zippy Chat 2010&ndash;{{ year|e }}</div>
             </div>
         </div>
     </body>

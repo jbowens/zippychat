@@ -25,8 +25,15 @@ abstract class BaseView extends AbstractView
        $urlUtil = new util\UrlUtil( $site );
        $this->set( 'urlutil', $urlUtil );
 
+       $this->setGlobalValues();
+
        // Run output logic
        $this->output( $response ); 
+    }
+
+    protected function setGlobalValues()
+    {
+        $this->set('year', date("Y"));
     }
 
     /**

@@ -5,8 +5,10 @@ p { margin: 1em 0; }
 .uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
 .hidden { display: none; }
 .zcLnk { text-decoration: underline; color: #253d5b; cursor: pointer; }
-#mainContainer { width: 950px; margin: 0 auto; }
+#mainContainer { width: 950px; margin: 0 auto; min-width: 35em; }
+#mainContainer.wide { width: 90%; }
 #masthead { margin: 1.5em 0; }
+#masthead.smallLogo { margin: 0.5em 0; }
 #mainContent { min-height: 20em; border: 2px #537EA5 solid; font-size: 0.938em; }
 .content { background-color: #FFF; color: #222; padding: 1.3em; margin: .25em 0; }
 .content a { color: #333; }
@@ -31,5 +33,15 @@ input.pop:hover { background-position: 0 40px; }
 #room h1 { margin-bottom: 0.25em; }
 #room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
 #room #room-meta-data .room-desc { font-size: .9em; }
-#room #room-meta-data .sharable-url { font-size: .8em; }
-#chat-container { min-height: 500px; }
+#room #room-meta-data .sharable-url { font-size: .7em; color:#666; }
+#chatroom { background-color: #F5F5F5; }
+#chat-container { height: 450px; border: 1px #DDD solid; margin-top: 0.5em; min-width: 30em; }
+#post-area { border: 1px #DDD solid; border-top: none; }
+#message-post-cont { padding: 0.5em; }
+#postMessage_text { width: 60%; height: 3em; border: 1px #888 solid; font-size: 0.8em; }
+#chat-sidebar { width: 10em; float: right; border-left: 1px #DDD solid; height: 100%; color: #444; overflow: scroll; }
+#chat-sidebar .usersCont { padding: 0.5em; }
+#active-users { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }
+#messages { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }
+#message-area { height: 100%; overflow: auto; }
+#message-area .messagesCont { padding: 0.5em; }

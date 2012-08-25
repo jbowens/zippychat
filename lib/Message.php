@@ -54,7 +54,7 @@ class Message {
         $this->roomId = $builder->getRoomId();
         $this->sentBySessionId = $builder->getSentBySessionId();
         $this->username = $builder->getUsername();
-        $this->dateSent = $builder->getDateSent();
+        $this->dateSent = $builder->getDateSentUTC();
         $this->message = $builder->getMessage();
         $this->isCommand = $builder->getIsCommand();
     }
@@ -65,7 +65,7 @@ class Message {
         return $this->messageId;
     }
 
-    public functon getRoomId() {
+    public function getRoomId() {
         return $this->roomId;
     }
 

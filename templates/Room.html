@@ -12,16 +12,28 @@
     <div id="chatroom">
         <div id="chat-container">
             <div id="chat-sidebar">
-                <ul id="active-users">
-                </ul>
+                <div class="usersCont">
+                    <ul id="active-users" class="jsUninitialized">
+                        {% for chatSession in chatSessions %}
+                        <li>{{ chatSession.getUsername() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
             <div id="message-area">
-                <ul id="messages">
-                </ul>
+                <div class="messagesCont">
+                    <ul id="messages" class="jsUninitialized">
+                        {% for message in messages %}
+                        <li><span class="username">{{ message.getUsername() }}</span>: {{ message.getMessage() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
         <div id="post-area">
-            <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
+            <div id="message-post-cont">
+                <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
+            </div>
         </div>
     </div>
 </div>
