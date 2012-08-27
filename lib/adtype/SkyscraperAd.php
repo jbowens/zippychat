@@ -1,6 +1,6 @@
 <?php
 
-namespace zc\lib\adtypes;
+namespace zc\lib\adtype;
 
 use \zc\lib\AdType;
 
@@ -12,7 +12,7 @@ use \zc\lib\AdType;
  * @author jbowens
  * @since 2012-08-26
  */
-class SkyscraperAd implements AdType
+class SkyscraperAd extends AdType
 {
 
     const SKYSCRAPER_WIDTH_PX = 120;
@@ -20,12 +20,12 @@ class SkyscraperAd implements AdType
 
     public function getWidth()
     {
-        return SKYSCRAPER_WIDTH_PX;
+        return self::SKYSCRAPER_WIDTH_PX;
     }
 
     public function getHeight()
     {
-        return SKYSCRAPER_HEIGHT_PX;
+        return self::SKYSCRAPER_HEIGHT_PX;
     }
 
     public function isVideo()

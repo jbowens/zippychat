@@ -17,6 +17,7 @@ h2 { color: #222; margin: .25em 0; font-size: 1.25em; font-family: "Gill Sans", 
 #footer { font-size: .7em; text-align: center; color: #BABABA; margin-bottom: 3em; }
 #privacy-policy p, #terms-of-use p { line-height: 2; font-size: 0.933em; }
 #terms-of-use ol.restrictions li { font-size: 0.933em; }
+.skyscraperAd { width: 120px; height: 600px; }
 #zippyChatDescription { width: 19em; float: right; padding: 1em; font-size: 0.933em; background-color: #EBEAD4; border: 2px #D3D2BC solid; }
 #zippyChatDescription p { line-height: 1.5; text-indent: 2em; color: #000; }
 #create-a-chat-room { font-size: 1.067em; float: left; }
@@ -36,13 +37,14 @@ span.optionButton:hover, span.optionButton.hover { color: #111; background-posit
 #room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
 #room #room-meta-data .room-desc { font-size: .9em; }
 #room #room-meta-data .sharable-url { font-size: .7em; color:#666; }
-#chatroom { background-color: #F5F5F5; }
-#chat-container { height: 450px; border: 1px #C5C5C5 solid; margin-top: 0.5em; min-width: 30em; }
-#post-area { border: 1px #C5C5C5 solid; border-top: none; }
+#room .skyscraperAd { margin: 0 0.5em 0.5em 0; float: left; }
+#room .chatRoomContainer { margin-left: 130px; }
+#chat-container { height: 450px; background-color: #F5F5F5; border: 1px #C5C5C5 solid; margin-top: 0.5em; min-width: 30em; }
+#post-area { border: 1px #C5C5C5 solid; background-color: #F5F5F5; border-top: none; }
 #message-post-cont { padding: 0.5em; }
-#message-post-cont form { float: left; width: 60%; }
-#post-area .options { font-size: 0.8em; padding: 0.3em 0; }
-#post-area .options .button { margin-left: 0.4em; float: left; }
+#message-post-cont form { width: 90%; }
+#chatroom .options { font-size: 0.8em; padding: 0.75em 0.3em; }
+#chatroom .options .button { margin-right: 0.75em; float: left; }
 #postMessage_text { width: 70%; height: 25px; border: 1px #888 solid; font-size: 0.8em; }
 #chat-sidebar { width: 10em; float: right; border-left: 1px #C5C5C5 solid; height: 100%; color: #444; overflow: auto; }
 #chat-sidebar .usersCont { padding: 0.5em; }

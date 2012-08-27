@@ -6,6 +6,8 @@ use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 use \esprit\core\exceptions\PageNotFoundException;
 
+use \zc\lib\adserver\GoogleAdSenseServer;
+use \zc\lib\adtype\SkyscraperAd;
 use \zc\lib\BaseCommand;
 use \zc\lib\ChatSessionSource;
 use \zc\lib\ChatSession;
@@ -43,6 +45,9 @@ class Command_Room extends BaseCommand {
 
         //$activeChatSessions = $this->getActiveChatSessions( $room );
         //$response->set('chatSessions', $activeChatSessions);
+
+        $ad = $this->getAd( $request );
+        $response->set('ad', $ad);
 
         return $response;
 
@@ -131,13 +136,23 @@ class Command_Room extends BaseCommand {
     /**
      * Retrieves the advertisement that we should display in the room.
      * 
+     * @param $request  the request being serviced
      * @return an Ad object
      */
-    public function getAd()
+    public function getAd(Request $request)
     {
         // We're currently displaying 120x600 skyscraper ads
-        $adType = new adtype\SkyscraperAd();
+        $adType = new SkyscraperAd();
 
+        // Current ad source is GoogleAdSense
+        $adSource = new GoogleAdSenseServer( $this->logger );
+
+        if( ! $adSource->canServe( $request, $adType ) )
+        {
+            $this->error("Unable to find servable ad", $request);
+        }
+
+        return $adSource->getAd( $request, $adType );
     }
 
 }

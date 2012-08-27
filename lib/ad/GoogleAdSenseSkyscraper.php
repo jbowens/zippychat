@@ -18,7 +18,8 @@ class GoogleAdSenseSkyscraper implements Ad
      */
     public function getHtml()
     {
-        return '<script type="text/javascript"><!--
+        return <<<'EOT'
+        <script type="text/javascript">//<!--
             google_ad_client = "ca-pub-8101954213892678";
         /* ZippyChat new */
         google_ad_slot = "9144706335";
@@ -26,9 +27,8 @@ class GoogleAdSenseSkyscraper implements Ad
         google_ad_height = 600;
         //-->
         //</script>
-        //<script type="text/javascript"
-        //src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        //</script>';
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+EOT;
     } 
 
 }

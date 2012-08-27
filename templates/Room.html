@@ -8,42 +8,53 @@
             {{ t('Sharable_url') }}: 
             <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getRoomId() }}</span>
         </div>
+        <input type="hidden" class="hidden roomId" id="roomId" value="{{ room.getRoomId() }}" />
     </div>
-    <div id="chatroom">
-        <div id="chat-container">
-            <div id="chat-sidebar">
-                <div class="usersCont">
-                    <ul id="active-users" class="jsUninitialized">
-                        {% for chatSession in chatSessions %}
-                        <li>{{ chatSession.getUsername() }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+    <div id="room-area">
+        {% if ad %}
+            <div class="ad skyscraperAd">
+                {{ ad.getHtml() | raw }}
             </div>
-            <div id="message-area">
-                <div class="messagesCont">
-                    <ul id="messages" class="jsUninitialized">
-                        {% for message in messages %}
-                        <li><span class="username">{{ message.getUsername() }}</span>: {{ message.getMessage() }}</li>
-                        {% endfor %}
-                    </ul>
+        {% endif %}
+        <div class="chatRoomContainer">
+            <div id="chatroom">
+                <div id="chat-container">
+                    <div id="chat-sidebar">
+                        <div class="usersCont">
+                            <ul id="active-users" class="jsUninitialized">
+                                {% for chatSession in chatSessions %}
+                                <li>{{ chatSession.getUsername() }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="message-area">
+                        <div class="messagesCont">
+                            <ul id="messages" class="jsUninitialized">
+                                {% for message in messages %}
+                                <li><span class="username">{{ message.getUsername() }}</span>: {{ message.getMessage() }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div id="post-area">
-            <div id="message-post-cont">
-                <form>
-                    <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
-                    <input type="submit" class="submit pop" id="postMessage_submit" value="{{ t('Send') }}" />
-                </form>
+                <div id="post-area">
+                    <div id="message-post-cont">
+                        <form>
+                            <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
+                            <input type="submit" class="submit pop" id="postMessage_submit" value="{{ t('Send') }}" />
+                        </form>
+                    </div>
+                </div>
                 <div class="options">
-                    <span class="optionButton button">{{ t('Change_username') }}</span>
-                    <span class="optionButton button">{{ t('Invite_others') }}</span>
+                    <span class="optionButton button inviteOthers">{{ t('Invite_others') }}</span>
+                    <span class="optionButton button changeUsername">{{ t('Change_username') }}</span>
                     <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-            </div>
+
+            </div> {# /#chatroom #}
         </div>
+        <div class="clear"></div>
     </div>
 </div>
 {% endblock %}

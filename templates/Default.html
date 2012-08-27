@@ -8,6 +8,9 @@
         <script type="text/javascript" src="/static/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="/static/scripts/esprit/esprit.js"></script>
         <script type="text/javascript" src="/static/scripts/global.js"></script>
+        {% for script in jsScripts %}
+        <script type="text/javascript" src="/static/scripts/{{ script | e }}"></script>
+        {% endfor %}
     </head>
     <body>
         <div id="mainContainer"{% if widePage %} class="wide"{% endif %}>
@@ -23,7 +26,9 @@
             </div>
             <div id="footer">
                 <div>
-                    <a href="/about">{{ t('about') }}</a> &ndash; <a href="/terms-of-use">{{ t('terms_of_use') }}</a> &ndash; <a href="/privacy">{{ t('privacy_policy') }}</a>
+                    <a href="/about">{{ t('about') }}</a> &ndash; 
+                    <a href="/terms-of-use">{{ t('terms_of_use') }}</a> &ndash; 
+                    <a href="/privacy">{{ t('privacy_policy') }}</a>
                 </div>
                 <div>&copy; Zippy Chat 2010&ndash;{{ year|e }}</div>
             </div>

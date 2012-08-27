@@ -2,6 +2,10 @@
 
 error_reporting(E_ALL | E_STRICT);
 
+// Configure for more random session ids
+ini_set("session.entropy_file", "/dev/urandom");
+ini_set("session.entropy_length", "512");
+
 require_once "../esprit/autoloader.php";
 require_once "autoloader.php";
 

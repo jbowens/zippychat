@@ -3,7 +3,10 @@
 namespace zc\lib\adserver;
 
 use \esprit\core\LogAware;
+use \esprit\core\Request;
 use \esprit\core\util\Logger;
+
+use \zc\lib\AdType;
 
 /**
  * Defines an AdServer for ads provided through Google AdSense.
@@ -21,7 +24,7 @@ class GoogleAdSenseServer
     protected $logger;
     protected $availableAds = array();
 
-    public function __construct(Logger $Logger)
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
 

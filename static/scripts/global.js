@@ -1,5 +1,5 @@
-var zc = {};
-zc.pages = {};
+var zc = zc || {};
+zc.pages = zc.pages || {};
 
 /* Called on DOM ready */
 zc.init = function() {
