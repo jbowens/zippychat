@@ -29,19 +29,24 @@ h2 { color: #222; margin: .25em 0; font-size: 1.25em; font-family: "Gill Sans", 
 label .desc { font-size: 0.6em; color: #555; display: block; }
 label .optional { font-size: 0.7em; color: #555; vertical-align: middle; }
 input.pop { height: 35px; color: #222; background: url('/static/images/sprite.png'); font-size: 1em; font-weight: bold; padding: 0 1em; border: 1px #D9800B solid; border-bottom-color: #976522; border-right-color: #976522; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #DBC9A0; margin-left: -0.25em; }
-input.pop:hover { background-position: 0 40px; }
+input.pop:hover, input.pop.hover { background-position: 0 -40px; }
+span.optionButton { color: #333; background: url('/static/images/sprite.png'); background-position: 0 -80px; font-size: 1em; padding: 0.25em 0.75em; border: 1px #888 solid; border-bottom-color: #666; border-bottom-color: #666; cursor: pointer; borader-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #FFF; margin-left: -0.25em; }
+span.optionButton:hover, span.optionButton.hover { color: #111; background-position: 0 -120px; }
 #room h1 { margin-bottom: 0.25em; }
 #room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
 #room #room-meta-data .room-desc { font-size: .9em; }
 #room #room-meta-data .sharable-url { font-size: .7em; color:#666; }
 #chatroom { background-color: #F5F5F5; }
-#chat-container { height: 450px; border: 1px #DDD solid; margin-top: 0.5em; min-width: 30em; }
-#post-area { border: 1px #DDD solid; border-top: none; }
+#chat-container { height: 450px; border: 1px #C5C5C5 solid; margin-top: 0.5em; min-width: 30em; }
+#post-area { border: 1px #C5C5C5 solid; border-top: none; }
 #message-post-cont { padding: 0.5em; }
-#postMessage_text { width: 60%; height: 3em; border: 1px #888 solid; font-size: 0.8em; }
-#chat-sidebar { width: 10em; float: right; border-left: 1px #DDD solid; height: 100%; color: #444; overflow: auto; }
+#message-post-cont .options { float: right; font-size: 0.8em; padding: 0.2em; }
+#message-post-cont .options .button { margin-left: 0.05em; }
+#postMessage_text { width: 60%; height: 25px; border: 1px #888 solid; font-size: 0.8em; }
+#chat-sidebar { width: 10em; float: right; border-left: 1px #C5C5C5 solid; height: 100%; color: #444; overflow: auto; }
 #chat-sidebar .usersCont { padding: 0.5em; }
 #active-users { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }
 #messages { list-style: none; margin: 0; padding: 0; font-size: 0.85em; }
 #message-area { height: 100%; overflow: auto; }
 #message-area .messagesCont { padding: 0.5em; }
+#postMessage_submit { vertical-align: top; height: 25px; font-size: .9em; margin-left: 0em; }

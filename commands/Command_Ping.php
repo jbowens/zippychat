@@ -10,13 +10,16 @@ use \zc\lib\BaseCommand;
 use \zc\lib\ChatSession;
 use \zc\lib\ChatSessionSource;
 use \zc\lib\MessageSource;
+use \zc\lib\RoomAware;
 
 /**
  * Command responsible for updating chat users with fresh chat room data.
  *
  * @author jbowens
  */
-class Command_Ping extends BaseCommand {
+class Command_Ping extends BaseCommand
+{
+    use RoomAware;
 
     const COMMAND_NAME = "Ping";
     const MESSAGES_TIME_CUTOFF = 60;
@@ -57,21 +60,6 @@ class Command_Ping extends BaseCommand {
         $response->set('messages', $messages);
 
         return $response;
-    }
-
-    /**
-     * Extracts the room that was requested from the request.
-     *
-     * @param $request  the incoming request
-     * @return the Room specified in the request, or null
-     */
-    public function getRequestedRoom(Request $request) {
-        $roomId = $request->getGet('r');
-
-        if( ! $roomId )
-            return null;
-
-        return $this->getRoomSource()->getRoomById($roomId);
     }
 
     /**

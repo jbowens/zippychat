@@ -34,8 +34,8 @@ class MessageBuilder {
         return $this;
     }
 
-    public function roomid($roomid) {
-        $this->roomid = $roomid;
+    public function roomId($roomId) {
+        $this->roomId = $roomId;
         return $this;
     }
 

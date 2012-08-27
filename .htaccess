@@ -5,6 +5,9 @@ RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
+# Redirect favicon requests
+RewriteRule ^favicon.ico$ static/favicon.ico [L,NC]
+
 # Allow access to files in the static directory straight
 # through Apache, without going through Esprit's controller.
 RewriteRule ^static/(.*)$ static/$1 [L,NC]

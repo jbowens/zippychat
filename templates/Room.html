@@ -5,7 +5,7 @@
         <h1>{{ room.getTitle()|e }}</h1>
         {% if room.getDescription() %}<p class="room-desc">{{ room.getDescription()|e }}</p>{% endif %}
         <div class="sharable-url">
-            Sharable url: 
+            {{ t('Sharable_url') }}: 
             <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getRoomId() }}</span>
         </div>
     </div>
@@ -32,7 +32,12 @@
         </div>
         <div id="post-area">
             <div id="message-post-cont">
+                <div class="options">
+                    <span class="optionButton button">{{ t('Change_username') }}</span>
+                    <span class="optionButton button">{{ t('Invite_others') }}</span>
+                </div>
                 <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
+                <input type="submit" class="submit pop" id="postMessage_submit" value="{{ t('Send') }}" />
             </div>
         </div>
     </div>

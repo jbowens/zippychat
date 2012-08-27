@@ -23,6 +23,7 @@ class MessageSource {
     const SQL_GET_MESSAGES_SINCE_MESSAGEID = "SELECT * FROM `messages` WHERE `roomid` = ? AND `messageid` > ?";
     const SQL_GET_MOST_RECENT_MESSAGES = "SELECT * FROM `messages` WHERE `roomid` = ? ORDER BY `messageid` DESC LIMIT ";
     const SQL_GET_MESSAGE_BY_ID = "SELECT * FROM `messages` WHERE `messageid` = ?";
+    const SQL_INSERT_MESSAGE = "INSERT INTO `messages` (roomid,sentBySessionid,username,dateSent,message,isCommand) VALUES(?,?,?,?,?,?)";
 
     protected $dbm;
     protected $logger;
@@ -195,6 +196,44 @@ class MessageSource {
 
             return $messages;
         }
+    }
+
+    public function createMessage( Room $room, ChatSession $chatSession, $message )
+    {
+        $this->logger->info( "Creating a message for room " . $room->getRoomId() . " from chatter " . 
+                             $chatSession->getChatSessionId(), self::LOG_SOURCE );
+        // Insert into the database
+        $db = $this->dbm->getDb();
+        $pstmt = $db->prepare( self::SQL_INSERT_MESSAGE );
+        $pstmt->execute(array(
+            $room->getRoomId(),
+            $chatSession->getChatSessionId(),
+            $chatSession->getUsername(),
+            time(),
+            $message,
+            false
+        ));
+        $messageId = $db->lastInsertId();
+        // Create the message object
+        $message = Message::getBuilder()->messageId( $messageId ) 
+                                        ->roomId( $room->getRoomId() )
+                                        ->sentBySessionId( $chatSession->getChatSessionId() )
+                                        ->username( $chatSession->getUsername() )
+                                        ->dateSent( time() )
+                                        ->message( $message )
+                                        ->isCommand( false )
+                                        ->build();
+
+        // Only update the cache if there's an existing entry in the cache
+        if( $this->messageCache->isCached( $room->getRoomId() ) )
+        {
+            // A cache entry exists for this room, so we should update the cache
+            $messages = $this->messageCache->get( $room->getRoomId() );
+            array_push($messages, $message);
+            $this->messageCache->set( $room->getRoomId(), $messages, self::CACHE_INVALIDATION_TIME );
+        }
+
+        return $message;
     }
 
     /**

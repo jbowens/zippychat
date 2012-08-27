@@ -38,11 +38,11 @@ class Command_Room extends BaseCommand {
         $chatSession = $this->getChatSession( $request, $room );
         $response->set('chatSession', $chatSession);
 
-        $messages = $this->getMessages( $room, $chatSession );
-        $response->set('messages', $messages);
+        //$messages = $this->getMessages( $room, $chatSession );
+        //$response->set('messages', $messages);
 
-        $activeChatSessions = $this->getActiveChatSessions( $room );
-        $response->set('chatSessions', $activeChatSessions);
+        //$activeChatSessions = $this->getActiveChatSessions( $room );
+        //$response->set('chatSessions', $activeChatSessions);
 
         return $response;
 
