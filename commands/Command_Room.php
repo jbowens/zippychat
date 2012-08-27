@@ -128,5 +128,17 @@ class Command_Room extends BaseCommand {
         return $this->getChatSessionSource()->getActiveChatSessions($room); 
     }
 
+    /**
+     * Retrieves the advertisement that we should display in the room.
+     * 
+     * @return an Ad object
+     */
+    public function getAd()
+    {
+        // We're currently displaying 120x600 skyscraper ads
+        $adType = new adtype\SkyscraperAd();
+
+    }
+
 }
 

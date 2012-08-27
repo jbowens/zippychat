@@ -61,4 +61,21 @@ class AdType
         return null;
     }
 
+    /**
+     * Returns true iff this criteria falls within the argument's given
+     * criteria.
+     *
+     * @param  another AdType object
+     * @return true iff this object is contained with the other adtypes set
+     *         of possible advertisements
+     */
+    public function withinType(AdType $otherAdType)
+    {
+        return ($otherAdType->isVideo() == $this->isVideo() || $otherAdType->isVideo() == null) &&
+               ($otherAdType->isTextual() == $this->isTextual() || $otherAdType->isTextual() == null) &&
+               ($otherAdType->isImage() == $this->isImage() || $otherAdType->isImage() == null) &&
+               ($otherAdType->getWidth() == $this->getWidth() || $otherAdType->getWidth() == null) &&
+               ($otherAdType->getHeight() == $this->getHeight() || $otherAdType->getHeight() == null);
+    }
+
 }
