@@ -32,12 +32,16 @@
         </div>
         <div id="post-area">
             <div id="message-post-cont">
+                <form>
+                    <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
+                    <input type="submit" class="submit pop" id="postMessage_submit" value="{{ t('Send') }}" />
+                </form>
                 <div class="options">
                     <span class="optionButton button">{{ t('Change_username') }}</span>
                     <span class="optionButton button">{{ t('Invite_others') }}</span>
+                    <div class="clear"></div>
                 </div>
-                <textarea id="postMessage_text" name="postMessage_text" class="textarea"></textarea>
-                <input type="submit" class="submit pop" id="postMessage_submit" value="{{ t('Send') }}" />
+                <div class="clear"></div>
             </div>
         </div>
     </div>
