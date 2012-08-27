@@ -36,6 +36,7 @@ class Command_PostMessage extends BaseCommand
         $room = $this->getRequestedRoom($request);
         if( $room == null )
         {
+            $this->info("No valid room id accompany post-message request.");
             throw new PageNotFoundException(); 
         }
 
@@ -64,26 +65,11 @@ class Command_PostMessage extends BaseCommand
         }
 
         $messageSource = $this->getMessageSource();
-        $newMessage = $messageSource->createMessage( $room, $chatSession, $message );
+        $newMessage = $messageSource->createMessage( $room, $chatSession, $request->getPost('msg') );
         $response->set('newMessage', $newMessage);
 
         return $response;
 
-    }
-
-    /**
-     * Extracts the room that was requested from the request.
-     *
-     * @param $request  the incoming request
-     * @return the Room specified in the request, or null
-     */
-    public function getRequestedRoom(Request $request) {
-        $roomId = $request->getGet('r');
-
-        if( ! $roomId )
-            return null;
-
-        return $this->getRoomSource()->getRoomById($roomId);
     }
 
 }

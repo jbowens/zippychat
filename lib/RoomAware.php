@@ -29,7 +29,7 @@ trait RoomAware {
      * @return the Room specified in the request, or null
      */
     public function getRequestedRoom(Request $request) {
-        $roomId = $request->getGet('r');
+        $roomId = $request->getParamExists('r') ? $request->getGet('r') : $request->getPost('r');
 
         if( ! $roomId )
             return null;

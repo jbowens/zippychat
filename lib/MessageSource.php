@@ -198,10 +198,22 @@ class MessageSource {
         }
     }
 
+    /**
+     * Creates a new message, inserting it into the database.
+     *
+     * @param $room  the room to add the message to
+     * @param $chatSession  the chat session sending the message
+     * @param $message  the message to add
+     */
     public function createMessage( Room $room, ChatSession $chatSession, $message )
     {
         $this->logger->info( "Creating a message for room " . $room->getRoomId() . " from chatter " . 
                              $chatSession->getChatSessionId(), self::LOG_SOURCE );
+        if( $message == null )
+        {
+            $this->logger->error( "Received a null message.", self::LOG_SOURCE);
+            return null;
+        }
         // Insert into the database
         $db = $this->dbm->getDb();
         $pstmt = $db->prepare( self::SQL_INSERT_MESSAGE );
