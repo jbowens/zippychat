@@ -267,19 +267,6 @@ class ChatSessionSource {
     }
 
     /**
-     * Updates the last received message of the given chat session to be the given
-     * message.
-     *
-     * @param $chatSession  the chat session to update
-     * @param $message  the most recent message for that chat session
-     */
-    public function updateLastMessage( ChatSession $chatSession, Message $message )
-    {
-        $chatSession->setLastMessageId( $message->getMessageId() );
-        $this->recache( $chatSession );
-    }
-
-    /**
      * Caches the given ChatSession object in the main chat session
      * caches.
      *

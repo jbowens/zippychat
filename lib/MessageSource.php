@@ -111,6 +111,11 @@ class MessageSource {
             $this->logger->info("Cache miss on messages for room " . $room->getRoomId(), self::LOG_SOURCE);
             $recentMessages = $this->getMostRecentMessages( $room, self::DEFAULT_MESSAGES_TO_LOAD );
 
+            if( ! is_array( $recentMessages ) )
+            {
+                $this->logger->error("Recevied non-array output from getMostRecentMessages()", self::LOG_SOURCE);
+            }
+
             // Cache it
             $this->messageCache->set( $room->getRoomId(), $messages, self::CACHE_INVALIDATION_TIME );
             
@@ -148,14 +153,14 @@ class MessageSource {
             // Cache miss
             $this->logger->info( "Cache miss on request for messages since give time in room " . $room->getRoomId(), self::LOG_SOURCE );
             // Make the database call
-            $recentMessaages = $this->getMostRecentMessages( $room, self::DEFAULT_MESSAGES_TO_LOAD );
+            $recentMessages = $this->getMostRecentMessages( $room, self::DEFAULT_MESSAGES_TO_LOAD );
             $this->messageCache->set( $room->getRoomId(), $recentMessages, self::CACHE_INVALIDATION_TIME );
         }
 
         $messages = array();
         foreach( $recentMessages as $message )
         {
-            if( $message->getLastPingUTC() >= $time )
+            if( $message->getDateSentUTC() >= $time )
             {
                 array_push($messages, $message);
             }

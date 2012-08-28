@@ -10,6 +10,7 @@ use \zc\lib\BaseCommand;
 use \zc\lib\ChatSession;
 use \zc\lib\ChatSessionSource;
 use \zc\lib\MessageSource;
+use \zc\lib\Room;
 use \zc\lib\RoomAware;
 
 /**
@@ -44,9 +45,7 @@ class Command_Ping extends BaseCommand
         {
             // Not sure how this is possible, but no harm in creating a session for them
             $this->logger->info("The user does not have an existing chat session", $this->getName());
-            $chatSession = $chatSessionSource->createSession( $room );
-            $request->getSession()->set( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId(), $chatSession->getChatSessionId() );
-            $response->set('createdNewSession', true);
+            $response->set('noSession', true);
         }
         else if( ! $chatSession->getActive() )
         {
@@ -56,8 +55,11 @@ class Command_Ping extends BaseCommand
         }
         $response->set('chatSession', $chatSession);
 
-        $messages = $this->getNewMessages( $chatSession, $request );
-        $response->set('messages', $messages);
+        if( $chatSession != null )
+        {
+            $messages = $this->getNewMessages( $chatSession, $room, $request );
+            $response->set('messages', $messages);
+        }
 
         return $response;
     }
@@ -66,9 +68,10 @@ class Command_Ping extends BaseCommand
      * Retrieves any new messages for the given chat session.
      * 
      * @param $chatSession  the chat session to retrieve messages for
+     * @param $room  the room to get messages for
      * @return an array of Message objects
      */
-    public function getNewMessages( ChatSession $chatSession, Request $request )
+    public function getNewMessages( ChatSession $chatSession, Room $room, Request $request )
     {
         if( $chatSession == null )
         {
@@ -82,7 +85,7 @@ class Command_Ping extends BaseCommand
         if( $request->getParamExists( 'lastMsgId' ) )
         {
             $lastMessageId = $request->getGet( 'lastMsgId' );
-            $newMessages = MessageSource::sortChronologically( $messageSource->getMessagesSinceMessageId( $lastMessageId ) );
+            $newMessages = MessageSource::sortChronologically( $messageSource->getMessagesSinceMessageId( $room, $lastMessageId ) );
         }
         else if( $request->getParamExists( 'fromTime' ) )
         {
@@ -92,19 +95,13 @@ class Command_Ping extends BaseCommand
             {
                 $fromTime = time() - self::MESSAGES_TIME_CUTOFF;
             }
-            $newMessages = $messageSource->getMessagesSinceTime( $fromTime );
+            $newMessages = $messageSource->getMessagesSinceTime( $room, $fromTime );
         }
         else
         {
             // Malformed ping
             $this->logger->warning("no messageid or time with ping", $this->getName());
             $newMessages = array();
-        }
-
-        if( count($newMessages) != 0 )
-        {
-            $lastMessage = $newMessages[0];
-            $chatSessionSource->updateLastMessage( $chatSession, $lastMessage );
         }
 
         return $newMessages;

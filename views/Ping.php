@@ -29,16 +29,26 @@ class Ping extends BaseView {
         {
             // Create an associative array with the relevant data
             $arr = array(
-                'messageid' => $message->getMessageId(),
+                'messageid' => (int) $message->getMessageId(),
                 'username' => $message->getUsername(),
-                'timestamp' => $message->getDateSentUTC(),
+                'timestamp' => (int) $message->getDateSentUTC(),
                 'content' => $message->getMessage());
             array_push( $messageArrs, $arr );
-        } 
+        }
 
-        $responseArr = array(
-            'messages' => $messageArrs
-        );
+        if( $response->get('noSession') )
+        {
+            $responseArr = array(
+                'status' => 'error',
+                'noSession' => true
+            );
+        }
+        else
+        {
+            $responseArr = array(
+                'messages' => $messageArrs
+            );
+        }
 
         print json_encode( $responseArr );
     }
