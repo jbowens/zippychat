@@ -84,6 +84,10 @@ class ChatSession
         $this->active = $isActive;
     }
 
+    public function setUsername( $newUsername ) {
+        $this->username = $newUsername;
+    }
+
     public function toArray() {
         return array(
             'chatSessionId' => (int) $this->getChatSessionId(),

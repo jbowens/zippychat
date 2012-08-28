@@ -282,8 +282,11 @@ zc.Room = zc.Room || {
                 {
                     // Append the messages to the internal list of messages
                     this.messages.push( msgObj );
-                    highestId = Math.max( highestId, msg.messageId );
                 }
+
+                // Update the highest seen id
+                highestId = Math.max( highestId, msg.messageId );
+
             }
            
             var users = pingData.activeUsers;

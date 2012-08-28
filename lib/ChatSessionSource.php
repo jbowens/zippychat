@@ -30,6 +30,8 @@ class ChatSessionSource {
     const SQL_UPDATE_LAST_GUEST_NUMBER = "UPDATE `rooms` SET `lastGuestNumber` = ? WHERE `roomid` = ?";
     const SQL_GET_ALL_SESSIONS = "SELECT * FROM `chat_sessions` WHERE `roomid` = ?";
     const SQL_REACTIVE_CHAT_SESSION = "UPDATE `chat_sessions` SET `active` = 1 WHERE `chatSessionid` = ?";
+    const SQL_UPDATE_USERNAME = "UPDATE `chat_sessions` SET `username` = ? WHERE `chatSessionid` = ?";
+    const SQL_IS_USERNAME_IN_USE = "SELECT count(`chatSessionid`) FROM `chat_sessions` WHERE `roomid` = ? AND `username` = ?";
 
     protected $dbm;
     protected $logger;
@@ -281,6 +283,75 @@ class ChatSessionSource {
     public function recache( ChatSession $chatSession )
     {
         $this->sessionidCache->set( $chatSession->getChatSessionId(), $chatSession, time() + self::CHAT_SESSION_EXPIRE_TIME_DELTA );
+    }
+
+    /**
+     * Changes the given chat session's username to the given string. 
+     * 
+     * @param $chatSession  the chat session to modify
+     * @param $newUsername  the new username to use
+     * @return true iff the change succeeded. false usually indicates an illegal;
+     *         requested username
+     */
+    public function changeUsername( ChatSession $chatSession, $newUsername )
+    {
+        // We use a transaction here to make sure that no users ever have the same username
+        // in the same room.
+        $db = $this->dbm->getDb();
+        $db->beginTransaction();
+
+        if( ! $this->validateUsername( $chatSession, $newUsername ) )
+        {
+            $db->rollBack();
+            return false;
+        }
+
+        $this->logger->info("Changing username to " . $newUsername, self::LOG_SOURCE);
+
+        // Update the sessionid cache
+        $chatSession->setUsername( $newUsername );
+        $this->recache( $chatSession );
+
+        // Update the database
+        $stmt = $db->prepare( self::SQL_UPDATE_USERNAME );
+        $stmt->execute(array( $newUsername, $chatSession->getChatSessionId() ));
+        $db->commit();
+
+        // Invalidate the current per-room cache
+        $this->perRoomCache->delete( $chatSession->getRoomId() );
+
+        return true;
+    }
+
+    /**
+     * Determines if the given username is a valid username for a user who
+     * is changing their default username to the given name. This method
+     * requires the requesting chat session because username validity can be
+     * room-specific (if the username is already taken) or user-specific (if
+     * the user is trying to switch back to their original assigned Guest#
+     * username).
+     *
+     * @param $chatSession  the chat session requesting the change
+     * @param $potentialUsername  the requested username
+     * @return true iff the username is valid
+     */
+    public function validateUsername( $chatSession, $potentialUsername )
+    {
+        // Don't allow them to appear to have power when they don't
+        if( strtolower($potentialUsername) == "admin" || strtolower($potentialUsername) == "moderator" )
+            return false; 
+
+        // Don't allow them to fake other users or take up usernames in the Guest namespace
+        if( substr($potentialUsername, 0, 5) == 'Guest' )
+            return (int) (substr($potentialUsername, 5)) == $chatSession->getAssignedGuestId();
+
+        // Let's check this one's not taken in the database
+        $db = $this->dbm->getDb();
+        $stmt = $db->prepare( self::SQL_IS_USERNAME_IN_USE );
+        $stmt->execute(array( $chatSession->getRoomId(), $potentialUsername ));
+        $inUse = $stmt->fetchColumn();
+
+        return ! $inUse;
     }
 
     /**
