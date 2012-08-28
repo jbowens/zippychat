@@ -3,8 +3,9 @@
 namespace zc\lib;
 
 use \esprit\core\db\DatabaseManager;
-use \esprit\core\util\Logger;
 use \esprit\core\Cache;
+use \esprit\core\LogAware;
+use \esprit\core\util\Logger;
 
 /**
  * A class useful for retrieving Message objects. Whenever you need to get
@@ -14,6 +15,7 @@ use \esprit\core\Cache;
  * @since 2012-08-19
  */
 class MessageSource {
+    use LogAware;
 
     const MESSAGES_CACHE_NAMESPACE = "messages";
     const CACHE_INVALIDATION_TIME = 60;
@@ -80,6 +82,9 @@ class MessageSource {
             // times and whenever we update the data, we need to manually
             // invalidate the cache.
             $allMessages = $this->messageCache->get( $room->getRoomId() );
+            if( ! is_array( $allMessages ) )
+                $this->error( "A non-array message list was cached for room " . $room->getRoomId() .": " . print_r($allMessages), true, $allMessages );
+
             $youthfulCutoff = time() - self::OLD_MESSAGE_TIME;
             $relevantMessages = array();
             $freshMessages = array();
@@ -116,17 +121,17 @@ class MessageSource {
                 $this->logger->error("Recevied non-array output from getMostRecentMessages()", self::LOG_SOURCE);
             }
 
-            // Cache it
-            $this->messageCache->set( $room->getRoomId(), $messages, self::CACHE_INVALIDATION_TIME );
-            
             $messages = array();
             foreach( $recentMessages as $message )
             {
-                if( $message->getMessageId() > $messageid )
+                if( $message->getMessageId() > $messageId )
                 {
                     array_push($messages, $message);
                 } 
             }
+
+            // Cache it
+            $this->messageCache->set( $room->getRoomId(), $messages, self::CACHE_INVALIDATION_TIME );
 
             return $messages;
         }

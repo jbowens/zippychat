@@ -14,6 +14,7 @@ zc.Message = zc.Message || {
     content: null,
     elem: null,
     serverConfirmed: false,
+    colorFunc: null,
 
     construct: function(ops)
     {
@@ -50,6 +51,11 @@ zc.Message = zc.Message || {
         return this.serverConfirmed;
     },
 
+    setColorFunction: function(colorFunc)
+    {
+        this.colorFunc = colorFunc;
+    },
+
     setMessageId: function(newId)
     {
         this.messageId = newId;
@@ -58,6 +64,15 @@ zc.Message = zc.Message || {
     setElement: function(elem)
     {
         this.elem = elem;
+    },
+
+    getColor: function()
+    {
+        if( this.colorFunc ) {
+            return this.colorFunc();
+        } else {
+            return "000000";
+        }
     }
 
 };
@@ -73,6 +88,7 @@ zc.ChatSession = zc.ChatSession || {
     chatSessionId: null,
     username: null,
     loginTime: null,
+    colorFunc: null,
 
     construct: function(ops) {
         return esprit.oop.extend(zc.ChatSession, ops);
@@ -85,6 +101,19 @@ zc.ChatSession = zc.ChatSession || {
     getLoginTime: function() {
         return this.loginTime;
     },
+
+    setColorFunction: function(colorFunc) {
+        this.colorFunc = colorFunc;
+    },
+
+    getColor: function() {
+        if( this.colorFunc == null ) {
+            return "000000";
+        }
+        else {
+            return this.colorFunc();
+        }
+    }
 
 },
 
@@ -198,14 +227,19 @@ zc.Room = zc.Room || {
     {
         var messages = pingData.messages;
      
-        var highestId = messages[0].messageId;
-        for( msg in messages )
+        var highestId = Number.NEGATIVE_INFINITY;
+        for( var j = 0; j < messages.length; j++ )
         {
+            var msg = messages[j];
             msg.serverConfirmed = true;
             var msgObj = zc.Message.construct(msg);
+
+            // We only want to add this message if it doesn't already exist.
             var exists = false;
-            for( existingMsg in this.messages )
+            for( var i = 0; i < this.messages.length; i++ )
             {
+                var existingMsg = this.messages[i];
+
                 // TODO: Take care of the race condition if we haven't heard back yet about a submitted
                 // message's message id
                 if( existingMsg.getMessageId() == msgObj.getMessageId() )
@@ -213,8 +247,10 @@ zc.Room = zc.Room || {
                     exists = true;
                 }
             }
+            
             if( !  exists )
             {
+                // Append the messages to the internal list of messages
                 this.messages.push( msgObj );
                 highestId = Math.max( highestId, msg.messageId );
             }
@@ -222,6 +258,7 @@ zc.Room = zc.Room || {
         
         this.lastMessageId = Math.max( highestId, this.lastMessageId );
 
+        // Re-render
         if( this.render )
         {
             this.render();
@@ -393,18 +430,58 @@ zc.pages.room = zc.pages.room || {
         for( var key in msgs )
         {
             var message = msgs[key];
+            message.setColorFunction( zc.pages.room.calculateUsernameColor );
+
             if( message.getElement() == null )
             {
                 // This message hasn't been rendered yet.
                 var msgElem = $('<li class="message"><span class="username"></span>: <span class="messageContent"></span></li>');
+                var color = message.getColor();
+                console.log("Calculated username color of " + color);
+                msgElem.find(".username").css("color", "#" + color );
                 msgElem.find(".username").text( message.getUsername() );
                 msgElem.find(".messageContent").text( message.getMessage() );
                 message.setElement( msgElem );
                 $("#messages").append( msgElem );
             }
         }
-    }
+    },
 
+    /**
+     * This function calculates the color of a username. It looks at the property
+     * of this. This function is mixed into new message and chat sesion objects.
+     */
+    calculateUsernameColor: function()
+    {
+        var username = this.username;
+
+        var r=0,g=0,b=0;
+        for( var i = 0; i < username.length; i++)
+        {
+            var code = username.charCodeAt(i);
+            var value = 0;
+            if( code <= 122 && code >= 97 ) {
+                value = code - 97;
+            } else if( code <= 57 && code >= 48 ) {
+                value = code - 22;
+            } else {
+                value = 37;
+            }
+
+            if( i % 3 == 0 )
+                r += value;
+            else if( i % 3 == 1 )
+                g += value;
+            else
+                b += value;
+        }
+        var finalR = (r / ((username.length/3)*36) * 255);
+        var finalG = (g / ((username.length/3)*36) * 255);
+        var finalB = (b / ((username.length/3)*36) * 255);
+        
+        var hexColor = parseInt(finalR).toString(16) + parseInt(finalG).toString(16) + parseInt(finalB).toString(16);
+        return hexColor;
+    }
 };
 
 $(document).ready(function(e) {

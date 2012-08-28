@@ -29,7 +29,7 @@ class Ping extends BaseView {
         {
             // Create an associative array with the relevant data
             $arr = array(
-                'messageid' => (int) $message->getMessageId(),
+                'messageId' => (int) $message->getMessageId(),
                 'username' => $message->getUsername(),
                 'timestamp' => (int) $message->getDateSentUTC(),
                 'content' => $message->getMessage());

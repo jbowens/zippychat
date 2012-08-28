@@ -6,6 +6,8 @@ use \esprit\core\Request;
 use \esprit\core\Response;
 
 use \zc\lib\BaseCommand;
+use \zc\lib\ChatSession;
+use \zc\lib\ChatSessionSource;
 use \zc\lib\RoomAware;
 
 /**
