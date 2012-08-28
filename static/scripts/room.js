@@ -73,6 +73,11 @@ zc.Message = zc.Message || {
         } else {
             return "000000";
         }
+    },
+
+    setServerConfirmed: function()
+    {
+        this.serverConfirmed = true;
     }
 
 };
@@ -128,7 +133,7 @@ zc.Room = zc.Room || {
     roomId: null,
     chatSessions: [],
     messages: [],
-    lastMessageId: null,
+    lastMessageId: Number.NEGATIVE_INFINITY,
     initialUpdateTime: null,
     render: null,
 
@@ -169,7 +174,7 @@ zc.Room = zc.Room || {
     {
         var _this = this;
         var requestData = { r: this.getRoomId() };
-        if( this.lastMessageId != null )
+        if( isFinite(this.lastMessageId) )
         {
            requestData['lastMsgId'] = this.lastMessageId; 
         }
@@ -197,6 +202,7 @@ zc.Room = zc.Room || {
      */
     postMessage: function(chatSession, msg)
     {
+        var _this = this;
         var msgObj = zc.Message.construct( {
             content: msg,
             username: chatSession.getUsername(),
@@ -207,7 +213,12 @@ zc.Room = zc.Room || {
             // TODO: Respond to the server correctly including
             //       responding to error codes
             msgObj.setMessageId( data.messageId );
-            this.lastMessageId = Math.max( this.lastMessageId, data.messageId );
+            msgObj.setServerConfirmed();
+           
+            if( _this.render ) {
+                _this.render();
+            }
+
         }, 'json');
         
         this.messages.push( msgObj );
@@ -437,12 +448,25 @@ zc.pages.room = zc.pages.room || {
                 // This message hasn't been rendered yet.
                 var msgElem = $('<li class="message"><span class="username"></span>: <span class="messageContent"></span></li>');
                 var color = message.getColor();
-                console.log("Calculated username color of " + color);
                 msgElem.find(".username").css("color", "#" + color );
                 msgElem.find(".username").text( message.getUsername() );
                 msgElem.find(".messageContent").text( message.getMessage() );
+                if( ! message.isServerConfirmed() )
+                {
+                    msgElem.addClass('unconfirmed');
+                }
+
                 message.setElement( msgElem );
+                msgElem.hide();
+                msgElem.fadeIn(75);
                 $("#messages").append( msgElem );
+            } else
+            {
+                // We might need to udpate the presentation
+                if( $(message.getElement()).hasClass("unconfirmed") && message.isServerConfirmed() )
+                {
+                    $(message.getElement()).removeClass("unconfirmed");
+                }
             }
         }
     },

@@ -31,7 +31,7 @@ class PostMessage extends BaseView
             $message = $response->get('newMessage');
             $output = array(
                 'status' => 'ok',
-                'messageId' => $message->getMessageId()
+                'messageId' => (int) $message->getMessageId()
             );
         }
 
