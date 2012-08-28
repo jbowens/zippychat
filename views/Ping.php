@@ -36,6 +36,13 @@ class Ping extends BaseView {
             array_push( $messageArrs, $arr );
         }
 
+        $activeSessions = $response->get('activeSessions');
+        $activeSessionsArrs = array();
+        foreach( $activeSessions as $session )
+        {
+            array_push($activeSessionsArrs, $session->toArray());
+        }
+
         if( $response->get('noSession') )
         {
             $responseArr = array(
@@ -46,7 +53,8 @@ class Ping extends BaseView {
         else
         {
             $responseArr = array(
-                'messages' => $messageArrs
+                'messages' => $messageArrs,
+                'activeUsers' => $activeSessionsArrs
             );
         }
 

@@ -84,4 +84,15 @@ class ChatSession
         $this->active = $isActive;
     }
 
+    public function toArray() {
+        return array(
+            'chatSessionId' => (int) $this->getChatSessionId(),
+            'username' => $this->getUsername(),
+            'active' => (boolean) $this->getActive(),
+            'roomId' => (int) $this->getRoomId(),
+            'loginTime' => (int) $this->getLoginTimeUTC(),
+            'lastPing' => (int) $this->getLastPingUTC()
+        );
+    }
+
 }

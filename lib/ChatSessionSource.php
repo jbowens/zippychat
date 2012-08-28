@@ -111,6 +111,12 @@ class ChatSessionSource {
                                                 ->loginTime( $now )
                                                 ->assignedGuestid( $guestUserId )
                                                 ->build();
+        // Invalidate the per-room cache
+        if( $this->perRoomCache->isCached( $room->getRoomId() ) )
+        {
+            $this->perRoomCache->delete( $room->getRoomId() );
+        }
+        
         return $chatSession;
     }
 

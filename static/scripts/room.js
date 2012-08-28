@@ -94,9 +94,14 @@ zc.ChatSession = zc.ChatSession || {
     username: null,
     loginTime: null,
     colorFunc: null,
+    elem: null,
 
     construct: function(ops) {
         return esprit.oop.extend(zc.ChatSession, ops);
+    },
+
+    getChatSessionId: function() {
+        return this.chatSessionId;
     },
 
     getUsername: function() {
@@ -107,8 +112,16 @@ zc.ChatSession = zc.ChatSession || {
         return this.loginTime;
     },
 
+    getElement: function() {
+        return this.elem;
+    },
+
     setColorFunction: function(colorFunc) {
         this.colorFunc = colorFunc;
+    },
+
+    setElement: function(elem) {
+        this.elem = elem;
     },
 
     getColor: function() {
@@ -159,6 +172,11 @@ zc.Room = zc.Room || {
     getMessages: function()
     {
         return this.messages;
+    },
+
+    getChatSessions: function()
+    {
+        return this.chatSessions;
     },
 
     setRender: function(renderFunc)
@@ -236,43 +254,67 @@ zc.Room = zc.Room || {
      */
     processData: function( pingData )
     {
-        var messages = pingData.messages;
-     
-        var highestId = Number.NEGATIVE_INFINITY;
-        for( var j = 0; j < messages.length; j++ )
-        {
-            var msg = messages[j];
-            msg.serverConfirmed = true;
-            var msgObj = zc.Message.construct(msg);
-
-            // We only want to add this message if it doesn't already exist.
-            var exists = false;
-            for( var i = 0; i < this.messages.length; i++ )
+        try {
+            var messages = pingData.messages;
+         
+            var highestId = Number.NEGATIVE_INFINITY;
+            for( var j = 0; j < messages.length; j++ )
             {
-                var existingMsg = this.messages[i];
+                var msg = messages[j];
+                msg.serverConfirmed = true;
+                var msgObj = zc.Message.construct(msg);
 
-                // TODO: Take care of the race condition if we haven't heard back yet about a submitted
-                // message's message id
-                if( existingMsg.getMessageId() == msgObj.getMessageId() )
+                // We only want to add this message if it doesn't already exist.
+                var exists = false;
+                for( var i = 0; i < this.messages.length; i++ )
                 {
-                    exists = true;
+                    var existingMsg = this.messages[i];
+
+                    // TODO: Take care of the race condition if we haven't heard back yet about a submitted
+                    // message's message id
+                    if( existingMsg.getMessageId() == msgObj.getMessageId() )
+                    {
+                        exists = true;
+                    }
+                }
+                
+                if( ! exists )
+                {
+                    // Append the messages to the internal list of messages
+                    this.messages.push( msgObj );
+                    highestId = Math.max( highestId, msg.messageId );
                 }
             }
-            
-            if( !  exists )
+           
+            var users = pingData.activeUsers;
+            for( var i = 0; i < users.length; i++ )
             {
-                // Append the messages to the internal list of messages
-                this.messages.push( msgObj );
-                highestId = Math.max( highestId, msg.messageId );
-            }
-        }
-        
-        this.lastMessageId = Math.max( highestId, this.lastMessageId );
+                var user = users[i];
 
-        // Re-render
-        if( this.render )
-        {
-            this.render();
+                var exists = false;
+                for( var j = 0; j < this.chatSessions.length; j++ )
+                {
+                    var existingSession = this.chatSessions[j];
+
+                    if( existingSession.getChatSessionId() == user.chatSessionId )
+                        exists = true;
+                }
+
+                if( ! exists ) {
+                    var newObj = zc.ChatSession.construct( user );
+                    this.chatSessions.push(newObj);
+                }
+            }
+
+            this.lastMessageId = Math.max( highestId, this.lastMessageId );
+
+            // Re-render
+            if( this.render )
+            {
+                this.render();
+            }
+        } catch(err) {
+            esprit.recordError(err);
         }
     },
 
@@ -360,6 +402,10 @@ zc.pages.room = zc.pages.room || {
                 throw new Error();
             }
             var currentMessage = $("#room #postMessage_text").val();
+            // Not submitting if it's an empty message
+            if( currentMessage == "" )
+                return;
+
             $("#room #postMessage_text").val("");
             zc.pages.room.activeRoom.postMessage(zc.pages.room.activeChatSession, currentMessage);
         } catch(err)
@@ -469,6 +515,44 @@ zc.pages.room = zc.pages.room || {
                 }
             }
         }
+
+        var users = this.getChatSessions();
+        for( var i = 0; i < users.length; i++ )
+        {
+            var user = users[i];
+            user.setColorFunction( zc.pages.room.calculateUsernameColor );
+
+            if( user.getElement() == null )
+            {
+                var userElem = $("<li><span class='username'></span></li>");
+                userElem.find(".username").text( user.getUsername() );
+                userElem.find(".username").css('color', '#' + user.getColor() );
+
+                user.setElement(userElem);
+
+                // Make sure we insert it in its alphabetical position
+                if( $("#active-users li").length == 0 )
+                    $("#active-users").append(userElem);
+                else {
+                    var lis = $("#active-users li");
+                    var inserted = false;
+                    for( var j = 0; j < lis.length && inserted == false; j++ )
+                    {
+                        var li = lis.index(j);
+                        var username = $(li).find('.username').text();
+                        if( username > user.getUsername() )
+                        {
+                            inserted = true;
+                            userElem.insertBefore(li);
+                        }
+                    }
+                    if( ! inserted )
+                        lis.append(userElem);
+                }
+            }
+
+        }
+
     },
 
     /**

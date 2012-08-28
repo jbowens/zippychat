@@ -43,7 +43,6 @@ class Command_Ping extends BaseCommand
         $chatSession = $chatSessionSource->extractChatSession($request, $room);
         if( $chatSession == null )
         {
-            // Not sure how this is possible, but no harm in creating a session for them
             $this->logger->info("The user does not have an existing chat session", $this->getName());
             $response->set('noSession', true);
         }
@@ -60,6 +59,10 @@ class Command_Ping extends BaseCommand
             $messages = $this->getNewMessages( $chatSession, $room, $request );
             $response->set('messages', $messages);
         }
+
+        // Get the user list
+        $activeSessions = $chatSessionSource->getActiveChatSessions( $room ); 
+        $response->set('activeSessions', $activeSessions);
 
         return $response;
     }
