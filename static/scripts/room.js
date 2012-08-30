@@ -466,9 +466,13 @@ zc.pages.room = zc.pages.room || {
             }
 
             // Populate the input box with the current username
-            $(this.changeUsernameDialog.getElement()).find(".newUsername").val(this.activeChatSession.getUsername());
+            var newUsernameField = $(this.changeUsernameDialog.getElement()).find(".newUsername");
+            newUsernameField.val(this.activeChatSession.getUsername());
 
             this.changeUsernameDialog.show();
+            newUsernameField.focus();
+            newUsernameField.select();
+
         } catch(err) {
             esprit.recordError(err);
         }
