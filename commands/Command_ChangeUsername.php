@@ -26,7 +26,7 @@ class Command_ChangeUsername extends BaseCommand {
 
     public function generateResponse(Request $request, Response $response) {
 
-        $room = $request->getRequestedRoom( $request );
+        $room = $this->getRequestedRoom( $request );
         if( $room == null )
         {
             $this->error("Recevied change username request with a room");

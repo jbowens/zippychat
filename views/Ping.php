@@ -54,7 +54,8 @@ class Ping extends BaseView {
         {
             $responseArr = array(
                 'messages' => $messageArrs,
-                'activeUsers' => $activeSessionsArrs
+                'activeUsers' => $activeSessionsArrs,
+                'usernameChanges' => $response->get('usernameChanges')
             );
         }
 

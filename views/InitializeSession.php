@@ -32,7 +32,8 @@ class InitializeSession extends BaseView {
             $chatSessionArr['loginTime'] = (int) $chatSession->getLoginTimeUTC();
 
             $output = array( 'status' => 'ok',
-                             'chatSession' => $chatSessionArr );
+                             'chatSession' => $chatSessionArr,
+                             'usernameChangeId' => $response->get('usernameChangeId') );
         }
         
         print json_encode($output);

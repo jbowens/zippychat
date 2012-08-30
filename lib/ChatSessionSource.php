@@ -20,8 +20,10 @@ class ChatSessionSource {
     const LOG_SOURCE = "ChatSessionSource";
     const SESSIONID_CACHE_NAMESPACE = "chat_sessions";
     const PER_ROOM_CACHE_NAMESPACE = "per_room_sessions";
+    const USERNAME_CHANGES_CACHE_NAMESPACE = "username_changes";
     const BAD_ID_EXPIRE_TIME_DELTA = 30;
     const CHAT_SESSION_EXPIRE_TIME_DELTA = 20;
+    const USERNAME_CHANGE_EXPIRE_TIME_DELTA = 600;
     const CHAT_SESSION_VARIABLE_PREFIX = "chatsession_";
     
     const SQL_CHAT_SESSION_BY_ID = "SELECT * FROM `chat_sessions` WHERE `chatSessionid` = ?";
@@ -32,11 +34,15 @@ class ChatSessionSource {
     const SQL_REACTIVE_CHAT_SESSION = "UPDATE `chat_sessions` SET `active` = 1 WHERE `chatSessionid` = ?";
     const SQL_UPDATE_USERNAME = "UPDATE `chat_sessions` SET `username` = ? WHERE `chatSessionid` = ?";
     const SQL_IS_USERNAME_IN_USE = "SELECT count(`chatSessionid`) FROM `chat_sessions` WHERE `roomid` = ? AND `username` = ?";
+    const SQL_INSERT_USERNAME_CHANGE = "INSERT INTO `username_changes` (`roomid`,`chatSessionid`,`newUsername`) VALUES(?,?,?)";
+    const SQL_GET_RECENT_USERNAME_CHANGES = "SELECT * FROM username_changes WHERE `roomid` = ? ORDER BY changeid DESC LIMIT 5";
+    const SQL_GET_GREATEST_USERNAME_CHANGEID = "SELECT max(changeid) FROM username_changes";
 
     protected $dbm;
     protected $logger;
     protected $sessionidCache;
     protected $perRoomCache;
+    protected $usernameChangesCache;
 
     public function __construct( DatabaseManager $dbm, Logger $logger, Cache $cache )
     {
@@ -44,6 +50,7 @@ class ChatSessionSource {
         $this->logger = $logger;
         $this->sessionidCache = $cache->accessNamespace( self::SESSIONID_CACHE_NAMESPACE );
         $this->perRoomCache = $cache->accessNamespace( self::PER_ROOM_CACHE_NAMESPACE );
+        $this->usernameChangesCache = $cache->accessNamespace( self::USERNAME_CHANGES_CACHE_NAMESPACE );
     }
 
     /**
@@ -320,7 +327,70 @@ class ChatSessionSource {
         // Invalidate the current per-room cache
         $this->perRoomCache->delete( $chatSession->getRoomId() );
 
+        $stmt = $db->prepare( self::SQL_INSERT_USERNAME_CHANGE );
+        $stmt->execute(array(
+            $chatSession->getRoomId(),
+            $chatSession->getChatSessionId(),
+            $newUsername
+        ));
+        
+        // Invalidate the cache now
+        $this->usernameChangesCache->delete( $chatSession->getRoomId() );
+
         return true;
+    }
+
+    /**
+     * Retrieves recent username changes in the given room.
+     *
+     * @param $room  the room to get changes for
+     * @param $lastChangeId  the last known about change id
+     */
+    public function getUsernameChanges(Room $room, $lastChangeId)
+    {
+        if( $this->usernameChangesCache->isCached( $room->getRoomId() ) )
+        {
+            // Cache hit
+            $recentChanges = $this->usernameChangesCache->get( $room->getRoomId() );
+            $relevantChanges = array();
+            foreach( $recentChanges as $change )
+            {
+                if( $change['changeid'] > $lastChangeId )
+                    array_push($relevantChanges, $change);
+            }
+            return $recentChanges;
+        } else {
+            // Cache miss
+            $db = $this->dbm->getDb();
+            $stmt = $db->prepare(self::SQL_GET_RECENT_USERNAME_CHANGES);
+            $stmt->execute(array( $room->getRoomId() ));
+            $recentChanges = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $relevantChanges = array();
+            foreach( $recentChanges as $change )
+            {
+                if( $change > $lastChangeId )
+                    array_push($relevantChanges, $change);
+            }
+
+            // Save to the cache
+            $this->usernameChangesCache->set( $room->getRoomId(), $recentChanges, self::USERNAME_CHANGE_EXPIRE_TIME_DELTA );
+
+            return $recentChanges;
+        }
+    }
+
+    /**
+     * Gets the most recent username change id from the database. This will
+     * return -1 if there are no recent username changes in the datbase.
+     */
+    public function getMostRecentUernameChangeId() {
+        $db = $this->dbm->getDb();
+        $stmt = $db->query( self::SQL_GET_GREATEST_USERNAME_CHANGEID );
+        $result = $stmt->fetchColumn();
+        if( $result === false || $result == null )
+            return -1;
+        else
+            return $result;
     }
 
     /**

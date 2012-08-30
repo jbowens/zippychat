@@ -48,6 +48,10 @@ class Command_InitializeSession extends BaseCommand {
         }
         $response->set('chatSession', $chatSession);
 
+        // Greatest change id
+        $changeId = $chatSessionSource->getMostRecentUernameChangeId();
+        $response->set('usernameChangeId', $changeId);
+
         return $response;
     } 
 

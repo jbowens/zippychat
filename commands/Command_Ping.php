@@ -64,6 +64,13 @@ class Command_Ping extends BaseCommand
         $activeSessions = $chatSessionSource->getActiveChatSessions( $room ); 
         $response->set('activeSessions', $activeSessions);
 
+        // Get any new username changes
+        if( ! $request->getParamExists('changeId') )
+            $this->logger->error("No username change id with ping request", $this->getName());
+        // TODO: Review behavior when there's no username change id
+        $usernameChanges = $chatSessionSource->getUsernameChanges( $room, $request->getParamExists('changeId') ? $request->getGet('changeId') : -1 );
+        $response->set('usernameChanges', $usernameChanges);
+        
         return $response;
     }
 

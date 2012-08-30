@@ -149,6 +149,7 @@ zc.Room = zc.Room || {
     lastMessageId: Number.NEGATIVE_INFINITY,
     initialUpdateTime: null,
     render: null,
+    lastUsernameChangeId: null,
 
     /**
      * Constructs a new Room object.
@@ -191,7 +192,7 @@ zc.Room = zc.Room || {
     refreshData: function()
     {
         var _this = this;
-        var requestData = { r: this.getRoomId() };
+        var requestData = { r: this.getRoomId(), changeId: this.lastUsernameChangeId };
         if( isFinite(this.lastMessageId) )
         {
            requestData['lastMsgId'] = this.lastMessageId; 
@@ -330,8 +331,13 @@ zc.Room = zc.Room || {
     setInitialTime: function( initialTime )
     {
         this.initialUpdateTime = initialTime;
-    }
+    },
 
+    setLastUsernameChangeId: function( newId )
+    {
+        if( this.lastUsernameChangeId == null )
+            this.lastUsernameChangeId = newId;
+    }
 };
 
 /**
@@ -444,9 +450,11 @@ zc.pages.room = zc.pages.room || {
                 var room = this.activeRoom;
                 var usernameDialog = this.changeUsernameDialog;
                 var changeUsernameFunc = function(e) {
-                    e.preventDefault();
-                    zc.pages.room.requestNewUername( $(usernameDialog.getElement()).find(".newUsername").val() );
-                    zc.pages.room.hideChangeUsernameDialog();
+                    try {
+                        e.preventDefault();
+                        zc.pages.room.requestNewUsername( $(usernameDialog.getElement()).find(".newUsername").val() );
+                        zc.pages.room.hideChangeUsernameDialog();
+                    } catch(err) { esprit.recordError(err); }
                 };
 
                 $(this.changeUsernameDialog.getElement()).find(".submit").click(changeUsernameFunc);
@@ -501,6 +509,7 @@ zc.pages.room = zc.pages.room || {
                 {
                     _this.activeChatSession = zc.ChatSession.construct(data.chatSession);
                     _this.activeRoom.setInitialTime( new Date( data.chatSession.loginTime * 1000 ) );
+                    _this.activeRoom.setLastUsernameChangeId( data.usernameChangeId );
                     zc.pages.room.ping();
                 }
                 else

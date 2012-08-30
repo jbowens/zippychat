@@ -2,14 +2,14 @@
 -- Creates the chat sessions table for Zippy Chat
 --
 CREATE TABLE chat_sessions (
-    chatSessionid          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    chatSessionid          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     roomid                 INT(11) UNSIGNED NOT NULL,
     username               VARCHAR(30) NOT NULL,
     lastPing               INT(11) UNSIGNED NOT NULL,
     loginTime              INT(11) UNSIGNED NOT NULL,
     assignedGuestId        INT(11) UNSIGNED NOT NULL,
     active                 TINYINT(1) NOT NULL DEFAULT 1,
-    PRIMARY KEY (chatSessionId)
+    PRIMARY KEY (chatSessionid)
 ) ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
