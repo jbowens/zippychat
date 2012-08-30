@@ -238,7 +238,10 @@ zc.Room = zc.Room || {
             }
 
         }, 'json');
-        
+    
+        // NOTE: THIS CAN RESULT IN MESSAGES OUT OF CHRONOLOGICAL ORDER. I THINK THAT'S OK, BUT
+        // w/ TIMESTAMPS DISPLAYED IT MIGHT BE A POOR USER EXPERIENCE.
+        // TODO: potentially address the above note ^
         this.messages.push( msgObj );
         
         if( this.render )
@@ -447,6 +450,7 @@ zc.pages.room = zc.pages.room || {
             var data = {
                 r: this.activeRoom.getRoomId()
             };
+            // TODO: Add logic to handle password-protected rooms
             $.get('/initialize-session', data, function(data) {
                 if( data != null && data['status'] == "ok" )
                 {
