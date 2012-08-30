@@ -41,10 +41,10 @@ zc.overlays.Overlay = zc.overlays.Overlay || {
         if( overlay.elmt )
             $(overlay.elmt).addClass('overlay');
         else
-            overlay.elmt = $('<div class="overlay"></div>');
+            overlay.elmt = $('<div class="content overlay"></div>');
 
         // Add any extra classes provided through options
-        for( var i = 0; i < overlay.extraClasses; i++ )
+        for( var i = 0; i < overlay.extraClasses.length; i++ )
         {
             $(overlay.elmt).addClass(overlay.extraClasses[i]);
         }
@@ -113,6 +113,13 @@ zc.overlays.Overlay = zc.overlays.Overlay || {
         {
             $(this.elmt).fadeIn(animateSpeed);
         }
+    },
+
+    /**
+     * Retrieves the overlay DOM element.
+     */
+    getElement: function() {
+        return this.elmt;
     },
 
     /**

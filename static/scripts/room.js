@@ -344,6 +344,7 @@ zc.pages.room = zc.pages.room || {
     initialTime: null,
     pingInterval: 10000,
     pingTimeoutHandle: null,
+    changeUsernameDialog: null,
 
     /**
      * Called on DOM ready.
@@ -422,12 +423,56 @@ zc.pages.room = zc.pages.room || {
 
     showChangeUsernameDialog: function()
     {
-        // TODO: Implement
+        try {
+            if( ! this.changeUsernameDialog )
+            {
+                this.changeUsernameDialog = zc.overlays.SimpleDialog.construct(300, { extraClasses: ['boxShadow'] });
+                // TODO: Localize the strings in this dialog!
+                this.changeUsernameDialog.setHtml('<div class="changeUsernameDialog">' +
+                                                  '<h3>Choose a username</h3>' +
+                                                  '<p>What would you like your new username to be?</p>' +
+                                                  '<form>' +
+                                                  '<div><input type="text" class="text newUsername" name="username" /></div>' +
+                                                  '<input type="submit" class="pop smallerPop submit" value="Save" />' +
+                                                  '<input type="button" class="cancel button optionButton" value="Cancel" />' + 
+                                                  '</form>' +
+                                                  '</div>');
+                $(this.changeUsernameDialog.getElement()).find(".cancel").click(function(e) {
+                    e.preventDefault();
+                    zc.pages.room.hideChangeUsernameDialog();
+                });
+                var room = this.activeRoom;
+                var usernameDialog = this.changeUsernameDialog;
+                var changeUsernameFunc = function(e) {
+                    e.preventDefault();
+                    zc.pages.room.requestNewUername( $(usernameDialog.getElement()).find(".newUsername").val() );
+                    zc.pages.room.hideChangeUsernameDialog();
+                };
+
+                $(this.changeUsernameDialog.getElement()).find(".submit").click(changeUsernameFunc);
+                $(this.changeUsernameDialog.getElement()).find(".newUsername").keypress(function(e) {
+                    // On pressing enter, change the username
+                    if( e.keyCode == 13 )
+                        changeUsernameFunc();
+                });
+            }
+
+            // Populate the input box with the current username
+            $(this.changeUsernameDialog.getElement()).find(".newUsername").val(this.activeChatSession.getUsername());
+
+            this.changeUsernameDialog.show();
+        } catch(err) {
+            esprit.recordError(err);
+        }
     },
 
     hideChangeUsernameDialog: function()
     {
-        // TODO: Implement
+        try {
+            this.changeUsernameDialog.hide();
+        } catch(err) {
+            esprit.recordError(err);
+        }
     },
 
     showInviteOthersDialog: function()
@@ -468,6 +513,23 @@ zc.pages.room = zc.pages.room || {
         {
             esprit.recordError(err);
         }
+    },
+
+    requestNewUsername: function(newUsername) {
+        
+        $.post("/change-username", {
+            r: this.activeRoom.getRoomId(),
+            newUsername: newUsername
+        }, function(data) {
+            if( data['error'] ) {
+                // TODO: Handle error case
+            } else if ( ! data['success'] ) {
+                // TODO: Handle bad username case
+            } else {
+                // TODO: Handle username changed case
+            }
+        });
+
     },
 
     /**

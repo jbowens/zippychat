@@ -17,17 +17,19 @@ if( ! zc.overlays || ! zc.overlays.Overlay )
  * @author jbowens
  * @since 2012-08-30
  */
-zc.overlays.SimpleDialog {
+zc.overlays.SimpleDialog = zc.overlays.SimpleDialog || {
 
     construct: function(width, ops) {
 
         ops.width = width;
-        ops.left = '-' + parseInt(width/2) + 'px';
         ops['top'] = 250;
+        ops.left = "50%";
 
         // Call the parent constructor
         var overlay = zc.overlays.Overlay.construct(ops);
         overlay = esprit.oop.extend(zc.overlays.SimpleDialog, overlay);
+
+        $(overlay.elmt).css('margin-left', '-' + parseInt(width/2) + 'px');
 
         return overlay;
     }
