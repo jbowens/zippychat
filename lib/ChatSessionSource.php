@@ -355,12 +355,16 @@ class ChatSessionSource {
             $relevantChanges = array();
             foreach( $recentChanges as $change )
             {
+                $change['changeid'] = (int) $change['changeid'];
+                $change['roomid'] = (int) $change['roomid'];
+                $change['chatSessionid'] = (int) $change['chatSessionid'];
                 if( $change['changeid'] > $lastChangeId )
                     array_push($relevantChanges, $change);
             }
-            return $recentChanges;
+            return $relevantChanges;
         } else {
             // Cache miss
+            $this->logger->info("Cache miss for username changes for room " . $room->getRoomId(), self::LOG_SOURCE);
             $db = $this->dbm->getDb();
             $stmt = $db->prepare(self::SQL_GET_RECENT_USERNAME_CHANGES);
             $stmt->execute(array( $room->getRoomId() ));
@@ -368,14 +372,17 @@ class ChatSessionSource {
             $relevantChanges = array();
             foreach( $recentChanges as $change )
             {
-                if( $change > $lastChangeId )
+                $change['changeid'] = (int) $change['changeid'];
+                $change['roomid'] = (int) $change['roomid'];
+                $change['chatSessionid'] = (int) $change['chatSessionid'];
+                if( $change['changeid'] > $lastChangeId )
                     array_push($relevantChanges, $change);
             }
 
             // Save to the cache
             $this->usernameChangesCache->set( $room->getRoomId(), $recentChanges, self::USERNAME_CHANGE_EXPIRE_TIME_DELTA );
 
-            return $recentChanges;
+            return $relevantChanges;
         }
     }
 

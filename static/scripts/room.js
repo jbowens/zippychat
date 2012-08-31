@@ -15,6 +15,7 @@ zc.Message = zc.Message || {
     elem: null,
     serverConfirmed: false,
     colorFunc: null,
+    isSystemMsg: false,
 
     construct: function(ops)
     {
@@ -49,6 +50,11 @@ zc.Message = zc.Message || {
     isServerConfirmed: function()
     {
         return this.serverConfirmed;
+    },
+
+    isSystemMessage: function()
+    {
+        return this.isSystemMsg;
     },
 
     setColorFunction: function(colorFunc)
@@ -150,6 +156,7 @@ zc.Room = zc.Room || {
     initialUpdateTime: null,
     render: null,
     lastUsernameChangeId: null,
+    unupdatedSessions: [],
 
     /**
      * Constructs a new Room object.
@@ -178,6 +185,11 @@ zc.Room = zc.Room || {
     getChatSessions: function()
     {
         return this.chatSessions;
+    },
+
+    getUnupdatedSessions: function()
+    {
+        return this.unupdatedSessions;
     },
 
     setRender: function(renderFunc)
@@ -292,7 +304,8 @@ zc.Room = zc.Room || {
                 highestId = Math.max( highestId, msg.messageId );
 
             }
-           
+            this.lastMessageId = Math.max( highestId, this.lastMessageId );
+            
             var users = pingData.activeUsers;
             for( var i = 0; i < users.length; i++ )
             {
@@ -313,7 +326,28 @@ zc.Room = zc.Room || {
                 }
             }
 
-            this.lastMessageId = Math.max( highestId, this.lastMessageId );
+
+            var usernameChanges = pingData.usernameChanges;
+            for( var i = 0; i < usernameChanges.length; i++ )
+            {
+                var change = usernameChanges[i];
+                
+                var oldUsername = null;
+                for( var j = 0; j < this.chatSessions.length; j++ )
+                {
+                    var session = this.chatSessions[j];
+                    if( session.getChatSessionId() == change['chatSessionid'] && session['username'] != change['newUsername'] ) {
+                        oldUsername = session['username'];
+                        session['username'] = change['newUsername'];
+                        session['oldUsername'] = oldUsername;
+                        this.unupdatedSessions.push(session);
+                    }
+                }
+                
+                
+                // Update last username change id
+                this.lastUsernameChangeId = Math.max(this.lastUsernameChangeId, change['changeid']);    
+            }
 
             // Re-render
             if( this.render )
@@ -337,6 +371,18 @@ zc.Room = zc.Room || {
     {
         if( this.lastUsernameChangeId == null )
             this.lastUsernameChangeId = newId;
+    },
+
+    createSystemMessage: function( message )
+    {
+        var ops = {
+            content: message,
+            isSystemMsg: true,
+            serverConfirmed: true,
+            dateSent: parseInt((new Date()).getTime()/1000)
+        }
+        var msgObj = zc.Message.construct( ops );
+        this.messages.push( msgObj );
     }
 };
 
@@ -348,7 +394,7 @@ zc.pages.room = zc.pages.room || {
     activeChatSession: null,
     activeRoom: null,
     initialTime: null,
-    pingInterval: 10000,
+    pingInterval: 2500,
     pingTimeoutHandle: null,
     changeUsernameDialog: null,
 
@@ -534,13 +580,26 @@ zc.pages.room = zc.pages.room || {
             r: this.activeRoom.getRoomId(),
             newUsername: newUsername
         }, function(data) {
-            if( data['error'] ) {
-                // TODO: Handle error case
-            } else if ( ! data['success'] ) {
-                // TODO: Handle bad username case
-            } else {
-                // TODO: Handle username changed case
-            }
+            try {
+                if( data['error'] ) {
+                    // TODO: Handle error case
+                } else if ( ! data['success'] ) {
+                    // TODO: Handle bad username case
+                } else {
+                    // Find this user's session
+                    var chatSessions = zc.pages.room.activeRoom.getChatSessions();
+                    for( var i = 0; i < chatSessions.length; i++ )
+                    {
+                        var session = chatSessions[i];
+                        if( session.getChatSessionId() == zc.pages.room.activeChatSession.getChatSessionId() ) {
+                            session.oldUsername = session.username;
+                            session.username = newUsername;
+                            zc.pages.room.activeRoom.unupdatedSessions.push(session);
+                        }
+                    }
+                    zc.pages.room.activeRoom.render();
+                }
+            } catch(err) { esprit.recordError( err ); }
         });
 
     },
@@ -574,11 +633,20 @@ zc.pages.room = zc.pages.room || {
             if( message.getElement() == null )
             {
                 // This message hasn't been rendered yet.
-                var msgElem = $('<li class="message"><span class="username"></span>: <span class="messageContent"></span></li>');
-                var color = message.getColor();
-                msgElem.find(".username").css("color", "#" + color );
-                msgElem.find(".username").text( message.getUsername() );
+                if( message.isSystemMessage() )
+                {
+                    var msgElem = $('<li class="message sysMessage"><span class="messageContent"></span></li>');
+                }
+                else
+                {
+                    var msgElem = $('<li class="message"><span class="username"></span>: <span class="messageContent"></span></li>');
+                    var color = message.getColor();
+                    msgElem.find(".username").css("color", "#" + color );
+                    msgElem.find(".username").text( message.getUsername() );
+                }
+                
                 msgElem.find(".messageContent").text( message.getMessage() );
+
                 if( ! message.isServerConfirmed() )
                 {
                     msgElem.addClass('unconfirmed');
@@ -598,10 +666,39 @@ zc.pages.room = zc.pages.room || {
             }
         }
 
+        // First remove any users who changed their username
+        var changedUsers = this.getUnupdatedSessions();
+        for( var i = 0; i < changedUsers.length; i++ )
+        {
+            var user = changedUsers[i];
+            // Remove it from the array
+            changedUsers.splice(i, 1);
+
+            if( user.getElement() == null ) {
+                // We'll add it in the next loop. No biggie.
+                continue;
+            }
+
+            // Create a system message
+            // TODO: Add a localized string here
+            if( user['oldUsername'] )
+                this.createSystemMessage( "{"+user['oldUsername']+"} has changed his username to {"+user['username']+"}" );
+
+
+            // Remove the element. It'll get re-added in the right position with
+            // the right username and coloring in the next loop
+            $(user.getElement()).remove();
+            user.setElement(null);
+        }
+        
         var users = this.getChatSessions();
+        var existingSessions = {};
         for( var i = 0; i < users.length; i++ )
         {
             var user = users[i];
+            // Save a mapping from chat session id to user for easy lookup when removing stale users
+            existingSessions[user.getChatSessionId()] = user;
+            // Update the color function
             user.setColorFunction( zc.pages.room.calculateUsernameColor );
 
             if( user.getElement() == null )
@@ -610,6 +707,7 @@ zc.pages.room = zc.pages.room || {
                 userElem.find(".username").text( user.getUsername() );
                 userElem.find(".username").css('color', '#' + user.getColor() );
 
+                userElem.data('sessionObj', user);
                 user.setElement(userElem);
 
                 // Make sure we insert it in its alphabetical position
@@ -632,9 +730,16 @@ zc.pages.room = zc.pages.room || {
                         lis.append(userElem);
                 }
             }
-
         }
 
+        // Remove any users who left the chat room
+        $("#active-users li").each(function(li) {
+            var chatSession = $(li).data('sessionObj');
+            // Is this chat session still around?
+            if( !chatSession || typeof existingSessions[chatSession.getChatSessionId()] != 'object' )
+                $(li).remove();
+        });
+        
     },
 
     /**
