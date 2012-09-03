@@ -38,7 +38,7 @@ class Command_Index extends BaseCommand {
             if( $request->getPost('chat_room_pass') )
             {
                 $hash = RoomSource::getPasswordHasher()->hash( $request->getPost('chat_room_pass') );
-                $rB->passwordHash( $hash );
+                $roomBuilder->passwordHash( $hash );
             }
 
             $newRoom = $roomSource->createRoom( $roomBuilder );

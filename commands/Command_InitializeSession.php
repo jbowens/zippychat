@@ -9,6 +9,7 @@ use \zc\lib\BaseCommand;
 use \zc\lib\ChatSession;
 use \zc\lib\ChatSessionSource;
 use \zc\lib\RoomAware;
+use \zc\lib\RoomSource;
 
 /**
  * Initializes the users chat session.
@@ -29,16 +30,46 @@ class Command_InitializeSession extends BaseCommand {
     {
         $room = $this->getRequestedRoom($request);
 
-        // Identify the user's chat session
+        // Identify or create the user's chat session... if they're authenticated
         $chatSessionSource = $this->getChatSessionSource();
         $chatSession = $chatSessionSource->extractChatSession($request, $room);
         if( $chatSession == null )
         {
-            // Not sure how this is possible, but no harm in creating a session for them
             $this->logger->info("The user does not have an existing chat session", $this->getName());
-            $chatSession = $chatSessionSource->createSession( $room );
-            $request->getSession()->set( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId(), $chatSession->getChatSessionId() );
-            $response->set('createdNewSession', true);
+            if( $room->isPasswordProtected() )
+            {
+                if( $request->getPost('password') )
+                {
+                    // The client provided a password attempt
+                    $passwordMatches = RoomSource::getPasswordHasher()->matchesHash( $request->getPost('password'),
+                                                                                     $room->getPasswordHash() );
+                    if( $passwordMatches )
+                    {
+                        $chatSession = $chatSessionSource->createSession( $room );
+                    }
+                    else
+                    {
+                        $response->set('badPassword', true);
+                    }
+                }
+                else
+                {
+                    // Alert the client that we need a password in order to
+                    // create a chat session for them.
+                    $response->set('requirePassword', true);
+                }
+            }
+            else
+            {
+                $chatSession = $chatSessionSource->createSession( $room );
+            }
+
+            // Check if we created a new session
+            if( $chatSession != null )
+            {
+                $request->getSession()->set( ChatSessionSource::CHAT_SESSION_VARIABLE_PREFIX . $room->getRoomId(), $chatSession->getChatSessionId() );
+                $response->set('createdNewSession', true);
+            }
         }
         else if( ! $chatSession->getActive() )
         {

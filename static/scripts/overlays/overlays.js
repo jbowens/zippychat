@@ -41,7 +41,7 @@ zc.overlays.Overlay = zc.overlays.Overlay || {
         if( overlay.elmt )
             $(overlay.elmt).addClass('overlay');
         else
-            overlay.elmt = $('<div class="content overlay"></div>');
+            overlay.elmt = $('<div class="overlay"></div>');
 
         // Add any extra classes provided through options
         for( var i = 0; i < overlay.extraClasses.length; i++ )

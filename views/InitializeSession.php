@@ -18,7 +18,12 @@ class InitializeSession extends BaseView {
     {
         $this->setHeader('Content-Type', 'application/json');
 
-        if( ! $response->keyExists('chatSession') || $response->get('chatSession') == null )
+        if( $response->get('requirePassword') || $response->get('badPassword') )
+        {
+            $output = array('status' => 'unauthenticated',
+                            'badPassword' => $response->get('badPassword') ? true : false);
+        } 
+        else if( ! $response->keyExists('chatSession') || $response->get('chatSession') == null )
         {
             $output = array( 'status' => 'error' );
         }
@@ -33,7 +38,8 @@ class InitializeSession extends BaseView {
 
             $output = array( 'status' => 'ok',
                              'chatSession' => $chatSessionArr,
-                             'usernameChangeId' => $response->get('usernameChangeId') );
+                             'usernameChangeId' => $response->get('usernameChangeId'),
+                             'newSession' => $response->get('createdNewSession') ? true : false );
         }
         
         print json_encode($output);

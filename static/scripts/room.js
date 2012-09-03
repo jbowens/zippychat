@@ -414,9 +414,11 @@ zc.pages.room = zc.pages.room || {
     activeChatSession: null,
     activeRoom: null,
     initialTime: null,
-    pingInterval: 2500,
+    pingInterval: 2000,
     pingTimeoutHandle: null,
     changeUsernameDialog: null,
+    passwordBackdrop: null,
+    passwordOverlay: null,
 
     /**
      * Called on DOM ready.
@@ -498,7 +500,7 @@ zc.pages.room = zc.pages.room || {
         try {
             if( ! this.changeUsernameDialog )
             {
-                this.changeUsernameDialog = zc.overlays.SimpleDialog.construct(300, { extraClasses: ['boxShadow'] });
+                this.changeUsernameDialog = zc.overlays.SimpleDialog.construct(300, { extraClasses: ['content','boxShadow'] });
                 // TODO: Localize the strings in this dialog!
                 this.changeUsernameDialog.setHtml('<div class="changeUsernameDialog">' +
                                                   '<h3>Choose a username</h3>' +
@@ -557,6 +559,63 @@ zc.pages.room = zc.pages.room || {
         }
     },
 
+    /**
+     * Displays an overlay prompting the user for the password.
+     */
+    requestPassword: function(badPassword)
+    {
+        // TODO: Update this with translation strings
+        try {
+            if( ! this.passwordOverlay )
+            {
+                this.passwordBackdrop = zc.overlays.Backdrop.construct({backdropOpacity: 0.80});
+                this.passwordBackdrop.show();
+                this.passwordOverlay = zc.overlays.SimpleDialog.construct(350, { extraClasses: ['passwordPrompt'] });
+                this.passwordOverlay.setHtml('<form id="provideRoomPassword">' +
+                                             '<h3>Please enter the password:</h3>' + 
+                                             '<div id="passwordOverlayError"></div>' +
+                                             '<div><input type="password" name="roomPass" id="roomPassword" /></div>' +
+                                             '</div>');
+                var passwordOverlay = this.passwordOverlay;
+                $(this.passwordOverlay.elmt).find("#roomPassword").keypress(function(e) {
+                if( e.keyCode == 13 )
+                {
+                    // If enter
+                    e.preventDefault();
+                    zc.pages.room.initializeSession( $(passwordOverlay.elmt).find("#roomPassword").val() );
+                }
+            });
+            }
+            this.passwordOverlay.show();
+            var errorElmt = $(this.passwordOverlay.elmt).find("#passwordOverlayError");
+            if( badPassword )
+            {
+                errorElmt.hide();
+                errorElmt.text("The password was incorrect.");
+                errorElmt.fadeIn('fast');
+            } else
+                errorElmt.hide();
+
+            var passwordElmt = $($(this.passwordOverlay.elmt).find("#roomPassword"));
+            passwordElmt.focus();
+            passwordElmt.select();
+        } catch(err) {
+            esprit.recordError(err);
+        }
+    },
+
+    hidePasswordDialog: function()
+    {
+        try {
+            if( this.passwordOverlay )
+                this.passwordOverlay.hide();
+            if( this.passwordBackdrop )
+                this.passwordBackdrop.hide();
+        } catch(err) {
+            esprit.recordError(err);
+        }
+    },
+
     showInviteOthersDialog: function()
     {
         // TODO: Implement
@@ -570,24 +629,42 @@ zc.pages.room = zc.pages.room || {
     /**
      * Contacts the server to get a chat session.
      */
-    initializeSession: function()
+    initializeSession: function(password)
     {
         try {
             var _this = this;
             var data = {
                 r: this.activeRoom.getRoomId()
             };
+            if( password )
+            {
+                data['password'] = password;
+            }
             // TODO: Add logic to handle password-protected rooms
-            $.get('/initialize-session', data, function(data) {
+            $.post('/initialize-session', data, function(data) {
                 if( data != null && data['status'] == "ok" )
                 {
+                    zc.pages.room.hidePasswordDialog();
                     _this.activeChatSession = zc.ChatSession.construct(data.chatSession);
                     _this.activeRoom.setInitialTime( new Date( data.chatSession.loginTime * 1000 ) );
                     _this.activeRoom.setLastUsernameChangeId( data.usernameChangeId );
+                    if( data['newSession'] )
+                    {
+                        // Show the username dialog so that they can set their initial username
+                        zc.pages.room.showChangeUsernameDialog();
+                    }
+                    // Begin pinging for new data
                     zc.pages.room.ping();
+                }
+                else if( data != null && data['status'] == "unauthenticated" )
+                {
+                    // The user needs to provide a password
+                    var badPassword = !!data['badPassword'];
+                    zc.pages.room.requestPassword(badPassword);
                 }
                 else
                 {
+                    // TODO: Show error message
                     // Try again soon
                     setTimeout(zc.pages.room.initializeSession, 3000);
                 }

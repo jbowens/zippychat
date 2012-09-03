@@ -80,7 +80,11 @@ class Room {
     }
 
     public function getPasswordHash() {
-        return $this->passowrdHash;
+        return $this->passwordHash;
+    }
+
+    public function isPasswordProtected() {
+        return ($this->passwordHash != null);
     }
 
     public function getLastGuestNumber() {
