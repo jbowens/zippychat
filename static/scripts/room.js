@@ -419,6 +419,7 @@ zc.pages.room = zc.pages.room || {
     changeUsernameDialog: null,
     passwordBackdrop: null,
     passwordOverlay: null,
+    inviteOthersOverlay: null,
 
     /**
      * Called on DOM ready.
@@ -618,12 +619,29 @@ zc.pages.room = zc.pages.room || {
 
     showInviteOthersDialog: function()
     {
-        // TODO: Implement
+        try {
+            if( ! this.inviteOthersOverlay )
+            {
+                this.inviteOthersOverlay = zc.overlays.InviteOthersDialog.construct({});
+            }
+
+            this.inviteOthersOverlay.show();
+
+            // TODO: Reset anything that needs to be reset hwen it's reshown
+
+        } catch(err) {
+            esprit.recordError(err);
+        }
     },
 
     hideInviteOthersDialog: function()
     {
-        // TODO: Implement
+        try {
+            if( this.inviteOthersOverlay )
+                this.inviteOthersOverlay.hide();
+        } catch(err) {
+            esprit.recordError(err);
+        }
     },
 
     /**

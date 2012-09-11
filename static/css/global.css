@@ -15,6 +15,7 @@ p { margin: 1em 0; }
 h1 { color: #2D3E4A; margin: 0 0 1em 0; font-size: 1.5em; }
 h2 { color: #222; margin: .25em 0; font-size: 1.25em; font-family: "Gill Sans", "Gill Sans MT", sans-serif; }
 h3 { margin: .25em 0; font-size: 1.10em; font-family: "Gill Sans", "Gill Sans MT", sans-serif; }
+textarea { font-family: verdana, sans-serif; }
 #footer { font-size: .7em; text-align: center; color: #BABABA; margin-bottom: 3em; }
 #privacy-policy p, #terms-of-use p { line-height: 2; font-size: 0.933em; }
 #terms-of-use ol.restrictions li { font-size: 0.933em; }
@@ -33,8 +34,10 @@ label .optional { font-size: 0.7em; color: #555; vertical-align: middle; }
 input.pop { height: 35px; color: #222; background: url('/static/images/sprite.png'); font-size: 1em; font-weight: bold; padding: 0 1em; border: 1px #D9800B solid; border-bottom-color: #976522; border-right-color: #976522; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #DBC9A0; margin-left: -0.25em; }
 input.pop:hover, input.pop.hover { background-position: 0 -40px; }
 input.smallerPop { height: auto; font-size: .9em; }
-.optionButton { display: inline-block; color: #333; background: url('/static/images/sprite.png'); background-position: 0 -80px; font-size: 1em; padding: 0.25em 0.75em; border: 1px #888 solid; border-bottom-color: #666; border-bottom-color: #666; cursor: pointer; borader-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #FFF; margin-left: -0.25em; }
+input.utilPop { height: 25px; font-size: .9em; }
+.optionButton { display: inline-block; color: #333; background: url('/static/images/sprite.png'); background-position: 0 -80px; font-size: 1em; padding: 0.25em 0.75em; border: 1px #888 solid; border-bottom-color: #666; border-bottom-color: #666; cursor: pointer; border-radius: 0.25em; -webkit-border-radius: 0.25em; -moz-border-radius: 0.25em; text-shadow: 0.075em 0.075em 0.05em #FFF; margin-left: -0.25em; }
 .optionButton:hover, .optionButton.hover { color: #111; background-position: 0 -120px; }
+.utilOptionButton { height: 25px; font-size: .9em; }
 #room h1 { margin-bottom: 0.25em; }
 #room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
 #room #room-meta-data .room-desc { font-size: .9em; }
