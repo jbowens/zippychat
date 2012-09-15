@@ -8,8 +8,7 @@
 .passwordPrompt #roomPassword { font-size: 1.5em; padding: 0.3em; }
 .inviteOthersDialog { border: 1px #CCC solid; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
 .inviteOthersDialog .tabContainer { margin: 1em; }
-.inviteOthersDialog label { color: #4c4c4c; margin: 0 1em; }
-.inviteOthersDialog label { float: left; }
+.inviteOthersDialog label { color: #4c4c4c; float: left; font-size: 0.9em; margin: 0 1em; }
 .inviteOthersDialog .field { margin-bottom: 1em; }
 .inviteOthersDialog .toField input, .inviteOthersDialog .messageField textarea { float: right; color: #363636; width: 60%; padding: .25em; border: 1px #828282 solid; font-size: 1.1em; }
 .inviteOthersDialog .messageField textarea { font-size: 0.8em; height: 5em; }
