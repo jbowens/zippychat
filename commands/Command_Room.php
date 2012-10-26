@@ -38,7 +38,8 @@ class Command_Room extends BaseCommand {
         $response->set("room", $room);
 
         $ad = $this->getAd( $request );
-        $response->set('ad', $ad);
+        if( $ad != null )
+            $response->set('ad', $ad);
 
         return $response;
 
@@ -63,6 +64,17 @@ class Command_Room extends BaseCommand {
     }
 
     /**
+     * Determines if advertisements should be enabled for the given request.
+     *
+     * @param $request  the request being serviced
+     * @return true iff ads should be shown to this user's request, if applicable
+     */
+    public function adsEnabled(Request $request)
+    {
+        return $this->config->get('serve_ads') == true;
+    }
+
+    /**
      * Retrieves the advertisement that we should display in the room.
      * 
      * @param $request  the request being serviced
@@ -70,6 +82,10 @@ class Command_Room extends BaseCommand {
      */
     public function getAd(Request $request)
     {
+        // Make sure ads are enabled
+        if( ! $this->adsEnabled($request) )
+            return null;
+
         // We're currently displaying 120x600 skyscraper ads
         $adType = new SkyscraperAd();
 
@@ -79,6 +95,7 @@ class Command_Room extends BaseCommand {
         if( ! $adSource->canServe( $request, $adType ) )
         {
             $this->error("Unable to find servable ad", $request);
+            return null;
         }
 
         return $adSource->getAd( $request, $adType );
