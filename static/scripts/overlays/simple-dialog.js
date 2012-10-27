@@ -17,7 +17,7 @@ if( ! zc.overlays || ! zc.overlays.Overlay )
  * @author jbowens
  * @since 2012-08-30
  */
-zc.overlays.SimpleDialog = zc.overlays.SimpleDialog || {
+zc.overlays.SimpleDialog = zc.overlays.SimpleDialog || esprit.oop.extend(zc.overlays.Overlay, {
 
     construct: function(width, ops) {
 
@@ -34,4 +34,4 @@ zc.overlays.SimpleDialog = zc.overlays.SimpleDialog || {
         return overlay;
     }
 
-}
+});

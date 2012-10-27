@@ -17,7 +17,7 @@ if( ! zc.overlays || ! zc.overlays.Overlay )
  * @author jbowens
  * @since 2012-09-10
  */
-zc.overlays.InviteOthersDialog = zc.overlays.InviteOthersDialog || {
+zc.overlays.InviteOthersDialog = zc.overlays.InviteOthersDialog || esprit.oop.extend(zc.overlays.SimpleDialog, {
 
     tabContainer: null,
     emailTab: null,
@@ -101,4 +101,4 @@ zc.overlays.InviteOthersDialog = zc.overlays.InviteOthersDialog || {
         this.uber.hide();
     }
 
-}
+});

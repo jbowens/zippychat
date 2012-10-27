@@ -17,7 +17,7 @@ if( ! zc.overlays || ! zc.overlays.Overlay )
  * @author jbowens
  * @since 2012-08-30
  */
-zc.overlays.Backdrop = zc.overlays.Backdrop || {
+zc.overlays.Backdrop = zc.overlays.Backdrop || esprit.oop.extend(zc.overlays.Overlay, {
 
     backdropColor: "#000",
     backdropOpacity: 0.5,
@@ -54,4 +54,4 @@ zc.overlays.Backdrop = zc.overlays.Backdrop || {
         return overlay;
     }
 
-}
+});
