@@ -16,7 +16,7 @@
                 {{ ad.getHtml() | raw }}
             </div>
         {% endif %}
-        <div class="chatRoomContainer">
+        <div class="chatRoomContainer{% if ad %} nextToSkyscraperAd{% endif %}">
             <div id="chatroom">
                 <div id="chat-container">
                     <div id="chat-sidebar">
