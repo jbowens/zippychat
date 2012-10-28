@@ -1,194 +1,186 @@
 var zc = zc || {};
 
 /**
- * The zc.overlays namespace defines a namespace for any overlays/dialogs
- * displayed on the site.
- *
- * @author jbowens
- * @since 2012-08-28
- */
-zc.overlays = zc.overlays || {
-
-    // TODO: Create overlay factory
-
-},
-
-/**
  * The base overlay object.
  *
  * @author jbowens
  * @since 2012-08-30
  */
-zc.overlays.Overlay = zc.overlays.Overlay || {
+Class('zc.overlays.Overlay', {
     
-    elmt: null,
-    parentElmt: null,
-    displayImmediately: true,
-    zindexCalculator: null,
-    width: null,
-    height: null,
-    extraClasses: [],
+    have: {
+        elmt: null,
+        parentElmt: null,
+        displayImmediately: true,
+        zindexCalculator: null,
+        width: null,
+        height: null,
+        extraClasses: [],
+    },
 
-    /**
-     * Constructs a new overlay
-     *
-     * @param options  the options with which to create the overlay
-     */
-    construct: function(options)
-    {
-        var overlay = esprit.oop.extend(zc.overlays.Overlay, options);
-
-        if( overlay.elmt )
-            $(overlay.elmt).addClass('overlay');
-        else
-            overlay.elmt = $('<div class="overlay"></div>');
-
-        // Add any extra classes provided through options
-        for( var i = 0; i < overlay.extraClasses.length; i++ )
+    after: {
+        /**
+         * Initializes a new overlay
+         *
+         * @param options  the options with which to create the overlay
+         */
+        initialize: function(options)
         {
-            $(overlay.elmt).addClass(overlay.extraClasses[i]);
-        }
+            var overlay = this;
 
-        // We don't want the overlay to be visible until we're ready
-        $(overlay.elmt).hide();
+            if( overlay.elmt )
+                $(overlay.elmt).addClass('overlay');
+            else
+                overlay.elmt = $('<div class="overlay"></div>');
 
-        // Set dimensions if provided
-        if( overlay.width )
-            $(overlay.elmt).css('width', overlay.getCssWidth());
-        if( overlay.height )
-            $(overlay.elmt).css('height', overlay.getCssHeight());
+            // Add any extra classes provided through options
+            for( var i = 0; i < overlay.extraClasses.length; i++ )
+            {
+                $(overlay.elmt).addClass(overlay.extraClasses[i]);
+            }
 
-        $(overlay.elmt).css('top', overlay.getCssTopOffset());
-        $(overlay.elmt).css('left', overlay.getCssLeftOffset());
+            // We don't want the overlay to be visible until we're ready
+            $(overlay.elmt).hide();
 
-        // Calculate the CSS z-index propery
-        var zIndex = 5000;
-        if( overlay.zindexCalculator )
-        {
-           zIndex = overlay.zindexCalculator();
-        }
-        overlay.elmt.css("z-index", zIndex);
+            // Set dimensions if provided
+            if( overlay.width )
+                $(overlay.elmt).css('width', overlay.getCssWidth());
+            if( overlay.height )
+                $(overlay.elmt).css('height', overlay.getCssHeight());
 
-        // Add the overlay to the DOM
-        if( ! overlay.parentElmt )
-            overlay.parentElmt = document.body;
-        $(overlay.parentElmt).append( overlay.elmt );
+            $(overlay.elmt).css('top', overlay.getCssTopOffset());
+            $(overlay.elmt).css('left', overlay.getCssLeftOffset());
 
-        // Should we show the overlay now?
-        if( overlay.displayImmediately ) {
-            overlay.show();
-        }
+            // Calculate the CSS z-index propery
+            var zIndex = 5000;
+            if( overlay.zindexCalculator )
+            {
+               zIndex = overlay.zindexCalculator();
+            }
+            overlay.elmt.css("z-index", zIndex);
 
-        return overlay;
-    },
+            // Add the overlay to the DOM
+            if( ! overlay.parentElmt )
+                overlay.parentElmt = document.body;
+            $(overlay.parentElmt).append( overlay.elmt );
 
-    /**
-     * Hides this overlay.
-     */
-    hide: function() {
-        if( this.elmt == null )
-        {
-            return;
-        }
-        $(this.elmt).hide();
-    },
+            // Should we show the overlay now?
+            if( overlay.displayImmediately ) {
+                overlay.show();
+            }
 
-    /**
-     * Shows the overlay, optionally with a fade in.
-     *
-     * @param animateSpeed  the speed within which to fade in. omit this
-     *                      parameter for no fade in
-     */
-    show: function(animateSpeed) {
-        if( this.elmt == null )
-        {
-            return;
-        }
-
-        if( ! animateSpeed || animateSpeed == 0 )
-        {
-            $(this.elmt).show();
-        }
-        else
-        {
-            $(this.elmt).fadeIn(animateSpeed);
         }
     },
 
-    /**
-     * Retrieves the overlay DOM element.
-     */
-    getElement: function() {
-        return this.elmt;
-    },
+    methods: {
+        /**
+         * Hides this overlay.
+         */
+        hide: function() {
+            if( this.elmt == null )
+            {
+                return;
+            }
+            $(this.elmt).hide();
+        },
 
-    /**
-     * Sets the content of this overlay to be the given html.
-     */
-    setHtml: function(html) {
-        var newContent = $(html);
-        $(this.elmt).empty();
-        $(this.elmt).append(newContent);
-    },
+        /**
+         * Shows the overlay, optionally with a fade in.
+         *
+         * @param animateSpeed  the speed within which to fade in. omit this
+         *                      parameter for no fade in
+         */
+        show: function(animateSpeed) {
+            if( this.elmt == null )
+            {
+                return;
+            }
 
-    /**
-     * Sets the content of this overlay to be the given DOM
-     * element.
-     */
-    setContent: function(element) {
-        $(this.elmt).empty();
-        $(this.elmt).append(element);
-    },
+            if( ! animateSpeed || animateSpeed == 0 )
+            {
+                $(this.elmt).show();
+            }
+            else
+            {
+                $(this.elmt).fadeIn(animateSpeed);
+            }
+        },
 
-    /**
-     * Returns a string that may be used in CSS as the value
-     * of the width property.
-     */
-    getCssWidth: function() {
-        // Handle case where we don't have a width
-        if( typeof this.width == 'undefined' || this.width == null )
-            return 'auto';
-        if( typeof this.width == 'number' )
-            return this.width + "px";
-        // Assume it already includes units
-        return this.width;
-    },
+        /**
+         * Retrieves the overlay DOM element.
+         */
+        getElement: function() {
+            return this.elmt;
+        },
 
-    /**
-     * Returns a string that may be used in CSS as the value
-     * of the height property.
-     */
-    getCssHeight: function() {
-        if( typeof this.height == 'undefined' || this.height == null )
-            return 'auto';
-        if( typeof this.height == 'number' )
-            return this.width + 'px';
-        // Assume it already includes units
-        return this.height;
-    },
+        /**
+         * Sets the content of this overlay to be the given html.
+         */
+        setHtml: function(html) {
+            var newContent = $(html);
+            $(this.elmt).empty();
+            $(this.elmt).append(newContent);
+        },
 
-    /**
-     * Returns a string that may be used in CSS as the value of
-     * the 'top' property.
-     */
-    getCssTopOffset: function() {
-        if( typeof this['top'] == 'undefined' || this['top'] == null )
-            return 'auto';
-        if( typeof this['top'] == 'number' )
-            return this['top'] + 'px';
-        return this['top'];
-    },
+        /**
+         * Sets the content of this overlay to be the given DOM
+         * element.
+         */
+        setContent: function(element) {
+            $(this.elmt).empty();
+            $(this.elmt).append(element);
+        },
 
-    /**
-     * Returns a string that may be used in CSS as the value of
-     * the 'left' property.
-     */
-    getCssLeftOffset: function() {
-        if( typeof this.left == 'undefined' || this.left == null )
-            return 'auto';
-        if( typeof this.left == 'number' )
-            return this.left + 'px';
-        return this.left;
+        /**
+         * Returns a string that may be used in CSS as the value
+         * of the width property.
+         */
+        getCssWidth: function() {
+            // Handle case where we don't have a width
+            if( typeof this.width == 'undefined' || this.width == null )
+                return 'auto';
+            if( typeof this.width == 'number' )
+                return this.width + "px";
+            // Assume it already includes units
+            return this.width;
+        },
+
+        /**
+         * Returns a string that may be used in CSS as the value
+         * of the height property.
+         */
+        getCssHeight: function() {
+            if( typeof this.height == 'undefined' || this.height == null )
+                return 'auto';
+            if( typeof this.height == 'number' )
+                return this.width + 'px';
+            // Assume it already includes units
+            return this.height;
+        },
+
+        /**
+         * Returns a string that may be used in CSS as the value of
+         * the 'top' property.
+         */
+        getCssTopOffset: function() {
+            if( typeof this['top'] == 'undefined' || this['top'] == null )
+                return 'auto';
+            if( typeof this['top'] == 'number' )
+                return this['top'] + 'px';
+            return this['top'];
+        },
+
+        /**
+         * Returns a string that may be used in CSS as the value of
+         * the 'left' property.
+         */
+        getCssLeftOffset: function() {
+            if( typeof this.left == 'undefined' || this.left == null )
+                return 'auto';
+            if( typeof this.left == 'number' )
+                return this.left + 'px';
+            return this.left;
+        }
     }
 
-};
+});

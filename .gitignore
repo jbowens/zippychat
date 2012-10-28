@@ -5,3 +5,4 @@ composer.lock
 vendor
 phpinfo.php
 static/scripts/esprit
+static/scripts/joose.js

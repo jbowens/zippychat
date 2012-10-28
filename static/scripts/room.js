@@ -6,87 +6,86 @@ var zc = zc || {};
  * @author jbowens
  * @since 2012-08-27
  */
-zc.Message = zc.Message || {
+Class('zc.Message', {
 
-    messageId: null,
-    username: null,
-    timestamp: null,
-    content: null,
-    elem: null,
-    serverConfirmed: false,
-    colorFunc: null,
-    isSystemMsg: false,
-
-    construct: function(ops)
-    {
-        return esprit.oop.extend(zc.Message, ops);
+    have: {
+        messageId: null,
+        username: null,
+        timestamp: null,
+        content: null,
+        elem: null,
+        serverConfirmed: false,
+        colorFunc: null,
+        isSystemMsg: false
     },
 
-    getMessageId: function()
-    {
-        return this.messageId;
-    },
+    methods: {
+        getMessageId: function()
+        {
+            return this.messageId;
+        },
 
-    getUsername: function()
-    {
-        return this.username;
-    },
+        getUsername: function()
+        {
+            return this.username;
+        },
 
-    getDateSent: function()
-    {
-        return this.timestamp;
-    },
+        getDateSent: function()
+        {
+            return this.timestamp;
+        },
 
-    getMessage: function()
-    {
-        return this.content;
-    },
+        getMessage: function()
+        {
+            return this.content;
+        },
 
-    getElement: function()
-    {
-        return this.elem;
-    },
+        getElement: function()
+        {
+            return this.elem;
+        },
 
-    isServerConfirmed: function()
-    {
-        return this.serverConfirmed;
-    },
+        isServerConfirmed: function()
+        {
+            return this.serverConfirmed;
+        },
 
-    isSystemMessage: function()
-    {
-        return this.isSystemMsg;
-    },
+        isSystemMessage: function()
+        {
+            return this.isSystemMsg;
+        },
 
-    setColorFunction: function(colorFunc)
-    {
-        this.colorFunc = colorFunc;
-    },
+        setColorFunction: function(colorFunc)
+        {
+            this.colorFunc = colorFunc;
+        },
 
-    setMessageId: function(newId)
-    {
-        this.messageId = newId;
-    },
+        setMessageId: function(newId)
+        {
+            this.messageId = newId;
+        },
 
-    setElement: function(elem)
-    {
-        this.elem = elem;
-    },
+        setElement: function(elem)
+        {
+            this.elem = elem;
+        },
 
-    getColor: function()
-    {
-        if( this.colorFunc ) {
-            return this.colorFunc();
-        } else {
-            return "000000";
+        getColor: function()
+        {
+            if( this.colorFunc ) {
+                return this.colorFunc();
+            } else {
+                return "000000";
+            }
+        },
+
+        setServerConfirmed: function()
+        {
+            this.serverConfirmed = true;
         }
-    },
-
-    setServerConfirmed: function()
-    {
-        this.serverConfirmed = true;
     }
 
-};
+});
 
 /**
  * Represents a chat session.
@@ -94,52 +93,52 @@ zc.Message = zc.Message || {
  * @author jbowens
  * @since 2012-08-27
  */
-zc.ChatSession = zc.ChatSession || {
+Class("zc.ChatSession", {
 
-    chatSessionId: null,
-    username: null,
-    loginTime: null,
-    colorFunc: null,
-    elem: null,
-
-    construct: function(ops) {
-        return esprit.oop.extend(zc.ChatSession, ops);
+    have: {
+        chatSessionId: null,
+        username: null,
+        loginTime: null,
+        colorFunc: null,
+        elem: null
     },
 
-    getChatSessionId: function() {
-        return this.chatSessionId;
-    },
+    methods: {
+        getChatSessionId: function() {
+            return this.chatSessionId;
+        },
 
-    getUsername: function() {
-        return this.username;
-    },
+        getUsername: function() {
+            return this.username;
+        },
 
-    getLoginTime: function() {
-        return this.loginTime;
-    },
+        getLoginTime: function() {
+            return this.loginTime;
+        },
 
-    getElement: function() {
-        return this.elem;
-    },
+        getElement: function() {
+            return this.elem;
+        },
 
-    setColorFunction: function(colorFunc) {
-        this.colorFunc = colorFunc;
-    },
+        setColorFunction: function(colorFunc) {
+            this.colorFunc = colorFunc;
+        },
 
-    setElement: function(elem) {
-        this.elem = elem;
-    },
+        setElement: function(elem) {
+            this.elem = elem;
+        },
 
-    getColor: function() {
-        if( this.colorFunc == null ) {
-            return "000000";
-        }
-        else {
-            return this.colorFunc();
+        getColor: function() {
+            if( this.colorFunc == null ) {
+                return "000000";
+            }
+            else {
+                return this.colorFunc();
+            }
         }
     }
 
-},
+});
 
 /**
  * Represents a chat room.
@@ -147,264 +146,257 @@ zc.ChatSession = zc.ChatSession || {
  * @author jbowens
  * @since 2012-08-27
  */
-zc.Room = zc.Room || {
+Class("zc.Room", {
 
-    roomId: null,
-    chatSessions: [],
-    messages: [],
-    lastMessageId: Number.NEGATIVE_INFINITY,
-    initialUpdateTime: null,
-    render: null,
-    lastUsernameChangeId: null,
-    unupdatedSessions: [],
-
-    /**
-     * Constructs a new Room object.
-     *
-     * @param roomid  the if of the room
-     * @return an zc.Room object
-     */
-    construct: function(roomId)
-    {
-        return esprit.oop.extend(zc.Room, { 'roomId': roomId });
+    have: {
+        roomId: null,
+        chatSessions: [],
+        messages: [],
+        lastMessageId: Number.NEGATIVE_INFINITY,
+        initialUpdateTime: null,
+        render: null,
+        lastUsernameChangeId: null,
+        unupdatedSessions: []
     },
 
-    /**
-     * Gets the id of this room.
-     */
-    getRoomId: function() { return this.roomId; },
+    methods: { 
+        /**
+         * Gets the id of this room.
+         */
+        getRoomId: function() { return this.roomId; },
 
-    /**
-     * Gets the messages of this room.
-     */
-    getMessages: function()
-    {
-        return this.messages;
-    },
-
-    getChatSessions: function()
-    {
-        return this.chatSessions;
-    },
-
-    getUnupdatedSessions: function()
-    {
-        return this.unupdatedSessions;
-    },
-
-    setRender: function(renderFunc)
-    {
-        this.render = renderFunc;
-    },
-
-    /**
-     * Initiates a request for the latest data from the
-     * server.
-     */
-    refreshData: function()
-    {
-        var _this = this;
-        var requestData = { r: this.getRoomId(), changeId: this.lastUsernameChangeId };
-        if( isFinite(this.lastMessageId) )
+        /**
+         * Gets the messages of this room.
+         */
+        getMessages: function()
         {
-           requestData['lastMsgId'] = this.lastMessageId; 
-        }
-        else
+            return this.messages;
+        },
+
+        getChatSessions: function()
         {
-            if( this.initialUpdateTime == null )
+            return this.chatSessions;
+        },
+
+        getUnupdatedSessions: function()
+        {
+            return this.unupdatedSessions;
+        },
+
+        setRender: function(renderFunc)
+        {
+            this.render = renderFunc;
+        },
+
+        /**
+         * Initiates a request for the latest data from the
+         * server.
+         */
+        refreshData: function()
+        {
+            var _this = this;
+            var requestData = { r: this.getRoomId(), changeId: this.lastUsernameChangeId };
+            if( isFinite(this.lastMessageId) )
             {
-                esprit.reportError( { 'name': 'no initial update time', 
-                                      'message': 'No last message id or initial update time provided' });
-                return;
+               requestData['lastMsgId'] = this.lastMessageId; 
             }
-            requestData['fromTime'] = parseInt(this.initialUpdateTime.getTime()/1000);
-        }
-
-        $.get('/ping', requestData, function(data) {
-            _this.processData( data );
-        }, 'json');
-    },
-
-    /**
-     * Posts a message to the room from the current session.
-     *
-     * @param chatSession  the chat session sending the message
-     * @param msg  the message to post
-     */
-    postMessage: function(chatSession, msg)
-    {
-        var _this = this;
-        var msgObj = zc.Message.construct( {
-            content: msg,
-            username: chatSession.getUsername(),
-            dateSent: parseInt((new Date).getTime()/1000)
-        });
-
-        $.post('/post-message', { r: this.getRoomId(), msg: msg }, function(data) {
-            // TODO: Respond to the server correctly including
-            //       responding to error codes
-            msgObj.setMessageId( data.messageId );
-            msgObj.setServerConfirmed();
-           
-            if( _this.render ) {
-                _this.render();
+            else
+            {
+                if( this.initialUpdateTime == null )
+                {
+                    esprit.reportError( { 'name': 'no initial update time', 
+                                          'message': 'No last message id or initial update time provided' });
+                    return;
+                }
+                requestData['fromTime'] = parseInt(this.initialUpdateTime.getTime()/1000);
             }
 
-        }, 'json');
-    
-        // NOTE: THIS CAN RESULT IN MESSAGES OUT OF CHRONOLOGICAL ORDER. I THINK THAT'S OK, BUT
-        // w/ TIMESTAMPS DISPLAYED IT MIGHT BE A POOR USER EXPERIENCE.
-        // TODO: potentially address the above note ^... or not.
-        this.messages.push( msgObj );
+            $.get('/ping', requestData, function(data) {
+                _this.processData( data );
+            }, 'json');
+        },
+
+        /**
+         * Posts a message to the room from the current session.
+         *
+         * @param chatSession  the chat session sending the message
+         * @param msg  the message to post
+         */
+        postMessage: function(chatSession, msg)
+        {
+            var _this = this;
+            var msgObj = new zc.Message( {
+                content: msg,
+                username: chatSession.getUsername(),
+                dateSent: parseInt((new Date).getTime()/1000)
+            });
+
+            $.post('/post-message', { r: this.getRoomId(), msg: msg }, function(data) {
+                // TODO: Respond to the server correctly including
+                //       responding to error codes
+                msgObj.setMessageId( data.messageId );
+                msgObj.setServerConfirmed();
+               
+                if( _this.render ) {
+                    _this.render();
+                }
+
+            }, 'json');
         
-        if( this.render )
-        {
-            this.render();
-        }
-    },
-
-    /**
-     * Updates the object with the latest ping data.
-     *
-     * @param pingData  the data returned by the ping
-     */
-    processData: function( pingData )
-    {
-        try {
-            // Sync the messages
-            var messages = pingData.messages;
-         
-            var highestId = Number.NEGATIVE_INFINITY;
-            for( var j = 0; j < messages.length; j++ )
-            {
-                var msg = messages[j];
-                msg.serverConfirmed = true;
-                var msgObj = zc.Message.construct(msg);
-
-                // We only want to add this message if it doesn't already exist.
-                var exists = false;
-                for( var i = 0; i < this.messages.length; i++ )
-                {
-                    var existingMsg = this.messages[i];
-
-                    // TODO: Take care of the race condition if we haven't heard back yet about a submitted
-                    // message's message id
-                    if( existingMsg.getMessageId() == msgObj.getMessageId() )
-                    {
-                        exists = true;
-                    }
-                }
-                
-                if( ! exists )
-                {
-                    // Append the messages to the internal list of messages
-                    this.messages.push( msgObj );
-                }
-
-                // Update the highest seen id
-                highestId = Math.max( highestId, msg.messageId );
-
-            }
-            this.lastMessageId = Math.max( highestId, this.lastMessageId );
-           
-            // Sync the current users
-            var users = pingData.activeUsers;
-            for( var i = 0; i < users.length; i++ )
-            {
-                var user = users[i];
-
-                var exists = false;
-                for( var j = 0; j < this.chatSessions.length; j++ )
-                {
-                    var existingSession = this.chatSessions[j];
-
-                    if( existingSession.getChatSessionId() == user.chatSessionId )
-                        exists = true;
-                }
-
-                if( ! exists ) {
-                    var newObj = zc.ChatSession.construct( user );
-                    this.chatSessions.push(newObj);
-                }
-            }
+            // NOTE: THIS CAN RESULT IN MESSAGES OUT OF CHRONOLOGICAL ORDER. I THINK THAT'S OK, BUT
+            // w/ TIMESTAMPS DISPLAYED IT MIGHT BE A POOR USER EXPERIENCE.
+            // TODO: potentially address the above note ^... or not.
+            this.messages.push( msgObj );
             
-            // Now remove any users that didn't appear in the ping data
-            for( var i = 0; i < this.chatSessions.length; i++ )
-            {
-                var existingSession = this.chatSessions[i];
-                var exists = false;
-                for( var j = 0; j < users.length; j++ )
-                {
-                    if( existingSession.getChatSessionId() == users[j].chatSessionId )
-                        exists = true;
-                }
-
-                // This user appears in our chat sessions but not in the server data...
-                // Delete it!
-                if( ! exists ) {
-                    this.chatSessions.splice(i, 1);
-                }
-            }
-
-            // Handle username changes
-            var usernameChanges = pingData.usernameChanges;
-            for( var i = 0; i < usernameChanges.length; i++ )
-            {
-                var change = usernameChanges[i];
-                
-                var oldUsername = null;
-                for( var j = 0; j < this.chatSessions.length; j++ )
-                {
-                    var session = this.chatSessions[j];
-                    if( (session.getChatSessionId() == change['chatSessionid']) && (session['username'] != change['newUsername']) ) {
-                        oldUsername = session['username'];
-                        session['username'] = change['newUsername'];
-                        session['oldUsername'] = oldUsername;
-                        this.unupdatedSessions.push(session);
-                    }
-                }
-                
-                
-                // Update last username change id
-                this.lastUsernameChangeId = Math.max(this.lastUsernameChangeId, change['changeid']);    
-            }
-
-            // Re-render
             if( this.render )
             {
                 this.render();
             }
-        } catch(err) {
-            esprit.recordError(err);
+        },
+
+        /**
+         * Updates the object with the latest ping data.
+         *
+         * @param pingData  the data returned by the ping
+         */
+        processData: function( pingData )
+        {
+            try {
+                // Sync the messages
+                var messages = pingData.messages;
+             
+                var highestId = Number.NEGATIVE_INFINITY;
+                for( var j = 0; j < messages.length; j++ )
+                {
+                    var msg = messages[j];
+                    msg.serverConfirmed = true;
+                    var msgObj = new zc.Message(msg);
+
+                    // We only want to add this message if it doesn't already exist.
+                    var exists = false;
+                    for( var i = 0; i < this.messages.length; i++ )
+                    {
+                        var existingMsg = this.messages[i];
+
+                        // TODO: Take care of the race condition if we haven't heard back yet about a submitted
+                        // message's message id
+                        if( existingMsg.getMessageId() == msgObj.getMessageId() )
+                        {
+                            exists = true;
+                        }
+                    }
+                    
+                    if( ! exists )
+                    {
+                        // Append the messages to the internal list of messages
+                        this.messages.push( msgObj );
+                    }
+
+                    // Update the highest seen id
+                    highestId = Math.max( highestId, msg.messageId );
+
+                }
+                this.lastMessageId = Math.max( highestId, this.lastMessageId );
+               
+                // Sync the current users
+                var users = pingData.activeUsers;
+                for( var i = 0; i < users.length; i++ )
+                {
+                    var user = users[i];
+
+                    var exists = false;
+                    for( var j = 0; j < this.chatSessions.length; j++ )
+                    {
+                        var existingSession = this.chatSessions[j];
+
+                        if( existingSession.getChatSessionId() == user.chatSessionId )
+                            exists = true;
+                    }
+
+                    if( ! exists ) {
+                        var newObj = new zc.ChatSession( user );
+                        this.chatSessions.push(newObj);
+                    }
+                }
+                
+                // Now remove any users that didn't appear in the ping data
+                for( var i = 0; i < this.chatSessions.length; i++ )
+                {
+                    var existingSession = this.chatSessions[i];
+                    var exists = false;
+                    for( var j = 0; j < users.length; j++ )
+                    {
+                        if( existingSession.getChatSessionId() == users[j].chatSessionId )
+                            exists = true;
+                    }
+
+                    // This user appears in our chat sessions but not in the server data...
+                    // Delete it!
+                    if( ! exists ) {
+                        this.chatSessions.splice(i, 1);
+                    }
+                }
+
+                // Handle username changes
+                var usernameChanges = pingData.usernameChanges;
+                for( var i = 0; i < usernameChanges.length; i++ )
+                {
+                    var change = usernameChanges[i];
+                    
+                    var oldUsername = null;
+                    for( var j = 0; j < this.chatSessions.length; j++ )
+                    {
+                        var session = this.chatSessions[j];
+                        if( (session.getChatSessionId() == change['chatSessionid']) && (session['username'] != change['newUsername']) ) {
+                            oldUsername = session['username'];
+                            session['username'] = change['newUsername'];
+                            session['oldUsername'] = oldUsername;
+                            this.unupdatedSessions.push(session);
+                        }
+                    }
+                    
+                    
+                    // Update last username change id
+                    this.lastUsernameChangeId = Math.max(this.lastUsernameChangeId, change['changeid']);    
+                }
+
+                // Re-render
+                if( this.render )
+                {
+                    this.render();
+                }
+            } catch(err) {
+                esprit.recordError(err);
+            }
+        },
+
+        /**
+         * Sets the initial update time.
+         */
+        setInitialTime: function( initialTime )
+        {
+            this.initialUpdateTime = initialTime;
+        },
+
+        setLastUsernameChangeId: function( newId )
+        {
+            if( this.lastUsernameChangeId == null )
+                this.lastUsernameChangeId = newId;
+        },
+
+        createSystemMessage: function( message )
+        {
+            var ops = {
+                content: message,
+                isSystemMsg: true,
+                serverConfirmed: true,
+                dateSent: parseInt((new Date()).getTime()/1000)
+            }
+            var msgObj = new zc.Message( ops );
+            this.messages.push( msgObj );
         }
-    },
-
-    /**
-     * Sets the initial update time.
-     */
-    setInitialTime: function( initialTime )
-    {
-        this.initialUpdateTime = initialTime;
-    },
-
-    setLastUsernameChangeId: function( newId )
-    {
-        if( this.lastUsernameChangeId == null )
-            this.lastUsernameChangeId = newId;
-    },
-
-    createSystemMessage: function( message )
-    {
-        var ops = {
-            content: message,
-            isSystemMsg: true,
-            serverConfirmed: true,
-            dateSent: parseInt((new Date()).getTime()/1000)
-        }
-        var msgObj = zc.Message.construct( ops );
-        this.messages.push( msgObj );
     }
-};
+});
 
 /**
  * Encapsulates all /room logic.
@@ -431,7 +423,7 @@ zc.pages.room = zc.pages.room || {
 
             // Setup the room
             var roomId = parseInt( $("#roomId").val() );
-            var room = zc.Room.construct( roomId );
+            var room = new zc.Room( {roomId: roomId} );
             room.setRender( zc.pages.room.render );
             this.activeRoom = room;
 
@@ -501,7 +493,7 @@ zc.pages.room = zc.pages.room || {
         try {
             if( ! this.changeUsernameDialog )
             {
-                this.changeUsernameDialog = zc.overlays.SimpleDialog.construct(300, { extraClasses: ['content','boxShadow'] });
+                this.changeUsernameDialog = new zc.overlays.SimpleDialog({ width: 300, extraClasses: ['content','boxShadow'] });
                 // TODO: Localize the strings in this dialog!
                 this.changeUsernameDialog.setHtml('<div class="changeUsernameDialog">' +
                                                   '<h3>Choose a username</h3>' +
@@ -569,9 +561,9 @@ zc.pages.room = zc.pages.room || {
         try {
             if( ! this.passwordOverlay )
             {
-                this.passwordBackdrop = zc.overlays.Backdrop.construct({backdropOpacity: 0.80});
+                this.passwordBackdrop = new zc.overlays.Backdrop({backdropOpacity: 0.80});
                 this.passwordBackdrop.show();
-                this.passwordOverlay = zc.overlays.SimpleDialog.construct(350, { extraClasses: ['passwordPrompt'] });
+                this.passwordOverlay = new zc.overlays.SimpleDialog({ width: 350, extraClasses: ['passwordPrompt'] });
                 this.passwordOverlay.setHtml('<form id="provideRoomPassword">' +
                                              '<h3>Please enter the password:</h3>' + 
                                              '<div id="passwordOverlayError"></div>' +
@@ -622,7 +614,7 @@ zc.pages.room = zc.pages.room || {
         try {
             if( ! this.inviteOthersOverlay )
             {
-                this.inviteOthersOverlay = zc.overlays.InviteOthersDialog.construct({});
+                this.inviteOthersOverlay = new zc.overlays.InviteOthersDialog({});
             }
 
             this.inviteOthersOverlay.show();
@@ -663,7 +655,7 @@ zc.pages.room = zc.pages.room || {
                 if( data != null && data['status'] == "ok" )
                 {
                     zc.pages.room.hidePasswordDialog();
-                    _this.activeChatSession = zc.ChatSession.construct(data.chatSession);
+                    _this.activeChatSession = new zc.ChatSession(data.chatSession);
                     _this.activeRoom.setInitialTime( new Date( data.chatSession.loginTime * 1000 ) );
                     _this.activeRoom.setLastUsernameChangeId( data.usernameChangeId );
                     if( data['newSession'] )
