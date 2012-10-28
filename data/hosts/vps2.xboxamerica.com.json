@@ -52,7 +52,7 @@
     },
 
     "twig": {
-        "twig_autoloader": "/home/zippydev/autoload.php",
+        "twig_autoloader": "/home/zippydev/twigautoloader.php",
         "templates_dir": "/home/zippydev/public_html/templates",
         "options": {
             "cache": "/home/zippydev/twigcache",

@@ -6,7 +6,10 @@ error_reporting(E_ALL | E_STRICT);
 ini_set("session.entropy_file", "/dev/urandom");
 ini_set("session.entropy_length", "512");
 
-require_once "../esprit/autoloader.php";
+$espritTop = getenv('ESPRIT_TOP') ? getenv('ESPRIT_TOP') : '/var/lib/php/esprit/';
+$espritAutoloader = $espritTop . "autoloader.php";
+
+require_once $espritAutoloader;
 require_once "autoloader.php";
 
 $config = esprit\core\Config::createFromJSON("data/hosts/" . gethostname() . ".json");
