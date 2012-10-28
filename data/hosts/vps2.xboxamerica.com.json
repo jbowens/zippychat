@@ -1,0 +1,66 @@
+{
+    "meta": {
+        "description": "A configuration file for ZippyChat.com",
+        "esprit_version": "1.0a"
+    },
+
+    "debug": true,
+
+    "db_default_dsn": "mysql:host=localhost;dbname=zippydev_main;charset=utf8",
+    "db_default_user": "zippydev_main",
+    "db_default_pass": "B*5mfLvRpm9=",
+
+    "memcached_servers": [
+        {
+            "host": "localhost",
+            "port": 11211
+        }
+    ],
+
+    "memcached": {
+        "key_prefix": "zc_"
+    },
+
+    "default_timezone": "America/New_York",
+
+    "css": {
+        "sources": ["/home/zippydev/public_html/static/css"],
+        "compressed_dir": "/home/zippydev/public_html/static/css"
+    },
+
+    "FallbackCommand": "\\zc\\commands\\Command_DefaultFallback",
+
+    "base_command_sources": [
+        {
+            "namespace": "\\zc\\commands",
+            "directory": "/home/zippydev/public_html/commands"
+        }
+    ],
+
+    "default_view_sources": [
+        {
+            "namespace": "\\zc\\views",
+            "directory": "/home/zippydev/public_html/views"
+        }
+    ],
+
+    "default_resolvers": {
+        "use_path_command_resolver": true,
+        "use_path_view_resolver": true,
+        "use_catchall_view_resolver": false,
+        "xml_view_resolver_filepath": "/home/zippydev/public_html/data/views.xml"
+    },
+
+    "twig": {
+        "twig_autoloader": "/home/zippydev/autoload.php",
+        "templates_dir": "/home/zippydev/public_html/templates",
+        "options": {
+            "cache": "/home/zippydev/twigcache",
+            "debug": true
+        }
+    },
+
+    "error_log": "/home/zippydev/logs/errors.log",
+    "debug_log": "/home/zippydev/logs/debug.log"
+
+}

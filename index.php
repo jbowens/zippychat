@@ -9,15 +9,15 @@ ini_set("session.entropy_length", "512");
 require_once "../esprit/autoloader.php";
 require_once "autoloader.php";
 
-$config = esprit\core\Config::createFromJSON("data/config.json");
+$config = esprit\core\Config::createFromJSON("data/hosts/" . gethostname() . ".json");
 $controller = esprit\core\Controller::createController( $config );
 
 // Setup logging
-$logRecorder = new esprit\core\util\FileLogRecorder("/opt/local/apache2/htdocs/logs/errors", esprit\core\util\Logger::WARNING);
+$logRecorder = new esprit\core\util\FileLogRecorder($config->get('error_log'), esprit\core\util\Logger::WARNING);
 $controller->getLogger()->addLogRecorder( $logRecorder );
 
 if( $config->get("debug") ) {
-    $fineRecorder = new esprit\core\util\FileLogRecorder("/opt/local/apache2/htdocs/logs/debug", esprit\core\util\Logger::FINEST);
+    $fineRecorder = new esprit\core\util\FileLogRecorder($config->get('debug_log'), esprit\core\util\Logger::FINEST);
     $controller->getLogger()->addLogRecorder( $fineRecorder );
 }
 
