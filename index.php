@@ -16,10 +16,13 @@ $config = esprit\core\Config::createFromJSON("data/hosts/" . gethostname() . ".j
 $controller = esprit\core\Controller::createController( $config );
 
 // Setup logging
-$logRecorder = new esprit\core\util\FileLogRecorder($config->get('error_log'), esprit\core\util\Logger::WARNING);
-$controller->getLogger()->addLogRecorder( $logRecorder );
+if( $config->settingExists('error_log') ) {
+    // Note: error logging is likely already setup through the esprit default_error_logfile option.
+    $logRecorder = new esprit\core\util\FileLogRecorder($config->get('error_log'), esprit\core\util\Logger::WARNING);
+    $controller->getLogger()->addLogRecorder( $logRecorder );
+}
 
-if( $config->get("debug") ) {
+if( $config->get("debug") && $config->settingExists('debug_log') ) {
     $fineRecorder = new esprit\core\util\FileLogRecorder($config->get('debug_log'), esprit\core\util\Logger::FINEST);
     $controller->getLogger()->addLogRecorder( $fineRecorder );
 }
