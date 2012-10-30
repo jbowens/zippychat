@@ -60,7 +60,7 @@
         }
     },
 
-    "error_log": "/opt/local/apache2/htdocs/logs/errors",
+    "default_error_logfile": "/opt/local/apache2/htdocs/logs/errors",
     "debug_log": "/opt/local/apache2/htdocs/logs/debug"
 
 }

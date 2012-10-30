@@ -58,6 +58,9 @@
             "cache": "/opt/local/apache2/htdocs/twigcache",
             "debug": true
         }
-    }
+    },
+
+    "default_error_logfile": "/opt/local/apache2/htdocs/logs/errors",
+    "debug_log": "/opt/local/apache2/htdocs/logs/debug"
 
 }

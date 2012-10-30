@@ -60,7 +60,8 @@
         }
     },
 
-    "error_log": "/home/zippydev/logs/errors.log",
+    
+    "default_error_logfile": "/home/zippydev/logs/errors.log",
     "debug_log": "/home/zippydev/logs/debug.log"
 
 }
