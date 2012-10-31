@@ -4,6 +4,8 @@
         "esprit_version": "1.0a"
     },
 
+    "zc_top": "/home/zippydev/public_html",
+
     "debug": true,
 
     "db_default_dsn": "mysql:host=localhost;dbname=zippydev_main;charset=utf8",
@@ -55,12 +57,11 @@
         "twig_autoloader": "/home/zippydev/twigautoloader.php",
         "templates_dir": "/home/zippydev/public_html/templates",
         "options": {
-            "cache": "/home/zippydev/twigcache",
+            "cache": "/home/zippydev/public_html/twigcache",
             "debug": true
         }
     },
 
-    
     "default_error_logfile": "/home/zippydev/logs/errors.log",
     "debug_log": "/home/zippydev/logs/debug.log"
 

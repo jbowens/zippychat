@@ -4,6 +4,8 @@
         "esprit_version": "1.0a"
     },
 
+    "zc_top": "/opt/local/apache2/htdocs",
+
     "debug": true,
 
     "db_default_dsn": "mysql:host=localhost;dbname=zippychat;charset=utf8",

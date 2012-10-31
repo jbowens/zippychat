@@ -52,4 +52,5 @@ cat $ZC_TOP/sql/create-rooms.sql | mysql --user=$ZC_DBUSER --password=$ZC_DBPASS
 cat $ZC_TOP/sql/create-messages.sql | mysql --user=$ZC_DBUSER --password=$ZC_DBPASS $ZC_DBNAME
 cat $ZC_TOP/sql/create-chat-sessions.sql | mysql --user=$ZC_DBUSER --password=$ZC_DBPASS $ZC_DBNAME
 
-
+mkdir $ZC_TOP/twigcache
+chmod a+rwx $ZC_TOP/twigcache
