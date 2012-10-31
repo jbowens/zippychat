@@ -6,7 +6,7 @@ use \esprit\core\Request;
 use \esprit\core\Response;
 
 use \zc\lib\BaseCommand;
-use \zc\lib\RoomAWare;
+use \zc\lib\RoomAware;
 
 /**
  * This command is called by client-side js to change a user's
