@@ -212,10 +212,15 @@ class ChatSessionSource {
 
         $chatSession->setActive( true );
         $this->updateLastPing( $chatSession );
+        
         // Inform the database
         $db = $this->dbm->getDb();
         $stmt = $db->prepare( self::SQL_REACTIVE_CHAT_SESSION );
         $stmt->execute(Array( $chatSession->getChatSessionId() ));
+        
+        // Invalidate the per room cache so that it will hit the db on the next request 
+        $this->invalidateRoomSessions( $chatSession->getRoomId() );
+
         return true; 
     }
 
@@ -439,6 +444,17 @@ class ChatSessionSource {
     public function setRoomSessions( Room $room, array $sessions )
     {
         $this->perRoomCache->set( $room->getRoomId(), $sessions );
+    }
+
+    /**
+     * This method will invalidate the cache containing sessions for the given
+     * room so that the next request for them will require a db call.
+     *
+     * @param $roomId  the id of the room to invalidate the session cache for
+     */
+    public function invalidateRoomSessions( $roomId )
+    {
+        $this->perRoomCache->delete( $roomId );
     }
 
 }
