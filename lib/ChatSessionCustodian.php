@@ -72,7 +72,7 @@ class ChatSessionCustodian {
      */
     public function cleanUp()
     {
-        $this->logger->info("Cleaning up chat sessions");
+        $this->logger->info("Cleaning up chat sessions", self::LOG_SOURCE);
 
         // Clean up all the rooms that are considered active
         $activeRoomIds = $this->getActiveRoomIds();
@@ -111,7 +111,7 @@ class ChatSessionCustodian {
                     $stmt->execute(array( $session->getChatSessionId() ));
                     $session->setActive( false );
                     $this->chatSessionSource->recache( $session );
-                    $this->logger->finest( "Marking chat session " . $session->getChatSessionId() . " as inactive");
+                    $this->logger->finest( "Marking chat session " . $session->getChatSessionId() . " as inactive", self::LOG_SOURCE);
                 }
 
                 // Delete the session if necessary
@@ -120,7 +120,7 @@ class ChatSessionCustodian {
                     // This session should be deleted
                     $stmt = $db->prepare( self::SQL_DELETE_SESSION );
                     $stmt->execute(array( $session->getChatSessionId() ));
-                    $this->logger->finest( "Deleting chat session " . $session->getChatSessionId() );
+                    $this->logger->finest( "Deleting chat session " . $session->getChatSessionId(), self::LOG_SOURCE );
                 }
                 else
                 {
