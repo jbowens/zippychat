@@ -8,6 +8,7 @@ use \esprit\core\exceptions\PageNotFoundException;
 
 use \zc\lib\BaseCommand;
 use \zc\lib\ChatSession;
+use \zc\lib\ChatSessionCustodian;
 use \zc\lib\ChatSessionSource;
 use \zc\lib\MessageSource;
 use \zc\lib\Room;
@@ -30,6 +31,8 @@ class Command_Ping extends BaseCommand
     }
 
     public function generateResponse(Request $request, Response $response) {
+
+        $this->cleanUp();
 
         // Identify the requested room
         $room = $this->getRequestedRoom($request);
@@ -115,6 +118,19 @@ class Command_Ping extends BaseCommand
         }
 
         return $newMessages;
+    }
+
+    /**
+     * Cleans up the chat sessions data if necessary.
+     */
+    protected function cleanUp()
+    {
+        $custodian = new ChatSessionCustodian($this->getDatabaseManager(),
+                                              $this->getLogger(),
+                                              $this->getCache(),
+                                              $this->getChatSessionSource(),
+                                              $this->getRoomSource());
+        $custodian->cleanUpIfUnlucky();
     }
 
 }
