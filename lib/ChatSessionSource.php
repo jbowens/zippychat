@@ -211,7 +211,7 @@ class ChatSessionSource {
         }
 
         $chatSession->setActive( true );
-        $chatSession->updateLastPing( $chatSession );
+        $this->updateLastPing( $chatSession );
         // Inform the database
         $db = $this->dbm->getDb();
         $stmt = $db->prepare( self::SQL_REACTIVE_CHAT_SESSION );
