@@ -619,7 +619,7 @@ zc.pages.room = zc.pages.room || {
 
             this.inviteOthersOverlay.show();
 
-            // TODO: Reset anything that needs to be reset hwen it's reshown
+            // TODO: Reset anything that needs to be reset when it's reshown
 
         } catch(err) {
             esprit.recordError(err);

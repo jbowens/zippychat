@@ -70,7 +70,7 @@ Class('zc.overlays.InviteOthersDialog', {
             if( ! this.emailTab )
             {
                 // TODO: Add in translation strings
-                var defaultMessage = "Hey yo, join this chat room! It's real cool.";
+                var defaultMessage = "Hey, join me in this chat room.";
                 this.emailTab = $("<div class=\"emailTab\">" +
                                   "<form class=\"emailInvites\">" +
                                   "<div class=\"toField field\">" +
@@ -89,6 +89,16 @@ Class('zc.overlays.InviteOthersDialog', {
                                   "</div>");
                 $(this.emailTab).find("#emailInvitations_message").val(defaultMessage);
                 var overlay = this;
+                var emailTab = this.emailTab;
+                $(this.emailTab).find("form.emailInvites").submit(function(e) {
+                    e.preventDefault();
+                    $.post('/email-room-invite', { r: overlay.getRoomId(),
+                                                  to: $(emailTab).find(".toEmail").val(),
+                                             message: $(emailTab).find("#emailInvitations_message").val() }, function(resp) {
+                        // TODO: Process the server response... Probably onle want to do
+                        // anything if sending the email failed for some reason
+                    });
+                });
                 $(this.emailTab).find(".cancel").click(function(e) {
                     e.preventDefault();
                     overlay.hide();
