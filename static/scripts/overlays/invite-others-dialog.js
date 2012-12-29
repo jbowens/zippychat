@@ -10,6 +10,7 @@ Class('zc.overlays.InviteOthersDialog', {
     isa: zc.overlays.SimpleDialog,
 
     have: {
+        room: null,
         tabContainer: null,
         emailTab: null,
         backdrop: null
@@ -28,7 +29,9 @@ Class('zc.overlays.InviteOthersDialog', {
 
             // Setup the backdrop
             this.backdrop = new zc.overlays.Backdrop({ backdropOpacity: .30 });
-            
+         
+            // Set the room
+            this.room = ops.room;
         }
     },
 
@@ -92,10 +95,10 @@ Class('zc.overlays.InviteOthersDialog', {
                 var emailTab = this.emailTab;
                 $(this.emailTab).find("form.emailInvites").submit(function(e) {
                     e.preventDefault();
-                    $.post('/email-room-invite', { r: overlay.getRoomId(),
+                    $.post('/email-room-invite', { r: overlay.room.getRoomId(),
                                                   to: $(emailTab).find(".toEmail").val(),
                                              message: $(emailTab).find("#emailInvitations_message").val() }, function(resp) {
-                        // TODO: Process the server response... Probably onle want to do
+                        // TODO: Process the server response... Probably only want to do
                         // anything if sending the email failed for some reason
                     });
                 });

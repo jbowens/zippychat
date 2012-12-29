@@ -614,12 +614,10 @@ zc.pages.room = zc.pages.room || {
         try {
             if( ! this.inviteOthersOverlay )
             {
-                this.inviteOthersOverlay = new zc.overlays.InviteOthersDialog({});
+                this.inviteOthersOverlay = new zc.overlays.InviteOthersDialog({'room': this.activeRoom});
             }
 
             this.inviteOthersOverlay.show();
-
-            // TODO: Reset anything that needs to be reset when it's reshown
 
         } catch(err) {
             esprit.recordError(err);
