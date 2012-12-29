@@ -100,6 +100,7 @@ Class('zc.overlays.InviteOthersDialog', {
                                              message: $(emailTab).find("#emailInvitations_message").val() }, function(resp) {
                         // TODO: Process the server response... Probably only want to do
                         // anything if sending the email failed for some reason
+                        overlay.hide();
                     });
                 });
                 $(this.emailTab).find(".cancel").click(function(e) {
