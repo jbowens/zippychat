@@ -17,7 +17,7 @@ class Command_EmailRoomInvite extends BaseCommand {
     use RoomAware;
 
     const COMMAND_NAME = "EmailRoomInvite";
-    const EMAIL_TEMPLATE = 'email_invite';
+    const EMAIL_TEMPLATE = 'Email_Invite';
 
     public function getName() {
         return self::COMMAND_NAME;
@@ -48,7 +48,7 @@ class Command_EmailRoomInvite extends BaseCommand {
             // chat room and a generic message.
 
             $email = new Email();
-            $email->setFrom(EmailAddress::createFromAddress( 'no-reply@zippychat.com' ));  // TODO: Genericize the domain name
+            $email->setFrom(new EmailAddress( 'no-reply@zippychat.com', 'ZippyChat' ));    // TODO: Genericize the domain name
             $email->setSubject('Chat room invitation');                                    // TODO: Use translation string
             $email->addRecipient(EmailAddress::createFromAddress( $toAddress ));           // TODO: Parse this correctly
 
