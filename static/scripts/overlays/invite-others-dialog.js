@@ -53,6 +53,7 @@ Class('zc.overlays.InviteOthersDialog', {
         show: function() 
         {
             this.backdrop.show();
+            $(this.elmt).find(".toEmail").val('');
         },
 
         hide: function()
