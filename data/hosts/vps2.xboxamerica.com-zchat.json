@@ -6,7 +6,7 @@
 
     "zc_top": "/home/zchat/zippychat",
 
-    "debug": true,
+    "debug": false,
 
     "db_default_dsn": "mysql:host=localhost;dbname=zchat_main;charset=utf8",
     "db_default_user": "zchat_main",
@@ -20,7 +20,7 @@
     ],
 
     "memcached": {
-        "key_prefix": "zc_"
+        "key_prefix": "zc_prod_"
     },
 
     "default_timezone": "America/New_York",
