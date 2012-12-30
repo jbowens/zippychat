@@ -102,7 +102,7 @@ class RoomSource {
                 $key = str_ireplace($k, $v, $key);
             }
 
-            $roomId = base_convert($key, 26, 10);
+            $roomId = round((base_convert($key, 26, 10) - 17)/13);
         }
 
         return $this->getRoomById( $roomId );
