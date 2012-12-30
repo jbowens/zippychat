@@ -6,7 +6,7 @@
         {% if room.getDescription() %}<p class="room-desc">{{ room.getDescription()|e }}</p>{% endif %}
         <div class="sharable-url">
             {{ t('Sharable_url') }}: 
-            <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getRoomIdentifier() }}</span>
+            <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getUrlIdentifier() }}</span>
         </div>
         <input type="hidden" class="hidden roomId" id="roomId" value="{{ room.getRoomId() }}" />
     </div>
