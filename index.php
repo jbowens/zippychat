@@ -12,7 +12,7 @@ $espritAutoloader = $espritTop . "autoloader.php";
 require_once $espritAutoloader;
 require_once "autoloader.php";
 
-$config = esprit\core\Config::createFromJSON("data/hosts/" . gethostname() . ".json");
+$config = esprit\core\Config::createFromJSON("data/hosts/" . gethostname() . "-" . get_current_user() . ".json");
 $controller = esprit\core\Controller::createController( $config );
 
 // Setup logging
