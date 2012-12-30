@@ -25,7 +25,8 @@ class ChatSessionSource {
     const CHAT_SESSION_EXPIRE_TIME_DELTA = 20;
     const USERNAME_CHANGE_EXPIRE_TIME_DELTA = 600;
     const CHAT_SESSION_VARIABLE_PREFIX = "chatsession_";
-    
+    const USE_CACHE_FOR_USER_LISTS = false;
+
     const SQL_CHAT_SESSION_BY_ID = "SELECT * FROM `chat_sessions` WHERE `chatSessionid` = ?";
     const SQL_CREATE_CHAT_SESSION = "INSERT INTO `chat_sessions` (`roomid`, `username`, `lastPing`, `loginTime`, `assignedGuestId`) VALUES(?, ?, ?, ?, ?)";
     const SQL_SELECT_LAST_GUEST_NUMBER = "SELECT `lastGuestNumber` FROM `rooms` WHERE `roomid` = ?";
@@ -174,7 +175,7 @@ class ChatSessionSource {
      */
     public function getChatSessions(Room $room)
     {
-        if( $this->perRoomCache->isCached( $room->getRoomId() ) )
+        if( self::USE_CACHE_FOR_USER_LISTS && $this->perRoomCache->isCached( $room->getRoomId() ) )
         {
             // Cache hit
             return $this->perRoomCache->get( $room->getRoomId() );
