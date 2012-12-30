@@ -17,9 +17,9 @@ class ChatSessionCustodian {
 
     const CLEAN_UP_PROBABILITY = 100;        // out of 1000
     const LOG_SOURCE = "CUSTODIAN";
-    const UPDATE_DB_THRESHOLD = 60;         // seconds
+    const UPDATE_DB_THRESHOLD = 20;         // seconds
     const REMOVE_FROM_DB_THRESHOLD = 600;   // seconds
-    const ACTIVE_THRESHOLD = 10;            // seconds
+    const ACTIVE_THRESHOLD = 40;            // seconds
 
     const SQL_SELECT_ACTIVE_ROOMS = "SELECT DISTINCT `roomid` FROM `chat_sessions`";
     const SQL_UPDATE_LAST_PING = "UPDATE `chat_sessions` SET `lastPing` = ? WHERE `chatSessionid` = ?";
