@@ -1,0 +1,68 @@
+{
+    "meta": {
+        "description": "The PRODUCTION configuration file for Zippy Chat.",
+        "esprit_version": "1.0a"
+    },
+
+    "zc_top": "/home/zchat/zippychat",
+
+    "debug": true,
+
+    "db_default_dsn": "mysql:host=localhost;dbname=zchat_main;charset=utf8",
+    "db_default_user": "zchat_main",
+    "db_default_pass": "A+o&AffKKxVN",
+
+    "memcached_servers": [
+        {
+            "host": "localhost",
+            "port": 11211
+        }
+    ],
+
+    "memcached": {
+        "key_prefix": "zc_"
+    },
+
+    "default_timezone": "America/New_York",
+
+    "css": {
+        "sources": ["/home/zchat/zippychat/static/css"],
+        "compressed_dir": "/home/zchat/zippychat/static/css"
+    },
+
+    "FallbackCommand": "\\zc\\commands\\Command_DefaultFallback",
+
+    "base_command_sources": [
+        {
+            "namespace": "\\zc\\commands",
+            "directory": "/home/zchat/zippychat/commands"
+        }
+    ],
+
+    "default_view_sources": [
+        {
+            "namespace": "\\zc\\views",
+            "directory": "/home/zchat/zippychat/views"
+        }
+    ],
+
+    "default_resolvers": {
+        "use_path_command_resolver": true,
+        "use_path_view_resolver": true,
+        "use_catchall_view_resolver": false,
+        "xml_view_resolver_filepath": "/home/zchat/zippychat/data/views.xml"
+    },
+
+    "twig": {
+        "twig_autoloader": "/home/zchat/twigautoloader.php",
+        "templates_dir": "/home/zchat/zippychat/templates",
+        "options": {
+            "cache": "/home/zchat/zippychat/twigcache",
+            "debug": true
+        }
+    },
+
+    "default_error_logfile": "/home/zchat/logs/errors.log",
+    "debug_log": "/home/zchat/logs/debug.log"
+
+}
