@@ -4,6 +4,7 @@ namespace zc\commands;
 
 use \esprit\core\Request;
 use \esprit\core\Response;
+use \esprit\core\exceptions\PageNotFoundException;
 
 use \zc\lib\BaseCommand;
 use \zc\lib\ChatSession;
@@ -29,6 +30,10 @@ class Command_InitializeSession extends BaseCommand {
     public function generateResponse(Request $request, Response $response)
     {
         $room = $this->getRequestedRoom($request);
+
+        // Ensure that this room exists
+        if( $room == null )
+            throw new PageNotFoundException(); 
 
         // Identify or create the user's chat session... if they're authenticated
         $chatSessionSource = $this->getChatSessionSource();

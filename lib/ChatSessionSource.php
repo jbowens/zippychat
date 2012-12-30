@@ -272,6 +272,7 @@ class ChatSessionSource {
      * @return the user's ChatSession or null if the user doesn't have a session
      */
     public function extractChatSession(Request $request, Room $room) {
+        
         $session = $request->getSession();
 
         // Are they already in this chat room?
