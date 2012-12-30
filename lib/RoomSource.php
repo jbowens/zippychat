@@ -63,7 +63,7 @@ class RoomSource {
             $getRoomStmt->execute(array( $roomId ));
             $roomAssocArray = $getRoomStmt->fetch(PDO::FETCH_ASSOC);
 
-            if( $roomAssocArray == null )
+            if( $roomAssocArray == null || ! $roomAssocArray['roomid'] )
                 return null;
 
             $room = Room::createFromArray( $roomAssocArray );
