@@ -146,7 +146,9 @@ class RoomSource {
      */
     public static function getPasswordHasher()
     {
-        return new SaltedHashingStrategy( self::HASHING_ALGORITHM, self::HASHING_SALT );
+        // Can't just use this scheme because of backwards compatability.
+        // return new SaltedHashingStrategy( self::HASHING_ALGORITHM, self::HASHING_SALT );
+        return new SaltedHashingStrategy( 'md5', '&' );
     }
 
     /**
