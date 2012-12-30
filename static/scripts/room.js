@@ -737,6 +737,7 @@ zc.pages.room = zc.pages.room || {
         // "this" refers to the calling room object.
         var msgs = this.getMessages();
 
+
         // Add any new messages
         for( var key in msgs )
         {
@@ -779,6 +780,9 @@ zc.pages.room = zc.pages.room || {
                 }
             }
         }
+
+        // Position the scroll bar at the bottom
+        $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
 
         // First remove any users who changed their username
         var changedUsers = this.getUnupdatedSessions();
