@@ -107,16 +107,16 @@ Class('zc.overlays.InviteOthersDialog', {
                 var emailTab = this.emailTab;
                 $(this.emailTab).find("form.emailInvites").submit(function(e) {
                     e.preventDefault();
-                    $(this.emailTab).find(".submit").val("Sending...");
-                    $(this.emailTab).find(".cancel").hide();
+                    $(emailTab).find(".submit").val("Sending...");
+                    $(emailTab).find(".cancel").hide();
                     $.post('/email-room-invite', { r: overlay.room.getRoomId(),
                                                   to: $(emailTab).find(".toEmail").val(),
                                              message: $(emailTab).find("#emailInvitations_message").val() }, function(resp) {
                         // TODO: Process the server response... Probably only want to do
                         // anything if sending the email failed for some reason
-                        $(this.emailTab).find(".submit").val("Send");
-                        $(this.emailTab).find(".cancel").show();
                         overlay.hide();
+                        $(emailTab).find(".cancel").show();
+                        $(emailTab).find(".submit").val("Send");
                     });
                 });
                 $(this.emailTab).find(".cancel").click(function(e) {
