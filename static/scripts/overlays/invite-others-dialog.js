@@ -53,7 +53,8 @@ Class('zc.overlays.InviteOthersDialog', {
         show: function() 
         {
             this.backdrop.show();
-            $(this.elmt).find(".toEmail").val('');
+            $(this.elmt).find(".toEmail").val('someone@example.com');
+            $(this.elmt).find(".toEmail").addClass('uninitialized');
         },
 
         hide: function()
@@ -92,15 +93,29 @@ Class('zc.overlays.InviteOthersDialog', {
                                   "</form>" +
                                   "</div>");
                 $(this.emailTab).find("#emailInvitations_message").val(defaultMessage);
+                $(this.emailTab).find(".toEmail").focus(function(e) {
+                    $(e.target).val('');
+                    $(e.target).removeClass('uninitialized');
+                });
+                $(this.emailTab).find(".toEmail").blur(function(e) {
+                    if( $(e.target).val() == '' || $(e.target).val() == 'someone@example.com' ) {
+                        $(e.target).addClass('uninitialized');
+                        $(e.target).val('someone@example.com');
+                    }
+                });
                 var overlay = this;
                 var emailTab = this.emailTab;
                 $(this.emailTab).find("form.emailInvites").submit(function(e) {
                     e.preventDefault();
+                    $(this.emailTab).find(".submit").val("Sending...");
+                    $(this.emailTab).find(".cancel").hide();
                     $.post('/email-room-invite', { r: overlay.room.getRoomId(),
                                                   to: $(emailTab).find(".toEmail").val(),
                                              message: $(emailTab).find("#emailInvitations_message").val() }, function(resp) {
                         // TODO: Process the server response... Probably only want to do
                         // anything if sending the email failed for some reason
+                        $(this.emailTab).find(".submit").val("Send");
+                        $(this.emailTab).find(".cancel").show();
                         overlay.hide();
                     });
                 });
