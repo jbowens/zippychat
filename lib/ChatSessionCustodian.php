@@ -17,9 +17,9 @@ class ChatSessionCustodian {
 
     const CLEAN_UP_PROBABILITY = 100;        // out of 1000
     const LOG_SOURCE = "CUSTODIAN";
-    const UPDATE_DB_THRESHOLD = 20;         // seconds
-    const REMOVE_FROM_DB_THRESHOLD = 1200;   // seconds
-    const ACTIVE_THRESHOLD = 600;            // seconds
+    const UPDATE_DB_THRESHOLD = 60;         // seconds
+    const REMOVE_FROM_DB_THRESHOLD = 600;   // seconds
+    const ACTIVE_THRESHOLD = 20;            // seconds
 
     const SQL_SELECT_ACTIVE_ROOMS = "SELECT DISTINCT `roomid` FROM `chat_sessions`";
     const SQL_UPDATE_LAST_PING = "UPDATE `chat_sessions` SET `lastPing` = ? WHERE `chatSessionid` = ?";
@@ -87,6 +87,11 @@ class ChatSessionCustodian {
             $db = $this->dbm->getDb();
             foreach( $sessions as $session )
             {
+
+                // Try to get the more recent session from the cache
+                $moreRecentSession = $this->chatSessionSource->getChatSessionById( $session->getChatSessionId() );
+                $session = $moreRecentSession->getLastPingUTC() >= $session->getLastPingUTC() ? $moreRecentSession : $session; 
+
                 $lastUpdated = null;
                 if( $this->sessionLastUpdatedCache->isCached( $session->getChatSessionId() ) )
                 {
