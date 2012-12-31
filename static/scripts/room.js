@@ -737,7 +737,6 @@ zc.pages.room = zc.pages.room || {
         // "this" refers to the calling room object.
         var msgs = this.getMessages();
 
-
         // Add any new messages
         for( var key in msgs )
         {
@@ -782,6 +781,10 @@ zc.pages.room = zc.pages.room || {
         }
 
         // Position the scroll bar at the bottom
+        // TODO: Update this code to perform incremental movements in scroll height,
+        //       maintaining the current scroll position. This would allow users to
+        //       maintain their current scroll position, regardless of whether they're
+        //       looking at the bottom or the middle.
         $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
 
         // First remove any users who changed their username
@@ -844,7 +847,7 @@ zc.pages.room = zc.pages.room || {
                     }
                     if( ! inserted ) {
                         inserted = true;
-                        lis.append(userElem);
+                        $("#active-users").append(userElem);
                     }
                 }
             }
