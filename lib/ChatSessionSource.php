@@ -22,7 +22,7 @@ class ChatSessionSource {
     const PER_ROOM_CACHE_NAMESPACE = "per_room_sessions";
     const USERNAME_CHANGES_CACHE_NAMESPACE = "username_changes";
     const BAD_ID_EXPIRE_TIME_DELTA = 30;
-    const CHAT_SESSION_EXPIRE_TIME_DELTA = 20;
+    const CHAT_SESSION_EXPIRE_TIME_DELTA = 1200;
     const USERNAME_CHANGE_EXPIRE_TIME_DELTA = 600;
     const CHAT_SESSION_VARIABLE_PREFIX = "chatsession_";
     const USE_CACHE_FOR_USER_LISTS = false;
