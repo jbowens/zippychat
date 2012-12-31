@@ -237,7 +237,11 @@ class ChatSessionSource {
             $pingTime = time();
 
         $chatSession->setLastPingUTC( $pingTime );
-        
+
+        $currSession = $this->getChatSessionById( $chatSession->getChatSessionId() );
+
+        $this->logger->info("Updating chat session " . $chatSession->getChatSessionId() . " last ping from " . $currSession->getLastPingUTC() . " to " . $chatSession->getLastPingUTC(), self::LOG_SOURCE);
+
         // Re-cache the modified object
         $this->recache( $chatSession );
 

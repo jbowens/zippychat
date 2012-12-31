@@ -44,6 +44,7 @@ class Command_Ping extends BaseCommand
         // Identify the user's chat session
         $chatSessionSource = $this->getChatSessionSource();
         $chatSession = $chatSessionSource->extractChatSession($request, $room);
+      
         if( $chatSession == null )
         {
             $this->logger->info("The user does not have an existing chat session", $this->getName());
@@ -55,10 +56,12 @@ class Command_Ping extends BaseCommand
             $this->logger->info("Reactivating user chat session", $this->getName());
             $chatSessionSource->reactivateChatSession( $chatSession );
         }
+
         $response->set('chatSession', $chatSession);
 
         if( $chatSession != null )
         {
+            $chatSessionSource->updateLastPing($chatSession);
             $messages = $this->getNewMessages( $chatSession, $room, $request );
             $response->set('messages', $messages);
         }

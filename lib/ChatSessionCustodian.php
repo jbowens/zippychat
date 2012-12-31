@@ -17,9 +17,9 @@ class ChatSessionCustodian {
 
     const CLEAN_UP_PROBABILITY = 100;        // out of 1000
     const LOG_SOURCE = "CUSTODIAN";
-    const UPDATE_DB_THRESHOLD = 60;         // seconds
+    const UPDATE_DB_THRESHOLD = 30;         // seconds
     const REMOVE_FROM_DB_THRESHOLD = 600;   // seconds
-    const ACTIVE_THRESHOLD = 20;            // seconds
+    const ACTIVE_THRESHOLD = 10;            // seconds
 
     const SQL_SELECT_ACTIVE_ROOMS = "SELECT DISTINCT `roomid` FROM `chat_sessions`";
     const SQL_UPDATE_LAST_PING = "UPDATE `chat_sessions` SET `lastPing` = ? WHERE `chatSessionid` = ?";
@@ -76,7 +76,7 @@ class ChatSessionCustodian {
 
         // Clean up all the rooms that are considered active
         $activeRoomIds = $this->getActiveRoomIds();
-        $this->logger->info( count($activeRoomIds) . " active rooms to clean up" );
+        $this->logger->info( count($activeRoomIds) . " active rooms to clean up", self::LOG_SOURCE );
 
         foreach( $activeRoomIds as $roomId )
         {
@@ -116,6 +116,7 @@ class ChatSessionCustodian {
                     $stmt->execute(array( $session->getChatSessionId() ));
                     $session->setActive( false );
                     $this->chatSessionSource->recache( $session );
+                    $this->chatSessionSource->invalidateRoomSessions( $session->getRoomId() );
                     $this->logger->finest( "Marking chat session " . $session->getChatSessionId() . " as inactive", self::LOG_SOURCE);
                 }
 
