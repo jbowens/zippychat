@@ -826,8 +826,6 @@ zc.pages.room = zc.pages.room || {
                 userElem.data('sessionObj', user);
                 user.setElement(userElem);
 
-                console.log("Inserting " + user.getUsername());
-
                 // Make sure we insert it in its alphabetical position
                 if( $("#active-users li").length == 0 )
                     $("#active-users").append(userElem);
@@ -837,7 +835,6 @@ zc.pages.room = zc.pages.room || {
                     for( var j = 0; (j < lis.length) && !inserted; j++ )
                     {
                         var li = lis[j];
-                        console.log(li);
                         var username = $(li).find('.username').text();
                         if( username > user.getUsername() )
                         {
