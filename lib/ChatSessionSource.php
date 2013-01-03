@@ -425,6 +425,11 @@ class ChatSessionSource {
      */
     public function validateUsername( $chatSession, $potentialUsername )
     {
+
+        // Don't allow them to use an empty username
+        if( $potentialUsername == "" )
+            return false;
+
         // Don't allow them to appear to have power when they don't
         if( strtolower($potentialUsername) == "admin" || strtolower($potentialUsername) == "moderator" )
             return false; 
