@@ -79,7 +79,7 @@ class ChatSessionSource {
             if( $sessionAssoc == null )
             {
                 // This session doesn't exist!
-                $this->logger->warning( "Chat session id ".$chatSessionId." was queried, but it doesn't exist", self::LOG_SOURCE );
+                $this->logger->info( "Chat session id ".$chatSessionId." was queried, but it doesn't exist", self::LOG_SOURCE );
                 // Still cache it, to mitigate the effect of DDOS attacks using bad session ids
                 $this->sessionidCache->set( $chatSessionId, null, time() + self::BAD_ID_EXPIRE_TIME_DELTA );
                 return null;
@@ -208,7 +208,7 @@ class ChatSessionSource {
     {
         if( $chatSession->getActive() )
         {
-            $this->logger->error( "Asked to reactive an active chat session.", self::LOG_SOURCE );
+            $this->logger->error( "Asked to reactivate an active chat session.", self::LOG_SOURCE );
         }
 
         $chatSession->setActive( true );
