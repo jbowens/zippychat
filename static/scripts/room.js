@@ -212,7 +212,13 @@ Class("zc.Room", {
             }
 
             $.get('/ping', requestData, function(data) {
-                _this.processData( data );
+                // If something terrible went down server side, we might have nonsense here.
+                if( data == null || typeof data != 'object' || ! data.hasOwnProperty('messages') || 
+                    ! data.hasOwnProperty('activeUsers') || ! data.hasOwnProperty('usernameChanges') ) {
+                    esprit.recordError(new Error("Instead of ping data, received " + data));
+                } else {
+                    _this.processData( data );
+                }
             }, 'json');
         },
 
