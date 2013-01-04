@@ -756,6 +756,7 @@ zc.pages.room = zc.pages.room || {
             // Make sure there's not an existing ping
             if( !zc.pages.room.currentPingStart || ((new Date()).getTime() - zc.pages.room.currentPingStart) > 10 ) {
                 // No recent outstanding pings; good to go
+                zc.pages.room.currentPingStart = (new Date()).getTime();
                 zc.pages.room.activeRoom.refreshData(function() {
                     zc.pages.room.currentPingStart = null;
                 });
@@ -767,7 +768,6 @@ zc.pages.room = zc.pages.room || {
         // Set the next ping attempt interval
         try {
             zc.pages.room.pingTimeoutHandle = setTimeout(zc.pages.room.ping, zc.pages.room.getPingInterval());
-            zc.pages.room.currentPingStart = (new Date()).getTime();
         } catch(err) {
             esprit.recordError( err );
         }
