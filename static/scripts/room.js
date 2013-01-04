@@ -192,7 +192,7 @@ Class("zc.Room", {
          * Initiates a request for the latest data from the
          * server.
          */
-        refreshData: function()
+        refreshData: function(finishedCallback)
         {
             var _this = this;
             var requestData = { r: this.getRoomId(), changeId: this.lastUsernameChangeId };
@@ -212,12 +212,18 @@ Class("zc.Room", {
             }
 
             $.get('/ping', requestData, function(data) {
-                // If something terrible went down server side, we might have nonsense here.
-                if( data == null || typeof data != 'object' || ! data.hasOwnProperty('messages') || 
-                    ! data.hasOwnProperty('activeUsers') || ! data.hasOwnProperty('usernameChanges') ) {
-                    esprit.recordError(new Error("Instead of ping data, received " + data));
-                } else {
-                    _this.processData( data );
+                try {
+                    // If something terrible went down server side, we might have nonsense here.
+                    if( data == null || typeof data != 'object' || ! data.hasOwnProperty('messages') || 
+                        ! data.hasOwnProperty('activeUsers') || ! data.hasOwnProperty('usernameChanges') ) {
+                        esprit.recordError(new Error("Instead of ping data, received " + data));
+                    } else {
+                        _this.processData( data );
+                    }
+                    // Call the callback alerting the caller that we're finished
+                    finishedCallback();
+                } catch(err) {
+                    esprit.recordError(err);
                 }
             }, 'json');
         },
@@ -414,6 +420,7 @@ zc.pages.room = zc.pages.room || {
     initialTime: null,
     pingInterval: 3000,
     pingTimeoutHandle: null,
+    currentPingStart: null,
     changeUsernameDialog: null,
     passwordBackdrop: null,
     passwordOverlay: null,
@@ -723,13 +730,44 @@ zc.pages.room = zc.pages.room || {
     },
 
     /**
+     * Retrieves the appropriate ping interval for this session.
+     */
+    getPingInterval: function()
+    {
+        // This uses the function 1.863132673 e ^ (1.675528755 / x) to determine the ping interval based on the number of
+        // currently active sessions.
+        var users = zc.pages.room.activeRoom.chatSessions.length;
+        var val = 1.863132673 * Math.exp(1.675528755 / users);
+
+        // Cap at a ping every 2 seconds
+        if( val < 2 )
+            val = 2.0;
+        
+        // Convert to milliseconds and return
+        return val * 1000; 
+    },
+
+    /**
      * Pings the server for fresh data.
      */
     ping: function()
     {
         try {
-            zc.pages.room.activeRoom.refreshData();
-            zc.pages.room.pingTimeoutHandle = setTimeout(zc.pages.room.ping, zc.pages.room.pingInterval);
+            // Make sure there's not an existing ping
+            if( !zc.pages.room.currentPingStart || ((new Date()).getTime() - zc.pages.room.currentPingStart) > 10 ) {
+                // No recent outstanding pings; good to go
+                zc.pages.room.activeRoom.refreshData(function() {
+                    zc.pages.room.currentPingStart = null;
+                });
+            }
+        } catch(err) {
+            esprit.recordError( err );
+        }
+
+        // Set the next ping attempt interval
+        try {
+            zc.pages.room.pingTimeoutHandle = setTimeout(zc.pages.room.ping, zc.pages.room.getPingInterval());
+            zc.pages.room.currentPingStart = (new Date()).getTime();
         } catch(err) {
             esprit.recordError( err );
         }
