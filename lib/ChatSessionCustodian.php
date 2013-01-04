@@ -15,7 +15,7 @@ use \esprit\core\Cache;
  */
 class ChatSessionCustodian {
 
-    const CLEAN_UP_PROBABILITY = 100;        // out of 1000
+    const CLEAN_UP_PROBABILITY = 50;        // out of 1000
     const LOG_SOURCE = "CUSTODIAN";
     const UPDATE_DB_THRESHOLD = 30;         // seconds
     const REMOVE_FROM_DB_THRESHOLD = 600;   // seconds
@@ -23,7 +23,7 @@ class ChatSessionCustodian {
 
     const SQL_SELECT_ACTIVE_ROOMS = "SELECT DISTINCT `roomid` FROM `chat_sessions`";
     const SQL_UPDATE_LAST_PING = "UPDATE `chat_sessions` SET `lastPing` = ? WHERE `chatSessionid` = ?";
-    const SQL_MARK_INACTIVE = "UPDATE `chat_sessions` SET `active` = 0 WHERE `chatSessionid` = ?"; 
+    const SQL_MARK_INACTIVE = "UPDATE `chat_sessions` SET `lastPing` = ? AND `active` = 0 WHERE `chatSessionid` = ?"; 
     const SQL_DELETE_SESSION = "DELETE FROM `chat_sessions` WHERE `chatSessionid` = ?";
 
     protected $dbm;
@@ -113,7 +113,7 @@ class ChatSessionCustodian {
                 {
                     // This session is no longer active, but we should hold onto it.
                     $stmt = $db->prepare( self::SQL_MARK_INACTIVE );
-                    $stmt->execute(array( $session->getChatSessionId() ));
+                    $stmt->execute(array( $session->getLastPingUTC(), $session->getChatSessionId() ));
                     $session->setActive( false );
                     $this->chatSessionSource->recache( $session );
                     $this->chatSessionSource->invalidateRoomSessions( $session->getRoomId() );
