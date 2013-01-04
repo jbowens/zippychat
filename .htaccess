@@ -6,15 +6,18 @@ RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
 # Redirect favicon requests
-RewriteRule ^favicon.ico$ static/favicon.ico [L,NC]
+RewriteRule ^favicon\.ico$ static/favicon.ico [L,NC]
 
 # Allow access to files in the static directory straight
 # through Apache, without going through Esprit's controller.
 RewriteRule ^static/(.*)$ static/$1 [L,NC]
 
+# Allow access to the robots.txt file
+RewriteRule ^robots\.txt$ robots.txt [L,NC]
+
 # Allow access to phpinfo.php, at least on dev machines.
 # The file shouldn't even exist on production machines
-RewriteRule ^phpinfo.php$ phpinfo.php [L,NC]
+RewriteRule ^phpinfo\.php$ phpinfo.php [L,NC]
 
 # All other requests should go to index.php, where you
 # setup and run \esprit\core\Controller
