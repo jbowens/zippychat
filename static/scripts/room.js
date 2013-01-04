@@ -412,7 +412,7 @@ zc.pages.room = zc.pages.room || {
     activeChatSession: null,
     activeRoom: null,
     initialTime: null,
-    pingInterval: 2000,
+    pingInterval: 3000,
     pingTimeoutHandle: null,
     changeUsernameDialog: null,
     passwordBackdrop: null,
