@@ -107,6 +107,7 @@ Class('zc.overlays.InviteOthersDialog', {
                 var emailTab = this.emailTab;
                 $(this.emailTab).find("form.emailInvites").submit(function(e) {
                     e.preventDefault();
+                    $(emailTab).find(".submit").attr("disabled", "disabled");
                     $(emailTab).find(".submit").val("Sending...");
                     $(emailTab).find(".cancel").hide();
                     $.post('/email-room-invite', { r: overlay.room.getRoomId(),
@@ -117,6 +118,7 @@ Class('zc.overlays.InviteOthersDialog', {
                         overlay.hide();
                         $(emailTab).find(".cancel").show();
                         $(emailTab).find(".submit").val("Send");
+                        $(emailTab).find(".submit").removeAttr("disabled");
                     });
                 });
                 $(this.emailTab).find(".cancel").click(function(e) {
