@@ -93,8 +93,8 @@ class Command_Room extends BaseCommand {
         // We're currently displaying 120x600 skyscraper ads
         $adType = new SkyscraperAd();
 
-        // Current ad source is Clicksor
-        $adSource = new ClicksorServer( $this->logger );
+        // Current ad source is Chitika
+        $adSource = new ChitikaServer( $this->logger );
 
         if( ! $adSource->canServe( $request, $adType ) )
         {
