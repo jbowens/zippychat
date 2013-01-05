@@ -8,7 +8,7 @@ use \zc\lib\Ad;
  * A Clicksor skyscraper advertisement.
  *
  * @author jbowens
- * @since 2012-08-26
+ * @since 2013-01-04
  */
 class ClicksorSkyscraper implements Ad
 {
