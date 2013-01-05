@@ -1,12 +1,22 @@
 {% extends "Default.html" %}
 {% block mainContent %}
+{% if fb_integration %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=158631674237245";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endif %}
 <div id="room">
     <div id="room-meta-data">
         <h1>{{ room.getTitle()|e }}</h1>
         {% if room.getDescription() %}<p class="room-desc">{{ room.getDescription()|e }}</p>{% endif %}
         <div class="sharable-url">
             {{ t('Sharable_url') }}: 
-            <span class="url">http://{{ site.getDomain()|e }}/room/{{ room.getUrlIdentifier() }}</span>
+            <span class="url">{{ sharable_url }}</span>
         </div>
         <input type="hidden" class="hidden roomId" id="roomId" value="{{ room.getRoomId() }}" />
     </div>
@@ -46,6 +56,9 @@
                 <div class="options">
                     <span class="optionButton button inviteOthers">{{ t('Invite_others') }}</span>
                     <span class="optionButton button changeUsername">{{ t('Change_username') }}</span>
+                    {% if fb_integration %}
+                    <div class="fb-send" style="float: left; margin-right: 0.3em; margin-top: 0.2em;" data-href="{{ sharable_url }}" data-font="lucida grande"></div>
+                    {% endif %}
                     <div class="clear"></div>
                 </div>
 

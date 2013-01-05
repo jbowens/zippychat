@@ -18,6 +18,8 @@ use \esprit\core\TemplateParser;
 abstract class BaseView extends AbstractView
 {
 
+    protected $urlUtil;
+
     /**
      * Adds a javascript file to be included into the page.
      *
@@ -37,9 +39,9 @@ abstract class BaseView extends AbstractView
     {
        // Store some zc-specific but global values
        $site = $response->getRequest()->getSite();
-       $urlUtil = new util\UrlUtil( $site );
-       $this->set( 'urlutil', $urlUtil );
-
+       $this->urlUtil = new util\UrlUtil( $site );
+       $this->set( 'urlutil', $this->urlUtil );
+       $this->set( 'fb_integration', $this->config->get('fb_integration') );
        $this->setGlobalValues();
 
        // Run output logic

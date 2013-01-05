@@ -4,6 +4,8 @@ namespace zc\lib\util;
 
 use \esprit\core\Site;
 
+use \zc\lib\Room;
+
 /**
  * Defines utilities for generating urls.
  *

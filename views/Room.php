@@ -9,6 +9,7 @@ class Room extends DefaultView
 
     protected function output(Response $response)
     {
+        $this->set('sharable_url', $this->urlUtil->generateRoomPermalink($response->get('room')));
         $response->set('smallLogo', true);
         $response->set('widePage', true);
         $response->set('includeMetaTags', false);
