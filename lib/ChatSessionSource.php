@@ -25,7 +25,7 @@ class ChatSessionSource {
     const CHAT_SESSION_EXPIRE_TIME_DELTA = 1200;
     const USERNAME_CHANGE_EXPIRE_TIME_DELTA = 600;
     const CHAT_SESSION_VARIABLE_PREFIX = "chatsession_";
-    const USE_CACHE_FOR_USER_LISTS = false;
+    const USE_CACHE_FOR_USER_LISTS = true;
 
     const SQL_CHAT_SESSION_BY_ID = "SELECT * FROM `chat_sessions` WHERE `chatSessionid` = ?";
     const SQL_CREATE_CHAT_SESSION = "INSERT INTO `chat_sessions` (`roomid`, `username`, `lastPing`, `loginTime`, `assignedGuestId`) VALUES(?, ?, ?, ?, ?)";
@@ -238,9 +238,7 @@ class ChatSessionSource {
 
         $chatSession->setLastPingUTC( $pingTime );
 
-        $currSession = $this->getChatSessionById( $chatSession->getChatSessionId() );
-
-        $this->logger->info("Updating chat session " . $chatSession->getChatSessionId() . " last ping from " . $currSession->getLastPingUTC() . " to " . $chatSession->getLastPingUTC(), self::LOG_SOURCE);
+        $this->logger->info("Updating chat session " . $chatSession->getChatSessionId() . " last ping to " . $chatSession->getLastPingUTC(), self::LOG_SOURCE);
 
         // Re-cache the modified object
         $this->recache( $chatSession );

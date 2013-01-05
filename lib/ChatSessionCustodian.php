@@ -23,7 +23,7 @@ class ChatSessionCustodian {
 
     const SQL_SELECT_ACTIVE_ROOMS = "SELECT DISTINCT `roomid` FROM `chat_sessions`";
     const SQL_UPDATE_LAST_PING = "UPDATE `chat_sessions` SET `lastPing` = ? WHERE `chatSessionid` = ?";
-    const SQL_MARK_INACTIVE = "UPDATE `chat_sessions` SET `lastPing` = ? AND `active` = 0 WHERE `chatSessionid` = ?"; 
+    const SQL_MARK_INACTIVE = "UPDATE `chat_sessions` SET `lastPing` = ?, `active` = 0 WHERE `chatSessionid` = ?"; 
     const SQL_DELETE_SESSION = "DELETE FROM `chat_sessions` WHERE `chatSessionid` = ?";
 
     protected $dbm;
