@@ -9,15 +9,13 @@ use \esprit\core\util\Logger;
 use \zc\lib\AdType;
 
 /**
- * Defines an AdServer for ads provided through Clicksor.
- * With this ad server, we're limited by Clicksor provided
- * sizings. We also have no information about what advertisement
- * we're going to end up serving before we serve it.
+ * Defines an abstract ad server. This ad server allows mappings between ad types and
+ * ads and will display matching ads if available. It should be subclassed.
  *
  * @author jbowens
- * @since 2013-01-04
+ * @since 2013-01-05
  */
-class ClicksorServer implements AdServer
+abstract class AbstractAdServer implements AdServer
 {
     use LogAware;
     
@@ -27,11 +25,14 @@ class ClicksorServer implements AdServer
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
-
-        array_push($this->availableAds, array(
-                                    'adtype' => new \zc\lib\adtype\SkyscraperAd(),
-                                    'advertisement' => new \zc\lib\ad\ClicksorSkyscraper() ) );
+        $this->loadAvailableAds();
     }
+
+    /**
+     * Loads any available ads. This should be implemented by
+     * the subclass.
+     */
+    protected abstract function loadAvailableAds();
 
     /**
      * @see AdServer.canServe();

@@ -6,6 +6,7 @@ use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 use \esprit\core\exceptions\PageNotFoundException;
 
+use \zc\lib\adserver\BidvertiserServer;
 use \zc\lib\adserver\ChitikaServer;
 use \zc\lib\adserver\ClicksorServer;
 use \zc\lib\adserver\GoogleAdSenseServer;
@@ -75,7 +76,7 @@ class Command_Room extends BaseCommand {
     {
         // Current strategy: display ads to a random 25% of requests
         return ($this->config->get('serve_ads') == true) &&
-               (rand(1,100) <= 25);
+               (rand(1,100) <= 100);
     }
 
     /**
@@ -93,7 +94,6 @@ class Command_Room extends BaseCommand {
         // We're currently displaying 120x600 skyscraper ads
         $adType = new SkyscraperAd();
 
-        // Current ad source is Chitika
         $adSource = new ChitikaServer( $this->logger );
 
         if( ! $adSource->canServe( $request, $adType ) )

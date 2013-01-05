@@ -17,7 +17,7 @@ use \zc\lib\AdType;
  * @author jbowens
  * @since 2012-08-26
  */
-class GoogleAdSenseServer
+class GoogleAdSenseServer implements AdServer
 {
     use LogAware;
     
