@@ -42,6 +42,7 @@ abstract class BaseView extends AbstractView
        $this->urlUtil = new util\UrlUtil( $site );
        $this->set( 'urlutil', $this->urlUtil );
        $this->set( 'fb_integration', $this->config->get('fb_integration') );
+       $this->set( 'twitter_integration', $this->config->get('twitter_integration') );
        $this->setGlobalValues();
 
        // Run output logic

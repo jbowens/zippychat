@@ -11,6 +11,7 @@
     "serve_ads": true,
 
     "fb_integration": true,
+    "twitter_integration": true,
 
     "db_default_dsn": "mysql:host=localhost;dbname=zippydev_main;charset=utf8",
     "db_default_user": "zippydev_main",
