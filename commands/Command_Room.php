@@ -6,6 +6,8 @@ use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 use \esprit\core\exceptions\PageNotFoundException;
 
+use \zc\lib\adserver\ChitikaServer;
+use \zc\lib\adserver\ClicksorServer;
 use \zc\lib\adserver\GoogleAdSenseServer;
 use \zc\lib\adtype\SkyscraperAd;
 use \zc\lib\BaseCommand;
@@ -89,8 +91,8 @@ class Command_Room extends BaseCommand {
         // We're currently displaying 120x600 skyscraper ads
         $adType = new SkyscraperAd();
 
-        // Current ad source is GoogleAdSense
-        $adSource = new GoogleAdSenseServer( $this->logger );
+        // Current ad source is Clicksor
+        $adSource = new ClicksorServer( $this->logger );
 
         if( ! $adSource->canServe( $request, $adType ) )
         {

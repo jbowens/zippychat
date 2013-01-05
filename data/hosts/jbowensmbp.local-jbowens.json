@@ -8,6 +8,8 @@
 
     "debug": true,
 
+    "serve_ads": true,
+
     "db_default_dsn": "mysql:host=localhost;dbname=zippychat;charset=utf8",
     "db_default_user": "zip",
     "db_default_pass": "t0st1t0s",
