@@ -8,6 +8,8 @@
 
     "debug": true,
 
+    "serve_ads": true,
+
     "db_default_dsn": "mysql:host=localhost;dbname=zippydev_main;charset=utf8",
     "db_default_user": "zippydev_main",
     "db_default_pass": "B*5mfLvRpm9=",
