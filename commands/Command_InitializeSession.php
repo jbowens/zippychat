@@ -29,6 +29,7 @@ class Command_InitializeSession extends BaseCommand {
 
     public function generateResponse(Request $request, Response $response)
     {
+
         $room = $this->getRequestedRoom($request);
 
         // Ensure that this room exists
