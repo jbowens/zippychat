@@ -485,8 +485,8 @@ zc.pages.room = zc.pages.room || {
         try {
             if( zc.pages.room.activeChatSession == null )
             {
-                // TODO: update this line
-                throw new Error();
+                // TODO: Do something more graceful here
+                throw new Error("A user tried to post a message while not logged in");
             }
             var currentMessage = $("#room #postMessage_text").val();
             // Not submitting if it's an empty message
