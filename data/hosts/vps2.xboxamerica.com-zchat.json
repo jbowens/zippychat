@@ -8,6 +8,8 @@
 
     "debug": false,
 
+    "serve_ads": true,
+
     "db_default_dsn": "mysql:host=localhost;dbname=zchat_main;charset=utf8",
     "db_default_user": "zchat_main",
     "db_default_pass": "A+o&AffKKxVN",
