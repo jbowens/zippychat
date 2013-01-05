@@ -22,6 +22,8 @@ class Index extends BaseView {
             $this->redirect('/room/' . $room->getUrlIdentifier());
         }
 
+        $response->set('includeMetaTags', true);
+
         // Display the template
         $this->templateParser->displayTemplate( self::TEMPLATE );
     }
