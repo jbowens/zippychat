@@ -6,6 +6,7 @@ use \esprit\core\LogAware;
 use \esprit\core\Request;
 use \esprit\core\util\Logger;
 
+use \zc\lib\AdServer;
 use \zc\lib\AdType;
 
 /**
