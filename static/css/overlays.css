@@ -17,3 +17,5 @@
 .inviteOthersDialog h3 { font-family: verdana, sans-serif; font-size: 0.8em; color: #555; margin: 0; font-weight: normal; text-align: center; text-shadow: #FFF 2px 2px 2px; }
 .inviteOthersDialog p { font-size: 0.8em; color: #555; }
 .inviteOthersDialog .toField input.uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
+.connectingOverlay { text-align: center; z-index: 10000; }
+.connectingOverlay h3 { font-family: verdana, sans-serif; color: #FFF; font-size: 2em; text-shadow: #444 2px 2px 2px; }

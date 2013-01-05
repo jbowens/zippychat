@@ -425,6 +425,7 @@ zc.pages.room = zc.pages.room || {
     passwordBackdrop: null,
     passwordOverlay: null,
     inviteOthersOverlay: null,
+    connectingOverlay: null,
 
     /**
      * Called on DOM ready.
@@ -442,6 +443,9 @@ zc.pages.room = zc.pages.room || {
 
             // Set the initial update time
             room.setInitialTime( this.initialTime );
+
+            // Display the connecting overlay
+            this.connectingOverlay = new zc.overlays.ConnectingOverlay({});
 
             // Setup listeners
             $("#room .changeUsername").click(function(e) {
@@ -669,6 +673,7 @@ zc.pages.room = zc.pages.room || {
                     _this.activeChatSession = new zc.ChatSession(data.chatSession);
                     _this.activeRoom.setInitialTime( new Date( data.chatSession.loginTime * 1000 ) );
                     _this.activeRoom.setLastUsernameChangeId( data.usernameChangeId );
+                    _this.connectingOverlay.hide();
                     if( data['newSession'] )
                     {
                         // Show the username dialog so that they can set their initial username

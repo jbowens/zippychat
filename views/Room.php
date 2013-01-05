@@ -16,6 +16,7 @@ class Room extends DefaultView
         $this->addScript('overlays/overlays.js');
         $this->addScript('overlays/simple-dialog.js');
         $this->addScript('overlays/invite-others-dialog.js');
+        $this->addScript('overlays/connecting-overlay.js');
         $this->addScript('overlays/backdrop.js');
         return parent::output($response);        
     }
