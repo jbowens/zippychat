@@ -3,7 +3,9 @@
 namespace zc\commands;
 
 use zc\lib\BaseCommand;
+use zc\lib\FourOhFourLogger;
 
+use \esprit\core\db\DatabaseReference;
 use \esprit\core\Request as Request;
 use \esprit\core\Response as Response;
 
@@ -26,6 +28,10 @@ class Command_DefaultFallback extends BaseCommand {
         $this->getLogger()->info("404 on request to " . $request->getUrl()->getPath(), self::LOG_SOURCE);
 
         $response->set('IS_404', true);
+
+        // Log this request to the db
+        $fourOhFourLogger = new FourOhFourLogger( new DatabaseReference($this->getDatabaseManager()) );
+        $fourOhFourLogger->logRequest( $request );
 
         return $response;
 
