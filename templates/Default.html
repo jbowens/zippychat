@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{ t('zippy_chat') }} - {{ t('title_text') }}</title>
+        <title>{% if title_text %}{{ title_text }} - {{ t('zippy_chat') }}{% else %}{{ t('zippy_chat') }} - {{ t('title_text') }}{% endif %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         {% if includeMetaTags %}
         <meta name="keywords" content="chat room, chat, permanent, free, create, group chat" />
