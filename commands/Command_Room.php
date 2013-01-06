@@ -92,7 +92,7 @@ class Command_Room extends BaseCommand {
         // We're currently displaying 120x600 skyscraper ads
         $adType = new SkyscraperAd();
 
-        $adSource = (rand(1,100) <- 50) ? new ChitikaServer( $this->logger ) : new BidvertiserServer( $this->logger );
+        $adSource = (rand(1,100) <= 50) ? new ChitikaServer( $this->logger ) : new BidvertiserServer( $this->logger );
 
         if( ! $adSource->canServe( $request, $adType ) )
         {
