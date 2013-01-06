@@ -74,9 +74,7 @@ class Command_Room extends BaseCommand {
      */
     public function adsEnabled(Request $request)
     {
-        // Current strategy: display ads to a random 25% of requests
-        return ($this->config->get('serve_ads') == true) &&
-               (rand(1,100) <= 25);
+        return ($this->config->get('serve_ads') == true);
     }
 
     /**
