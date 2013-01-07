@@ -9,6 +9,7 @@
     "debug": true,
 
     "serve_ads": true,
+    "viral_ad_network": true,
 
     "fb_integration": true,
     "twitter_integration": true,
