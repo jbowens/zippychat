@@ -21,12 +21,14 @@
         <input type="hidden" class="hidden roomId" id="roomId" value="{{ room.getRoomId() }}" />
     </div>
     <div id="room-area">
+        <div id="room-sidebar" style="width: {{ room_adtype.getWidth() }}px;">
         {% if ad %}
-            <div class="ad skyscraperAd">
+            <div class="ad {{ room_adtype.getIdentifier() }}">
                 {{ ad.getHtml() | raw }}
             </div>
-        {% endif %}
-        <div class="chatRoomContainer{% if ad %} nextToSkyscraperAd{% endif %}">
+            {% endif %}
+        </div>
+        <div class="chatRoomContainer"{% if room_adtype %} style="margin-left: {{ room_adoffset }}px;"{% endif %}>
             <div id="chatroom">
                 <div id="chat-container">
                     <div id="chat-sidebar">

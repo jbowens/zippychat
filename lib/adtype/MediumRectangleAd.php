@@ -10,20 +10,26 @@ use \zc\lib\AdType;
  * @author jbowens
  * @since 2012-01-07
  */
-class SkyscraperAd extends AdType
+class MediumRectangleAd extends AdType
 {
 
-    const SKYSCRAPER_WIDTH_PX = 300;
-    const SKYSCRAPER_HEIGHT_PX = 250;
+    const ADTYPE_IDENTIFIER = "mediumRectangleAd";
+    const AD_WIDTH_PX = 300;
+    const AD_HEIGHT_PX = 250;
+
+    public function getIdentifier()
+    {
+        return self::ADTYPE_IDENTIFIER;
+    }
 
     public function getWidth()
     {
-        return self::SKYSCRAPER_WIDTH_PX;
+        return self::AD_WIDTH_PX;
     }
 
     public function getHeight()
     {
-        return self::SKYSCRAPER_HEIGHT_PX;
+        return self::AD_HEIGHT_PX;
     }
 
 }

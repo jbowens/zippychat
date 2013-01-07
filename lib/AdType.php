@@ -16,6 +16,19 @@ namespace zc\lib;
 class AdType 
 {
 
+    const DEFAULT_IDENTIFIER = "catchall_ad_type";
+
+    /**
+     * Returns a string identifier of the ad type. The identifier should follow
+     * all the restrictions of CSS class names so that it may be used as a 
+     * class name.
+     */
+    public function getIdentifier()
+    {
+        return self::DEFAULT_IDENTIFIER;
+    }
+
+
     /**
      * Returns the width, in pixels, that this ad type requires or null
      * if it imposes no restrictions on the width of the ad display.

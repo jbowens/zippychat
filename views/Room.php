@@ -11,6 +11,8 @@ class Room extends DefaultView
     {
         $this->set('sharable_url', $this->urlUtil->generateRoomPermalink($response->get('room')));
         $this->set('title_text', $response->get('room')->getTitle() . ' chat');
+        $this->set('room_adtype', $response->get('ad') ? $response->get('ad')->getAdType() : null);
+        $this->set('room_adoffset', $response->get('ad') ? $response->get('ad')->getAdType()->getWidth() + 10 : null);
         $response->set('smallLogo', true);
         $response->set('widePage', true);
         $response->set('includeMetaTags', false);

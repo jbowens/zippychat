@@ -15,8 +15,14 @@ use \zc\lib\AdType;
 class SkyscraperAd extends AdType
 {
 
+    const SKYSCRAPER_IDENTIFIER = "skyscraperAd";
     const SKYSCRAPER_WIDTH_PX = 120;
     const SKYSCRAPER_HEIGHT_PX = 600;
+
+    public function getIdentifier()
+    {
+        return self::SKYSCRAPER_IDENTIFIER;
+    }
 
     public function getWidth()
     {

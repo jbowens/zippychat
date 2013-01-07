@@ -11,7 +11,7 @@ use \zc\lib\adserver\ChitikaServer;
 use \zc\lib\adserver\ClicksorServer;
 use \zc\lib\adserver\GoogleAdSenseServer;
 use \zc\lib\adserver\ViralAdNetworkServer;
-use \zc\lib\adtype\MediumSkyscraperAd;
+use \zc\lib\adtype\MediumRectangleAd;
 use \zc\lib\adtype\SkyscraperAd;
 use \zc\lib\BaseCommand;
 use \zc\lib\ChatSessionSource;
@@ -96,7 +96,7 @@ class Command_Room extends BaseCommand {
         if( $this->getConfig()->get('viral_ad_network') )
         {
             // We're currently displaying 300x250 medium rectangles
-            $adType = new MediumSkyscraperAd();
+            $adType = new MediumRectangleAd();
             $adSource = new ViralAdNetworkServer( $this->logger );
         } else {
             // Fallback to Chitika if we're not showing viral ad network ads

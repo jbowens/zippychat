@@ -42,6 +42,8 @@ input.utilPop { height: 25px; font-size: .9em; }
 #room #room-meta-data p { font-size: 0.7em; margin: 0.25em 0; }
 #room #room-meta-data .room-desc { font-size: .9em; }
 #room #room-meta-data .sharable-url { font-size: .7em; color:#666; }
+#room #room-sidebar { float: left; }
+#room #room-sidebar .ad { margin-bottom: 0.5em; }
 #room .skyscraperAd { margin: 0 0.5em 0.5em 0; float: left; }
 #room .nextToSkyscraperAd { margin-left: 130px; }
 #chat-container { height: 450px; background-color: #F5F5F5; border: 1px #C5C5C5 solid; margin-top: 0.5em; min-width: 30em; }
