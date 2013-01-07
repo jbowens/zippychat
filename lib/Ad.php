@@ -16,4 +16,9 @@ interface Ad
      */
     public function getHtml();
 
+    /**
+     * Returns the AdType of the ad this is.
+     */
+    public function getAdType();
+
 }

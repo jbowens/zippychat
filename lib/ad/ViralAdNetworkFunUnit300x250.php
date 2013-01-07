@@ -31,4 +31,9 @@ class ViralAdNetworkFunUnit300x250 implements Ad
 EOT;
     } 
 
+    public function getAdType()
+    {
+        return new \zc\lib\adtype\MediumRectangleAd();
+    }
+
 }

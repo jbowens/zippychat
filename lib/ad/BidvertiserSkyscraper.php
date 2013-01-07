@@ -26,4 +26,9 @@ class BidvertiserSkyscraper implements Ad
 EOT;
     } 
 
+    public function getAdType()
+    {
+        return new \zc\lib\adtype\SkyscraperAd();
+    }
+
 }

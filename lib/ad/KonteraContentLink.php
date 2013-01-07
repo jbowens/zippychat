@@ -32,4 +32,10 @@ class KonteraContentLink implements Ad
 EOT;
     } 
 
+    public function getAdType()
+    {
+        // TODO: Create a new ad type for this type of ad
+        return null;
+    }
+
 }

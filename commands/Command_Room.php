@@ -10,6 +10,8 @@ use \zc\lib\adserver\BidvertiserServer;
 use \zc\lib\adserver\ChitikaServer;
 use \zc\lib\adserver\ClicksorServer;
 use \zc\lib\adserver\GoogleAdSenseServer;
+use \zc\lib\adserver\ViralAdNetworkServer;
+use \zc\lib\adtype\MediumSkyscraperAd;
 use \zc\lib\adtype\SkyscraperAd;
 use \zc\lib\BaseCommand;
 use \zc\lib\ChatSessionSource;
@@ -74,7 +76,7 @@ class Command_Room extends BaseCommand {
      */
     public function adsEnabled(Request $request)
     {
-        return ($this->config->get('serve_ads') == true) && (rand(1,100) <= 50);
+        return ($this->config->get('serve_ads') == true);
     }
 
     /**
@@ -89,10 +91,18 @@ class Command_Room extends BaseCommand {
         if( ! $this->adsEnabled($request) )
             return null;
 
-        // We're currently displaying 120x600 skyscraper ads
-        $adType = new SkyscraperAd();
-
-        $adSource = (rand(1,100) <= 50) ? new ChitikaServer( $this->logger ) : new BidvertiserServer( $this->logger );
+        $adType = null;
+        $adSource = null;
+        if( $this->getConfig()->get('viral_ad_network') )
+        {
+            // We're currently displaying 300x250 medium rectangles
+            $adType = new MediumSkyscraperAd();
+            $adSource = new ViralAdNetworkServer( $this->logger );
+        } else {
+            // Fallback to Chitika if we're not showing viral ad network ads
+            $adType = new SkyscraperAd();
+            $adSource = new ChitikaServer( $this->logger );
+        }
 
         if( ! $adSource->canServe( $request, $adType ) )
         {
