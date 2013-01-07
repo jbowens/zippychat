@@ -27,8 +27,9 @@
                 {{ ad.getHtml() | raw }}
             </div>
             {% endif %}
+            {% if room_adtype.getHeight() <= 400 %}
             <div class="socialBox">
-                <h4>Invite someone</h4>
+                <h4>{{ t('Invite_someone') }}</h4>
                 {% if fb_integration %}
                     <div class="fb-send" style="float: left; margin-right: 0.5em; margin-top: 0.15em;" data-href="{{ sharable_url }}" data-font="lucida grande"></div>
                 {% endif %}
@@ -37,6 +38,7 @@
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> 
                 {% endif %}
             </div>
+            {% endif %}
         </div>
         <div class="chatRoomContainer"{% if room_adtype %} style="margin-left: {{ room_adoffset }}px;"{% endif %}>
             <div id="chatroom">
@@ -66,7 +68,7 @@
                     </div>
                 </div>
                 <div class="options">
-                    <span class="optionButton button inviteOthers">{{ t('Invite_others') }}</span>
+                    <span class="optionButton button inviteOthers">{{ t('Invite_someone') }}</span>
                     <span class="optionButton button changeUsername">{{ t('Change_username') }}</span>
                     
                     <div class="clear"></div>
