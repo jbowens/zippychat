@@ -68,3 +68,5 @@ input.utilPop { height: 25px; font-size: .9em; }
 .changeUsernameDialog form div { text-align: center; margin: 1em 0; }
 .changeUsernameDialog input.newUsername { border: 1px #888 solid; color: #555; font-size: 1.1em; width: 90%; margin-bottom: 0 auto; }
 .changeUsernameDialog form .button, .changeUsernameDialog form .submit { font-size: .9em; height: 25px; margin-right: 0.5em; }
+h4 { margin: 0.5em 0; }
+.socialBox { margin: 1em 0.25em; padding: 0.5em; }
