@@ -8,6 +8,9 @@ RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 # Redirect favicon requests
 RewriteRule ^favicon\.ico$ static/favicon.ico [L,NC]
 
+# Redirect versioned static files to the right file.
+RewriteRule ^static/(.*)-v[0-9]+\.([^.]*)$ static/$1.$2 [L,NC]
+
 # Allow access to files in the static directory straight
 # through Apache, without going through Esprit's controller.
 RewriteRule ^static/(.*)$ static/$1 [L,NC]
