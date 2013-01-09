@@ -34,6 +34,10 @@ $catchall = $viewResolverFactory->createCatchallViewResolver( new \zc\views\Defa
                                                                                          $controller->getTemplateParser() ) );
 $controller->appendViewResolver( $catchall );
 
+// Setup our request flaggers
+$mobileFlagger = new \esprit\flaggers\MobileFlagger();
+$controller->registerRequestFlagger( $mobileFlagger );
+
 // Respond to the user's request
 $controller->run();
 
