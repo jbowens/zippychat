@@ -4,7 +4,7 @@ Class('zc.Linker',
 
     have: {
 
-        linkRegexp:/(http:\/\/\S+[^.])/ig
+        linkRegexp:/(https?:\/\/\S+[^.,;?!])/ig
 
     },
 
