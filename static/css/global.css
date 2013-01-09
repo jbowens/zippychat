@@ -1,3 +1,4 @@
+@font-face { font-family: "Myriad Pro"; src: url(../fonts/myriadpro.ttf) format("truetype"); }
 body { background-image: url('/static/images/background.png'); background-position: right 230px; background-repeat: repeat-x; background-color: #374247; font-family: verdana, sans-serif; color: #FFF; height: 100%; margin: 0; padding: 0; }
 a { color: #B0BBC4; text-decoration: underline; }
 p { margin: 1em 0; }
@@ -9,6 +10,8 @@ p { margin: 1em 0; }
 #mainContainer.wide { width: 90%; }
 #masthead { margin: 1.5em 0; }
 #masthead.smallLogo { margin: 0.5em 0; }
+#masthead .logo { float: left; }
+#masthead #masthead-tag { float : left; margin: 0.65em 0.25em 0 0; font-size: 2.5em; color: #d7e9f2; font-family: "Myriad Pro", verdana, sans-serif; text-transform: lowercase; }
 #mainContent { min-height: 20em; border: 2px #537EA5 solid; font-size: 0.938em; }
 .content { background-color: #FFF; color: #222; padding: 1.3em; margin: .25em 0; }
 .content a { color: #333; }
