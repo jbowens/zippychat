@@ -16,6 +16,7 @@ class Room extends DefaultView
         $response->set('smallLogo', true);
         $response->set('widePage', true);
         $response->set('includeMetaTags', false);
+        $this->addScript('linker.js');
         $this->addScript('room.js?v=2');
         $this->addScript('overlays/overlays.js');
         $this->addScript('overlays/simple-dialog.js');

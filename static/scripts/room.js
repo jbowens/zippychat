@@ -426,6 +426,7 @@ zc.pages.room = zc.pages.room || {
     passwordOverlay: null,
     inviteOthersOverlay: null,
     connectingOverlay: null,
+    linker: null,
 
     /**
      * Called on DOM ready.
@@ -440,6 +441,13 @@ zc.pages.room = zc.pages.room || {
             var room = new zc.Room( {roomId: roomId} );
             room.setRender( zc.pages.room.render );
             this.activeRoom = room;
+
+            // Initialize the linker
+            this.linker = new zc.Linker();
+
+            // Setup viglink, if available
+            if( typeof vglnk !== 'undefined' )
+                vglnk.reaffiliate = true;
 
             // Set the initial update time
             room.setInitialTime( this.initialTime );
@@ -809,6 +817,18 @@ zc.pages.room = zc.pages.room || {
                 }
                 
                 msgElem.find(".messageContent").text( message.getMessage() );
+
+                // Create any links
+                zc.pages.room.linker.linkify( msgElem.find(".messageContent")[0] );
+                // Affiliate any links if possible
+                if( typeof vglnk !== 'undefined' )
+                {
+                    var as = msgElem.find("a");
+                    for( var i = 0; i < as.length; i++ )
+                    {
+                        vglnk.link(as[i]);
+                    }
+                }
 
                 if( ! message.isServerConfirmed() )
                 {
