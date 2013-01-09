@@ -6,6 +6,12 @@ zc.init = function() {
     if( $("#HOME") ) {
         zc.pages.home.init();
     }
+    
+    // Determine if flash is available, if required.
+    if( typeof zc_run_flash_check !== 'undefined' && zc_run_flash_check )
+    {
+        zc.flashCheck();
+    }
 };
 
 zc.pages.home = {
@@ -40,6 +46,23 @@ zc.pages.home = {
         $(".additional-options").removeClass('hidden');
     }
 };
+
+/**
+ * Determines if flash is enabled in the user's browser.
+ */
+zc.flashCheck = function() {
+    // Make sure swfobject exists
+    if( typeof swfobject === 'undefined' ) {
+        esprit.recordError( new Error("swfobject is undefined, but zc_run_flash_check is enabled.") );
+    } else
+    {
+        // Perform a flash check
+        var flashActive = swfobject.getFlashPlayerVersion().major !== 0;
+        $.post('/flash-check', {
+            flash: flashActive
+        });
+    }
+}
 
 
 $(document).ready(function(e) {

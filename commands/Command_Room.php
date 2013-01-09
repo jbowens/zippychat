@@ -91,16 +91,19 @@ class Command_Room extends BaseCommand {
         if( ! $this->adsEnabled($request) )
             return null;
 
+        // Check if flash is enabled
+        $flash = $request->hasFlag('flashEnabled');
+
         $adType = null;
         $adSource = null;
-        if( $this->getConfig()->get('viral_ad_network') )
+        if( $this->getConfig()->get('viral_ad_network') && $flash )
         {
             // We're currently displaying 300x250 medium rectangles
             $adType = new MediumRectangleAd();
             $adSource = new ViralAdNetworkServer( $this->logger );
         } else {
             // Fallback to Chitika if we're not showing viral ad network ads
-            $adType = new SkyscraperAd();
+            $adType = new MediumRectangleAd();
             $adSource = new ChitikaServer( $this->logger );
         }
 

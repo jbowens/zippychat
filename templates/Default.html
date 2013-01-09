@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html{% if flashEnabled %} class="flashEnabled"{% endif %}>
     <head>
         <title>{% if title_text %}{{ title_text }} - {{ t('zippy_chat') }}{% else %}{{ t('zippy_chat') }} - {{ t('title_text') }}{% endif %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -13,6 +13,12 @@
         <script type="text/javascript" src="/static/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="/static/scripts/joose.js"></script>
         <script type="text/javascript" src="/static/scripts/esprit/esprit.js"></script>
+        {% if run_flash_check %}
+        <script type="text/javascript">
+        zc_run_flash_check = true;
+        </script>
+        <script type="text/javascript" src="/static/scripts/swfobject.js"></script>
+        {% endif %}
         <script type="text/javascript" src="/static/scripts/global.js"></script>
         {% for script in jsScripts %}
         <script type="text/javascript" src="/static/scripts/{{ script | e }}"></script>

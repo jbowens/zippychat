@@ -37,6 +37,8 @@ $controller->appendViewResolver( $catchall );
 // Setup our request flaggers
 $mobileFlagger = new \esprit\flaggers\MobileFlagger();
 $controller->registerRequestFlagger( $mobileFlagger );
+if( $config->get('flash_flagger') )
+    $controller->registerRequestFlagger( new \zc\lib\FlashFlagger() );
 
 // Respond to the user's request
 $controller->run();

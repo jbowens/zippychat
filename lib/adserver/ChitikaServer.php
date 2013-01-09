@@ -25,6 +25,9 @@ class ChitikaServer extends AbstractAdServer
         array_push($this->availableAds, array(
                                     'adtype' => new \zc\lib\adtype\SkyscraperAd(),
                                     'advertisement' => new \zc\lib\ad\ChitikaSkyscraper() ) );
+        array_push($this->availableAds, array(
+                                    'adtype' => new \zc\lib\adtype\MediumRectangleAd(),
+                                    'advertisement' => new \zc\lib\ad\ChitikaMediumRectangle() ) );
     }
 
 }

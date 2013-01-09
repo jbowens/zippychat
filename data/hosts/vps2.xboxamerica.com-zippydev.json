@@ -14,6 +14,8 @@
     "fb_integration": true,
     "twitter_integration": true,
 
+    "flash_flagger": true,
+
     "db_default_dsn": "mysql:host=localhost;dbname=zippydev_main;charset=utf8",
     "db_default_user": "zippydev_main",
     "db_default_pass": "B*5mfLvRpm9=",
