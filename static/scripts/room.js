@@ -821,7 +821,7 @@ zc.pages.room = zc.pages.room || {
                 // Create any links
                 zc.pages.room.linker.linkify( msgElem.find(".messageContent")[0] );
                 // Affiliate any links if possible
-                if( typeof vglnk !== 'undefined' )
+                if( typeof vglnk !== 'undefined' && typeof vglnk.link === 'function' )
                 {
                     var as = msgElem.find("a");
                     for( var i = 0; i < as.length; i++ )
