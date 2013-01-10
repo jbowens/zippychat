@@ -17,6 +17,7 @@ class ForWebsites extends BaseView {
 
         //$response->set('includeMetaTags', true);
         $this->set('masthead_tag', ': for websites');
+        $this->set('bodyClass', 'forWebsites');
 
         // Display the template
         $this->templateParser->displayTemplate( self::TEMPLATE );

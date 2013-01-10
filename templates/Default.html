@@ -24,7 +24,7 @@
         <script type="text/javascript" src="/static/scripts/{{ script | e }}"></script>
         {% endfor %}
     </head>
-    <body>
+    <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         <div id="mainContainer"{% if widePage %} class="wide"{% endif %}>
             <div id="masthead"{% if smallLogo %} class="smallLogo"{% endif %}>
                 <a href="/" class="logo">
@@ -35,6 +35,7 @@
                 {% endif %}
                 <div class="clear"></div>
             </div>
+            {% block afterMasthead %}{% endblock %}
             <div id="mainContent" class="content">
                 {% block mainContent %}
                 {% include DefaultView_innerTemplate %}
