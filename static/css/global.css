@@ -74,6 +74,26 @@ input.utilPop { height: 25px; font-size: .9em; }
 .changeUsernameDialog form .button, .changeUsernameDialog form .submit { font-size: .9em; height: 25px; margin-right: 0.5em; }
 h4 { margin: 0.5em 0; }
 .socialBox { margin: 1em 0.25em; padding: 0.5em; }
-#FOR_WEBSITES h1 { text-transform: lowercase; }
-#for-websites-pitch { height: 350px; background: #313131 url('/static/images/brown_slice.png'); position: relative; margin-top: 2em; border-top: 6px #706057 solid; border-bottom: 1px #706057 solid; }
-#for-websites-pitch h2 { text-align: center; margin-top: 2em; /*position: absolute; top: 2em; left: 2em; width: 15em;*/ font-size: 3em; color: #FFC122; font-family: 'Myriad Pro', verdana, sans-serif; font-weight: lighter; text-indent: 1em; }
+#FOR_WEBSITES h1 { text-transform: lowercase; font-weight: lighter; font-size: 2em; }
+#for-websites-pitch { height: 350px; background: #313131 url('/static/images/brown_slice.png'); position: relative; margin-top: 2em; border-top: 5px #706057 solid; border-bottom: 1px #706057 solid; }
+#for-websites-pitch h2 { text-align: center; margin-top: 2em; /*position: absolute; top: 2em; left: 2em; width: 15em;*/ font-size: 3em; color: #FFC122; font-family: 'Myriad Pro', verdana, sans-serif; font-weight: lighter; }
+#for-websites-pitch h3 { text-align: center; margin-top: 1em; font-size: 2em; color: #CFCFCF; font-family: 'Myriad Pro', verdana, sans-serif; font-weight: lighter; }
+#for-websites-accent { height: 80px; background: #313131 url('/static/images/brown_slice.png'); position: relative; margin-top: 2em; border-top: 5px #706057 solid; border-bottom: 1px #706057 solid; }
+ul#for-websites-nav { list-style: none; margin: 0.5em; padding: 0; position: absolute; bottom: 1em; left: 1em; }
+ul#for-websites-nav li { display: inline; margin-right: 2em; }
+ul#for-websites-nav li a { text-decoration: none; font-weight: 200; color: #FFF; font-family: verdana, sans-serif; font-size: 1.3em; }
+ul#for-websites-nav li a:hover { color: #b8dae1; }
+#plans { margin: 0 auto; text-align: center; }
+#plans .plan { width: 20em; text-align: center; margin: 0 1em; background: #f4f4f4; display: inline-block; border: 1px #cdcdcd solid; vertical-align: top; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
+#plans .plan .planContent { padding: 0.5em; border-top: 1px #cdcdcd solid; }
+#plans .plan .price { text-transform: uppercase; font-size: 4em; vertical-align: middle; margin: 0.1em 0; text-shadow: #FFF 2px 2px 2px; color: #15477f; }
+#plans .plan .price .dollar-sign { font-size: 0.5em; vertical-align: super; }
+#plans .plan .pricing-info { height: 5em; }
+#plans .plan .pricing-explanation { color: #333; }
+#plans .plan .yearly-price { color: #555; margin: 2em 0; font-size: 1.2em; height: 1em; }
+#plans .plan .year-price { color: #15477f; }
+#plans .plan .plan-info { width: 100%; }
+#plans .plan .concurrent-users { font-weight: bold; color: #15477f; }
+#plans .plan .plan-info ul.features { height: 6em; color: #444; text-align: left; }
+#plans .plan .plan-info .submit { margin: 1em auto; padding: 0 3em; }
+.plan h3 { font-family: 'Myriad Pro', verdana, sans-serif; margin: 1em 0; text-transform: uppercase; color: #15477f; }

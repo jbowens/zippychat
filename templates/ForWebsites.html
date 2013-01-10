@@ -1,7 +1,17 @@
 {% extends "Default.html" %}
 {% block afterMasthead %}
+{% if full_promo %}
 <div id="for-websites-pitch">
     <h2>Embed a chat room into your website</h2>
+    <h3>Fast, reliable ajax-powered chat rooms</h3>
+{% else %}
+<div id="for-websites-accent">
+{% endif %}
+<ul id="for-websites-nav">
+    <li><a href="/for-websites">overview</a></li>
+    <li><a href="/for-websites/pricing">plans</a></li>
+    <li><a href="/for-websites/api">api</a></li>
+</ul>
 </div>
 {% endblock %}
 {% block mainContent %}

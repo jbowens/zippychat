@@ -2,26 +2,26 @@
 
 namespace zc\views;
 
-use \zc\lib\BaseView;
-
 use \esprit\core\Response;
 
-class ForWebsites extends BaseView {
+class ForWebsites extends DefaultView {
 
-    const TEMPLATE = "ForWebsites";
     const LOG_SOURCE = "views\\ForWebsites";
 
     public function output( Response $response )
     {
         $this->templateParser->loadResponse( $response );
 
-        //$response->set('includeMetaTags', true);
         $this->set('masthead_tag', ': for websites');
         $this->set('bodyClass', 'forWebsites');
         $this->set('widePage', true);
+        if( strtolower($response->getRequest()->getUrl()->getPath()) == "/for-websites" )
+        {
+            $this->set('full_promo', true);
+        }
 
         // Display the template
-        $this->templateParser->displayTemplate( self::TEMPLATE );
+        parent::output( $response );
     }
 
 }

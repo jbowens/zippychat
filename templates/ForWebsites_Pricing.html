@@ -1,0 +1,71 @@
+{% extends "ForWebsites.html" %}
+{% block mainContent %}
+<div id="FOR_WEBSITES">
+    <h1>{{ t('Plans_Pricing') }}</h1>
+
+    <div id="plans">
+        <div id="starter-plan" class="plan">
+            <h3>Starter</h3>
+            <div class="planContent">
+                <div class="pricing-info">
+                    <div class="price">Free</div>
+                </div>
+                <div class="yearly-price"></div>
+                <div class="plan-info">
+                    <ul class="features">
+                        <li>Up to <span class="concurrent-users">25</span> concurrent users</li>
+                        <li>Hosted on our servers</li>
+                    </ul>
+                    <input type="button" class="pop submit" value="Install" />
+                </div>
+            </div>
+        </div>
+        <div id="regular-plan" class="plan">
+            <h3>Regular</h3>
+            <div class="planContent">
+                <div class="pricing-info">
+                    <div class="price"><span class="dollar-sign">$</span>5</div>
+                    <div class="pricing-explanation">per month</div>
+                </div>
+                <div class="yearly-price">
+                    <span class="year-price"><sup>$</sup>4/mo</span> pre-paid annually
+                </div>
+                <div class="plan-info">
+                    <ul class="features">
+                        <li>Up to <span class="concurrent-users">50</span> concurrent users</li>
+                        <li>Hosted on our servers</li>
+                        <li>No advertisements</li>
+                        <li>Customizable appearance</li>
+                        <li>Websites API access</li>
+                    </ul>
+                    <input type="button" class="pop submit" value="Install" />
+                </div>
+            </div>
+        </div>
+        <div id="pro-plan" class="plan">
+            <h3>Pro</h3>
+            <div class="planContent">
+                <div class="pricing-info">
+                    <div class="price"><span class="dollar-sign">$</span>15</div>
+                    <div class="pricing-explanation">per month</div>
+                </div>
+                <div class="yearly-price">
+                    <span class="year-price"><sup>$</sup>12/mo</span> pre-paid annually
+                </div>
+                <div class="plan-info">
+                    <ul class="features">
+                        <li>Up to <span class="concurrent-users">200</span> concurrent users</li>
+                        <li>Hosted on our servers</li>
+                        <li>No advertisements</li>
+                        <li>Customizable appearance</li>
+                        <li>Websites API access</li>
+                    </ul>
+                    <input type="button" class="pop submit" value="Install" />
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+{% endblock %}
