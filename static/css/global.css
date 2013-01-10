@@ -73,3 +73,4 @@ input.utilPop { height: 25px; font-size: .9em; }
 .changeUsernameDialog form .button, .changeUsernameDialog form .submit { font-size: .9em; height: 25px; margin-right: 0.5em; }
 h4 { margin: 0.5em 0; }
 .socialBox { margin: 1em 0.25em; padding: 0.5em; }
+#FOR_WEBSITES h1 { text-transform: lowercase; }
