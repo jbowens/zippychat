@@ -104,3 +104,8 @@ ul#for-websites-nav li a:hover { color: #b8dae1; }
 #for-websites-faq .question { margin: 4em; }
 #for-websites-faq .question p { line-height: 1.5; color: #333; }
 #for-websites-faq h3 { text-transform: uppercase; font-family: verdana; font-weight: lighter; border-bottom: 2px #aea59a solid; }
+#WEBSITES_LOGIN { width: 25em; margin: 0 auto; text-align: center; }
+#WEBSITES_LOGIN .buttons { margin-top: 1em; }
+#WEBSITES_LOGIN table td { padding: 1em; }
+#WEBSITES_LOGIN label { text-align: left; font-size: 1.2em; }
+#WEBSITES_LOGIN input.text, #WEBSITES_LOGIN input.password { font-size: 1.3em; border: 1px #756653 solid; } 

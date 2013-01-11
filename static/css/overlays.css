@@ -19,3 +19,9 @@
 .inviteOthersDialog .toField input.uninitialized { color: #999; color: rgba(51, 51, 51, 0.54); }
 .connectingOverlay { text-align: center; z-index: 10000; }
 .connectingOverlay h3 { font-family: verdana, sans-serif; color: #FFF; font-size: 2em; text-shadow: #444 2px 2px 2px; }
+.websitesSignUpOverlayBody { background: #FFF; padding: 1em; border: 1px #000 solid; color: #333; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; text-align: center; } 
+.websitesSignUpOverlayBody h3 { color: #333; font-weight: lighter; font-family: verdana; font-size: 1.5em; text-align: left; }
+.websitesSignUpOverlayBody ul { list-style: none; margin: 1.5em 0; padding: 0; text-align: center; }
+.websitesSignUpOverlayBody ul li { margin: 1em 0; }
+.websitesSignUpOverlayBody input.text { font-size: 1.5em; width: 90%; margin: 0 auto; color: #333; border: 1px #BBB solid; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; padding: 0.25em; }
+.websitesSignUpOverlayBody input.cancel { height: 35px; margin-left: 1em; }

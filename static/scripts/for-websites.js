@@ -5,13 +5,23 @@ var zc = zc || {};
  */
 zc.pages.forwebsites = zc.pages.forwebsites || {
 
+    signUpOverlay: null,
+
     /**
      * Called on DOM ready.
      */
     init: function() {
         try
         {
-            
+            if( $(".choosePlan").length )
+            {
+                var signUpOverlay = new zc.overlays.WebsitesSignUpOverlay({displayImmediately: false});
+                this.signUpOverlay = signUpOverlay;
+                $(".choosePlan").click(function(e)
+                    {
+                        signUpOverlay.show();
+                    });
+            }
         }
         catch(err)
         {

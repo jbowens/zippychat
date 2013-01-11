@@ -2,5 +2,26 @@
 {% block mainContent %}
 <div id="FOR_WEBSITES">
     <h1>{{ t('Log_in') }}</h1>
+    <form method="/post" action="/for-websites/log-in" id="WEBSITES_LOGIN">
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <label for="websites_login">Your login</label>
+                </td>
+                <td>
+                    <input type="text" id="websites_login" class="text" name="login" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="websites_passwd">Password</label>
+                </td>
+                <td>
+                    <input type="password" id="websites_passwd" name="passwd" class="password" />
+                </td>
+            </tr>
+        </table>
+        <div class="buttons"><input type="submit" class="submit optionButton" value="log in" /></div>
+    </form>
 </div>
 {% endblock %}

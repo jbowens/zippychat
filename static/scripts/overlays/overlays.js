@@ -33,6 +33,10 @@ Class('zc.overlays.Overlay', {
             else
                 overlay.elmt = $('<div class="overlay"></div>');
 
+            if( options.hasOwnProperty('displayImmediately') ) {
+                this.displayImmediately = options['displayImmediately'];
+            }
+
             // Add any extra classes provided through options
             for( var i = 0; i < overlay.extraClasses.length; i++ )
             {
