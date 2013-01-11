@@ -16,7 +16,7 @@
                         <li>Up to <span class="concurrent-users">25</span> concurrent users</li>
                         <li>Hosted on our servers</li>
                     </ul>
-                    <input type="button" class="pop submit" value="Install" />
+                    <input type="button" class="pop submit choosePlan" data-plan="starter" value="Install" />
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                         <li>Customizable appearance</li>
                         <li>Websites API access</li>
                     </ul>
-                    <input type="button" class="pop submit" value="Install" />
+                    <input type="button" class="pop submit choosePlan" data-plan="regular" value="Install" />
                 </div>
             </div>
         </div>
@@ -60,13 +60,43 @@
                         <li>Customizable appearance</li>
                         <li>Websites API access</li>
                     </ul>
-                    <input type="button" class="pop submit" value="Install" />
+                    <input type="button" class="pop submit choosePlan" data-plan="pro" value="Install" />
                 </div>
             </div>
         </div>
         <div class="clear"></div>
     </div>
 
+    <div id="for-websites-faq">
+        <h2>Possible questions</h2>
+
+        <div class="question">
+            <h3>Are there any plans for more than two hundred concurrent users?</h3>
+            <p>If you expect more than 200 concurrent users and are interested in Zippy Chat, contact support. We can construct a custom plan to accommodate your traffic.</p>
+            {# TODO: Turn contact support into a link (preferrably one that launches an overlay #}
+        </div>
+
+        <div class="question">
+            <h3>Can I switch between plans?</h3>
+            <p>Yes. At any time you can switch plans through your chat room control panel. You'll receive a pro-rated charge or refund based on your new plan's cost and the time remaining on your current term.</p>
+        </div>
+
+        <div class="question">
+            <h3>What happens if I exceed my limit of concurrent users?</h3>
+            <p>The limits are soft caps, so nothing at first. If you continually exceed your limit or exceed it by a significant amount, we'll contact you asking you to switch plans to continue using Zippy Chat.</p>
+        </div>
+
+        <div class="question">
+            <h3>How do I cancel service?</h3>
+            <p>Cancelling is easy and can be done through your chat room control panel.</p>
+        </div>
+
+        <div class="question">
+            <h3>Can I host a Zippy Chat chat room myself?</h3>
+            <p>No. Currently, we only offer Zippy Chat chat rooms as a hosted web service.</p>
+        </div>
+
+    </div>
     {#
         TODO: Add footnote about the soft-cap nature
         TODO: Add note about larger plans if needed

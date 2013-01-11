@@ -75,6 +75,7 @@ input.utilPop { height: 25px; font-size: .9em; }
 h4 { margin: 0.5em 0; }
 .socialBox { margin: 1em 0.25em; padding: 0.5em; }
 #FOR_WEBSITES h1 { text-transform: lowercase; font-weight: lighter; font-size: 2em; }
+#FOR_WEBSITES h2 { font-size: 1.5em; font-weight: lighter; }
 #for-websites-pitch { height: 350px; background: #313131 url('/static/images/brown_slice.png'); position: relative; margin-top: 2em; border-top: 5px #706057 solid; border-bottom: 1px #706057 solid; }
 #for-websites-pitch h2 { text-align: center; margin-top: 2em; /*position: absolute; top: 2em; left: 2em; width: 15em;*/ font-size: 3em; color: #FFC122; font-family: 'Myriad Pro', verdana, sans-serif; font-weight: lighter; }
 #for-websites-pitch h3 { text-align: center; margin-top: 1em; font-size: 2em; color: #CFCFCF; font-family: 'Myriad Pro', verdana, sans-serif; font-weight: lighter; }
@@ -99,3 +100,7 @@ ul#for-websites-nav li a:hover { color: #b8dae1; }
 .plan h3 { font-family: 'Myriad Pro', verdana, sans-serif; margin: 1em 0; text-transform: uppercase; color: #15477f; }
 #FOR_WEBSITES #side-column { width: 20em; float: right; }
 #WEBSITES_SIDE_LOGIN table td { padding: 0.5em; }
+#for-websites-faq { margin: 3em auto 1em auto; width: 70%; }
+#for-websites-faq .question { margin: 4em; }
+#for-websites-faq .question p { line-height: 1.5; color: #333; }
+#for-websites-faq h3 { text-transform: uppercase; font-family: verdana; font-weight: lighter; border-bottom: 2px #aea59a solid; }

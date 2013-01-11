@@ -15,6 +15,7 @@ class ForWebsites extends DefaultView {
         $this->addScript('overlays/overlays.js');
         $this->addScript('overlays/simple-dialog.js');
         $this->addScript('overlays/backdrop.js');
+        $this->addScript('overlays/websites-sign-up-overlay.js');
         $this->addScript('for-websites.js'); 
 
         $this->set('masthead_tag', ': for websites');
