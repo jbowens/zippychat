@@ -1,0 +1,60 @@
+<project name="Traffic" default="dist" basedir=".">
+  <description>
+    The build file for the WebSockets ZippyChat server.
+  </description>
+  
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+
+  <path id="zippychat.ws.class.path">
+    <pathelement location="build" />
+  </path>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" classpathref="zippychat.ws.class.path" includeantruntime="false">
+    </javac>
+  </target>
+
+  <target name="start" depends="compile" description="compiles and runs">
+    <java fork="true" classpathref="zippychat.ws.class.path" classname="traffic.Runner">
+    </java>
+  </target>
+
+
+  <target name="dist" depends="compile" description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/traffic-${DSTAMP}.jar" basedir="${build}" classpathref="zippychat.ws.class.path" />
+  </target>
+
+  <target name="test" description="test using junit" depends="compile">
+    <junit printsummary="yes" haltonfailure="yes">
+      <classpath refid="zippychat.ws.class.path" />
+      <batchtest fork="yes">
+        <fileset dir="${src}/tests/unit">
+	    <include name="*.java" />
+	</fileset>
+	<formatter type="plain" usefile="false" />
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
