@@ -97,3 +97,5 @@ ul#for-websites-nav li a:hover { color: #b8dae1; }
 #plans .plan .plan-info ul.features { height: 6em; color: #444; text-align: left; }
 #plans .plan .plan-info .submit { margin: 1em auto; padding: 0 3em; }
 .plan h3 { font-family: 'Myriad Pro', verdana, sans-serif; margin: 1em 0; text-transform: uppercase; color: #15477f; }
+#FOR_WEBSITES #side-column { width: 20em; float: right; }
+#WEBSITES_SIDE_LOGIN table td { padding: 0.5em; }

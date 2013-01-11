@@ -11,15 +11,33 @@
     <li><a href="/for-websites">overview</a></li>
     <li><a href="/for-websites/pricing">plans</a></li>
     <li><a href="/for-websites/api">api</a></li>
+    <li><a href="/for-websites/log-in" class="login">log in</a></li>
 </ul>
 </div>
 {% endblock %}
 {% block mainContent %}
 <div id="FOR_WEBSITES">
 
-    <h1>{{ t('For_Websites') }}</h1>
+    <h1>{{ t('Zippy_Chat_for_websites') }}</h1>
 
-    <p>Connect your website's visitors through a Zippy Chat chat room.</p>
+    <div>
+        <div id="side-column">
+            <form method="post" action="/for-websites/log-in" id="WEBSITES_SIDE_LOGIN">
+                <h4>Log in</h4>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="sites_login">Your login</label></td>
+                        <td><input type="text" id="sites_login" name="login" /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="sites_passwd">Password</label></td>
+                        <td><input type="password" id="sites_passwd" name="passwd" /></td>
+                    </tr>
+                </table>
+                <div><input type="submit" class="submit" value="Log in" /></div>
+            </form>
+        </div>
+    </div>
 
 </div>
 {% endblock %}
