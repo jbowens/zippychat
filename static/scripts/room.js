@@ -794,6 +794,9 @@ zc.pages.room = zc.pages.room || {
         // "this" refers to the calling room object.
         var msgs = this.getMessages();
 
+        // Remember the scroll offset for later
+        var scrollOffset = $("#message-area")[0].scrollHeight - $("#message-area")[0].scrollTop - $("#message-area").height();
+
         // Add any new messages
         for( var key in msgs )
         {
@@ -849,12 +852,8 @@ zc.pages.room = zc.pages.room || {
             }
         }
 
-        // Position the scroll bar at the bottom
-        // TODO: Update this code to perform incremental movements in scroll height,
-        //       maintaining the current scroll position. This would allow users to
-        //       maintain their current scroll position, regardless of whether they're
-        //       looking at the bottom or the middle.
-        $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
+        // Readjust the scrollbar
+        $("#message-area").scrollTop($("#message-area")[0].scrollHeight - scrollOffset - $("#message-area").height());
 
         // First remove any users who changed their username
         var changedUsers = this.getUnupdatedSessions();
